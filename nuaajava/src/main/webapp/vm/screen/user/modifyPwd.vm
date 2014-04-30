@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>修改密码页面</title>
+<link rel="stylesheet" rev="stylesheet" href="$static_server_name/css/admin-style.css" type="text/css" media="all" />
+<link rel="stylesheet" href="$static_server_name/css/validate/screen.css" />
+<script src="$static_server_name/js/jquery.validate.js" type="text/javascript"></script>
+<script src="$static_server_name/js/validate-function.js" type="text/javascript"></script>
+<style type="text/css">
+<!--
+.atten {font-size:12px;font-weight:normal;color:#F00;}
+-->
+</style>
+</head>
+
+<body>
+  <form id="modifyPwdForm" action="$server_name/user/modifyPwd" method="post">
+    <div class="MainDiv">
+    <table width="99%" border="0" cellpadding="0" cellspacing="0" class="CContent">
+      <tr>
+          <th class="tablestyle_title" >修改密码页面</th>
+      </tr>
+      <tr>
+        <td class="CPanel">
+    		
+    		<table border="0" cellpadding="0" cellspacing="0" style="width:100%">
+    		<TR>
+    			<TD width="100%">
+    				<fieldset style="height:100%;">
+    				<legend>修改密码</legend>
+    					  <table align="center" border="0" cellpadding="2" cellspacing="1" style="width:100%">
+        					  <tr>
+        							<td nowrap align="right" width="13%">原始密码:</td>
+            					    <td>
+            							<input  type="password" name="oldPw" id="oldPw" class="text" style="width:150px;" onblur="clearError('error_msg')" value=""/>
+            							<span class="red"> *</span><span class="red" id="error_msg"></span>
+            						</td>
+        					   </tr>
+        					  <tr>
+        					    <td nowrap align="right">设置新密码:</td>
+        					    <td><input  type="password" name="newPw" id="newPw" class="text"  style="width:150px;" value=""/><span class="red"> *</span></td>
+        					  </tr>
+        					  <tr>
+        					    <td nowrap align="right">确认新密码:</td>
+        					    <td><input type="password" name="confirm_newPw" id="confirm_newPw" class="text"  style="width:150px;" value=""/><span class="red"> *</span></td>
+        					  </tr>
+        					   <input type="hidden" name="id" value="$!user.getId()"/>
+    					  </table>
+    					  <br />
+    				</fieldset>
+    			</TD>
+    		</TR>
+    		<TR>
+    			<TD colspan="2" align="center" height="50px">
+    			<input type="button" id="savePwd" value="保存" class="button"/>
+    			
+    			<input type="button" name="back" value="返回" class="button" onclick="window.history.go(-1);"/></TD>
+    		</TR>
+    		</TABLE>
+    	
+    	
+    	 </td>
+      </tr>
+      </table>
+    
+    </div>
+</form>
+<script type="text/javascript">
+		#if($!errorMsg)
+			$("#error_msg").text("$errorMsg");
+		#end
+
+		function clearError(id){
+			$('#'+id).text("");
+		}
+		
+		var options = {
+			focusInvalid:true,
+			errorClass:"error",
+            rules: {
+			   oldPw: {
+			   	required:true,
+				rangelength: [6,16]//多参用数组传递
+			   },
+			   newPw: {
+			   	required:true,
+				rangelength: [6,16]//多参用数组传递
+			   },
+               confirm_newPw: {
+			   	required:true,
+				equalTo:"#newPw"
+			   }
+             },
+             messages: {
+               oldPw: {
+			   	 required: "请输入原始密码！",
+				 rangelength:"密码是由6-16个字符，字母、数字、符号组合！"
+				},
+				newPw: {
+			   	 required: "请输入新密码！",
+				 rangelength:"密码是由6-16个字符，字母、数字、符号组合！"
+				},
+				confirm_newPw: {
+			   	 required: "请确认新密码！",
+				 equalTo: "两次密码输入不相同"
+				}
+             }
+   		};
+		
+		
+		jQuery(document).ready(function() {
+			jQuery.validator.setDefaults({
+				debug:false,
+				onsubmit:true,//提交表单时验证
+				onkeyup:false,//放键时验证
+				onfocusout: function(element) {jQuery(element).val(jQuery.trim(jQuery(element).val())); jQuery(element).valid(); }//失去焦点时验证
+            });
+		
+			var validator = jQuery("#modifyPwdForm").validate(options);
+			jQuery("#savePwd").click(function(){
+				if(validator.form()){//验证通过才提交表单
+					jQuery("#modifyPwdForm").submit();
+				}	
+			});
+			
+		});
+		
+</script>
+</body>
+</html>

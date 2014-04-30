@@ -1,0 +1,94 @@
+#set($mainframeNavRights=[{"type":"a","className":"gradualBlue","href":"$!server_name/user/listCheckLog","html":"审核历史记录"}])
+#mc_toolbar("&nbsp;用户申请审核",$mainframeNavRights)
+<div class="mainframe_content">
+        <div class="smalldiv" style="margin:0 20px 10px 0; text-align:left;">
+        	<form id="searchForm" action="$!server_name/user/listCheckUser" method="post" autocomplete="off">
+               <label>用户名(或真实姓名)：</label>
+               <input type="text" name="username" id="username" value="$!userApplyDto.username"/>
+               <label>申请人手机号：</label>
+               <input type="text" name="mobileNumber" id="mobileNumber" value="$!userApplyDto.mobileNumber"/>
+			   <label>email：</label>
+               <input type="text" name="email" id="email" value="$!userApplyDto.email"/>
+               <input type="submit" name="sumbimt" class="button" value="搜索"/>
+           </form>
+        </div>
+        #set($tableInfoJson = '{"caption":"待审核用户申请列表","pageSize":10,"multiselect":false,"lineNumbers":true,"tableAlign":"center","editBtn":true,"deleteBtn":true,"editValue":"通过","deleteValue":"不通过"}')
+		#set($columnSortJson = '{"columnSort":["id","username","realname","mobileNumber","email","applyDate","act"]}')
+        #set($columnInfoJson = '{"columnInfo":[
+            {"columnName":"ID","sortable":true,"width":"30","hidden":true},
+            {"columnName":"用户名","width":"60"},
+    		{"columnName":"真实姓名","width":"30"},
+            {"columnName":"手机","width":"60"},
+            {"columnName":"EMAIL","width":"100"},
+            {"columnName":"申请时间","width":"80","formatType":"date","columnDatefmt":"Y-m-d H:i:s"},
+			{"columnName":"操作","width":"100"}
+		]}'
+        )
+        #mc_showTable($!tableInfo,$!tableInfoJson,$columnInfoJson)
+</div>
+<form id="checkForm" action="$!server_name/user/checkUser" method="post" autocomplete="off">
+	<input type="hidden" name="ids" id="ids" value=""/>
+	<input type="hidden" name="status" id="status" value=""/>
+</form>
+#if($!result)
+	<script >
+        alert("操作成功！");
+	</script>
+#end
+#if($!resultMsg)
+	<script >
+		alert("$!resultMsg");
+	</script>
+#end
+<script>
+	/*
+	*ids是选中的ID字符串，status是状态
+	*/
+	function checkUser(ids,status){
+		jQuery("#ids").val(ids);
+		jQuery("#status").val(status);
+		jQuery("#checkForm").submit();
+	}
+	
+	function getAllGridCheckboxIds(tabId){
+		var idObj = jQuery("#"+tabId).jqGrid('getGridParam', 'selarrrow');
+		if(idObj.length <= 0){
+			alert('请选定记录!');
+			return false;
+		}
+		var ids="";
+		for(var i=0;i<idObj.length;i++){
+    		var row = jQuery("#"+tabId).jqGrid('getRowData', idObj[i]);
+			ids+=row.id+",";
+		}
+		return ids;
+	}
+	
+	function modifyGridDate(rowid){
+		var rowDatas = jQuery("#tabGrid").jqGrid('getRowData', rowid);
+		var id = rowDatas["id"];
+			if(window.confirm("你确定要审核通过吗？")){
+    		 	checkUser(id,2);
+			}
+	}
+	
+	function deleteGridDate(rowid){
+		var rowDatas = jQuery("#tabGrid").jqGrid('getRowData', rowid);
+		var id = rowDatas["id"];
+			if(window.confirm("你确定要审核不通过吗？")){
+    		 	checkUser(id,3);
+			}
+	}
+
+	$(document).ready(function(){
+		$("#mobileNumber").keydown(function(e){
+    		var curKey = e.which; 
+    		if(curKey == 13){
+    			$("#searchForm").submit();
+    			return false; 
+    		} 
+    	});
+		
+	});
+
+</script>

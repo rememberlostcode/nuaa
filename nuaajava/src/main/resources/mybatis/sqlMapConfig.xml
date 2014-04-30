@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!--配置文件的详细介绍可参考:http://limingnihao.iteye.com/blog/1060764-->
+<configuration>
+    <settings>
+        <!--全局地禁用或启用延迟加载。禁用时，所有关联查询会被马上加载default:true-->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!--当启用时，使用延迟加载属性的对象在发起任何延迟属性的调用时会被完全加载。否则，每个属性在请求时就加载。default:true-->
+        <setting name="aggressiveLazyLoading" value="false"/>
+
+        <!--
+        详情查看:
+        http://blog.csdn.net/theoffspring/article/details/5930481
+        http://liu400liu.iteye.com/blog/1199673
+
+        <setting name="cacheEnabled" value="true"/>
+        <setting name="multipleResultSetsEnabled" value="true"/>
+        <setting name="useColumnLabel" value="true"/>
+        <setting name="useGeneratedKeys" value="false"/>
+        <setting name="enhancementEnabled" value="false"/>
+        <setting name="defaultExecutorType" value="SIMPLE"/>
+        <setting name="defaultStatementTimeout" value="25000"/>-->
+    </settings>
+    <typeAliases>
+        
+        <typeAlias alias="MenuModel" type="com.school.xnew.persistence.entity.MenuModel"/>
+        <typeAlias alias="UserApplyModel" type="com.school.xnew.persistence.entity.UserApplyModel"/>
+        <typeAlias alias="User2MenuModel" type="com.school.xnew.persistence.entity.User2MenuModel"/>
+        <typeAlias alias="CoreMenuModel" type="com.school.xnew.persistence.entity.CoreMenuModel"/>
+        <typeAlias alias="CoreSystemModel" type="com.school.xnew.persistence.entity.CoreSystemModel"/>
+        <typeAlias alias="CoreUserModel" type="com.school.xnew.persistence.entity.CoreUserModel"/>
+        <typeAlias alias="NewsModel" type="com.school.xnew.persistence.entity.NewsModel"/>
+        <typeAlias alias="PageModel" type="com.school.xnew.persistence.entity.PageModel"/>
+        
+        <typeAlias alias="User" type="com.school.xnew.sys.service.User"/>
+        <typeAlias alias="PasswordReset" type="com.school.xnew.sys.service.PasswordReset"/>
+        <typeAlias alias="MenuDto" type="com.school.xnew.biz.dto.MenuDto"/>
+        <typeAlias alias="PageDto" type="org.lost.finder.tool.Pager"/>
+        <typeAlias alias="UserApplyDto" type="com.school.xnew.biz.dto.UserApplyDto"/>
+    </typeAliases>
+    <plugins>
+		<plugin interceptor="com.school.xnew.sys.util.SqlPlugin">
+			<property name="dialect" value="mysql"/>
+			<property name="pageSqlId" value=".*.*"/><!-- 分页拦截,配置以*getPaged*开始的Id-->
+		</plugin>
+	</plugins>
+</configuration>  

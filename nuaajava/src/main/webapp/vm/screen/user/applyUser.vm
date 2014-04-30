@@ -1,0 +1,158 @@
+  	#set($css_validate-screen = true)
+    #set($js_jquery-validate = true)
+    ##set($js_i18n-messages-cn = true)
+
+		   #mc_toolbar("申请成为用户",$!menu)
+		   <div class="mainframe_content">
+			#if($!result)
+              <div class="sdcg"><span>$!result</span></div><!--正式使用的时候把样式里面的top值改成35px-->
+           #elseif($!errorMsg)
+                   <div class="sder"><span class="span">$!errorMsg</span></div>
+             #end
+               <div class="sqcwlyzj">
+        		 <form name="applyForm" id="applyForm" action="$link.root()$link.getContextPath()/expert/saveApplyExpert?channel=$!channel" method="post" autocomplete="off">
+                	<input type="hidden" name="userId" id="userId" value="$!expertDto.userId"/>
+            		<input type="hidden" name="name" id="name" value="$!expertDto.name"/>
+            		<input type="hidden" name="userCode" id="userCode" value="$!expertDto.userCode"/>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        				<tr>
+        					
+        					 <td align="right" width="35%">姓名：</td>
+                             <td align="left"><input class="sqcwlyzj_input" name="" type="text" disabled="disabled" value="$!expertDto.name" /></td>
+                        </tr>
+        				<tr>
+        				
+        					<td align="right">工号：</td>
+                            <td align="left"><input class="sqcwlyzj_input" name="" type="text" disabled="disabled" value="$!expertDto.userCode" /></td>
+                        </tr>
+        				<tr>
+        					
+        					<td align="right"><span class="red">*</span> 手机：</td>
+                            <td align="left"><input class="sqcwlyzj_input2" type="text" maxLength="12" size="25" name="mobileNumber" id="mobileNumber" value="$!expertDto.mobileNumber" /></td>
+                        </tr>
+        				<tr>
+        					<td align="right">QQ：</td>
+                            <td align="left"><input class="sqcwlyzj_input2" type="text" maxLength="25" size="25" name="qqNumber" id="qqNumber" onblur="jQuery(this).val(jQuery.trim(jQuery(this).val()));" value="$!expertDto.qqNumber"/></td>
+                        </tr>
+        				<tr>
+        					 <td align="right"><span class="red">*</span> EMAIL：</td>
+                             <td align="left"><input class="sqcwlyzj_input2" type="text" maxLength="25" size="25" name="email" id="email" value="$!expertDto.email" /></td>
+                        </tr>
+        				<tr>
+        					
+        					 <td align="right"><span class="red">*</span> 擅长领域：</td>
+                             <td align="left"><input class="sqcwlyzj_input2" type="text" maxLength="55" size="25" name="adeptCategory" id="adeptCategory" value="$!expertDto.adeptCategory" /></td>
+                        </tr>
+						
+						#*
+        				<tr>
+        					<td align="right"><span class="red">*</span> 验证码：</td>
+                            <td align="left">
+								#mc_verifycode("'$link.root()$link.getContextPath()/verifycode'","$link.root()$link.getContextPath()/verifyimg")
+							</td>
+                        </tr>
+						*#
+						
+						<tr>
+        					<td align="right"><span class="red">*</span> 验证码：</td>
+                            <td align="left">
+								#mc_verifycode("","$link.root()$link.getContextPath()/imgCode")
+							</td>
+                        </tr>
+						
+        				<tr>
+        					 <td>&nbsp;</td>
+                        	 <td>
+								<input class="sqcwlyzj_input4" type="button"  value="" id="save"/>
+							 </td>
+                        </tr>
+        				
+        			</table>
+                </form>
+          </div>
+       </div>
+</div>
+    <script type="text/javascript">
+		 // 联系电话(手机/电话皆可)验证   
+         jQuery.validator.addMethod("isPhone", function(value,element) {
+		 	value = jQuery.trim(value);
+			jQuery(element).val(value);
+            var length = value.length;
+            var mobile = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;   
+            //var tel = /^\d{3,4}-?\d{7,9}$/;   
+            return this.optional(element) || mobile.test(value);   
+          
+        }, "请正确填写您的手机号码！");
+		
+		var options = {
+			focusInvalid:true,
+			errorClass:"error",
+            rules: {
+               mobileNumber: {
+			   	required:true,
+				isPhone:true
+			   },
+			   qqNumber: {
+				digits:true,
+				rangelength:[0,20]
+			   },
+               email: {
+                required: true,
+                email: true
+               },
+			   adeptCategory: {
+			   	required:true,
+				maxlength:50
+			   },
+			   codeImage:{
+			   		required:true
+			   }
+             },
+             messages: {
+               mobileNumber: {
+			   	 required: "请输入11位的手机号码！"
+				 //isPhone:"请正确填写您的手机号码！"
+				},
+			   qqNumber: {
+				digits:"只能输入整数！",
+				rangelength:"QQ不能超过20位！"
+			   },
+               email: {
+                required: "请输入Email地址！",
+                email: "请输入正确的email地址！"
+               },
+			   adeptCategory: {
+			   	required: "请输入擅长领域！",
+				maxlength:"最大长度不能超过50个字符！"
+			   },
+			   codeImage:{
+			   		required: "请输入验证码！"
+			   }
+             }
+   		};
+		
+		
+		jQuery(document).ready(function() {
+			jQuery.validator.setDefaults({
+				debug:false,
+				onsubmit:true,//提交表单时验证
+				onkeyup:false,//放键时验证
+				onfocusout: function(element) {jQuery(element).val(jQuery.trim(jQuery(element).val())); jQuery(element).valid(); }//失去焦点时验证
+            });
+		
+			var validator = jQuery("#applyForm").validate(options);
+			jQuery("#save").click(function(){
+				if(validator.form()){//验证通过才提交表单
+					jQuery("#applyForm").submit();
+				}	
+			});
+			
+		});
+		
+        jQuery("#cancel").click(function(){
+    	    goback();
+    	});
+		
+    </script>
+	
+

@@ -1,0 +1,24 @@
+
+		   #mc_toolbar("申请成为用户",$!menu)
+		   <div class="mainframe_content">
+                <div class="lyzjlct_con">
+                	<div class="lyzjlct_con1">
+                    	<ul>
+                        	<li class="lyzjlct_con1_1">开始</li>
+                        	<li class="lyzjlct_con1_2"><a href="#">登录</a></li>
+                        	<li id="lyzjlct_con1_3"><a class="cur" href="$link.root()$link.getContextPath()/expert/applyExpert?channel=$!channel" alert("");>申请成为用户</a></li>
+                        	<li id="lyzjlct_con1_4"><a href="#">成为用户</a></li>
+                        	<li class="lyzjlct_con1_5">结束</li>
+                        </ul>
+                    </div>
+                	<div class="lyzjlct_con2">
+                    	<ul>
+                        	<li class="lyzjlct_con2_1"><a href="#">审核</a></li>
+                        	<li class="lyzjlct_con2_2"><a href="#">审核通过</a></li>
+                        </ul>
+                    </div>
+                </div>
+        				
+       </div>
+    
+

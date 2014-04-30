@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>菜单修改页</title>
+<link rel="stylesheet" rev="stylesheet" href="$static_server_name/css/admin-style.css" type="text/css" media="all" />
+<style type="text/css">
+<!--
+.atten {font-size:12px;font-weight:normal;color:#F00;}
+-->
+</style>
+</head>
+
+<body>
+<script type="text/javascript">
+	$(document).ready(function(){
+	        $("#name").change(function(){
+	        	clearError("name-error");
+	        });
+	        $("#sorting").change(function(){
+	        	clearError("sorting-error");
+	        });
+	        $("#type").change(function(){
+	        	clearError("type-error");
+	        });
+			$("#Submit").click(function(){
+				if(checkNotNull()){
+					$("#modifyForm").submit();
+				}
+			});
+		});
+	function clearError(id){
+		$("#" + id).hide("slow");
+	}
+	
+		
+	function checkNotNull(){
+	    var flag = true;
+		if($("#name").val().replace(/\s/g,"") == ""){
+			$("#name-error").text("菜单名称不能为空！").show("slow");
+			flag=false;
+		}
+		if($("#sorting").val().replace(/\s/g,"") == ""){
+			$("#sorting-error").text("菜单排序不能为空！").show("slow");
+			flag=false;
+		}
+		var sorting = $("#sorting").val();
+		for(var i = 0; i < sorting.length; i++){
+			if(sorting.charAt(i) < '0' || sorting.charAt(i) > '9'){
+				$("#sorting-error").text("菜单排序必须为数字！").show("slow");
+				return false;
+			}
+		}
+		if($("#type").val().replace(/\s/g,"") == ""){
+			$("#type-error").text("菜单类型不能为空！").show("slow");
+			flag=false;
+		}
+		return flag;
+	}
+</script>
+<form id="modifyForm" action="$server_name/admin/menu/modify" method="post">
+<div class="MainDiv">
+<table width="99%" border="0" cellpadding="0" cellspacing="0" class="CContent">
+  <tr>
+      <th class="tablestyle_title" >菜单编辑页面</th>
+  </tr>
+  <tr>
+    <td class="CPanel">
+		
+		<table border="0" cellpadding="0" cellspacing="0" style="width:100%">
+		
+
+		<tr>
+			<td width="100%">
+				<fieldset style="height:100%;">
+				<legend>编辑菜单</legend>
+					  <table border="0" cellpadding="2" cellspacing="1" style="width:100%">
+					  <tr>
+					    <td nowrap align="right" width="13%">名称:</td>
+					    <td><input name="name" id="name" class="text" style="width:150px;" type="text" size="20" maxlength="20" value="$!menu.getName()"/>
+				        <span class="red"> *</span><span id="name-error" style="display:none" class="red"></span></td>
+					    </tr>
+					  <tr>
+					    <td nowrap align="right">描述:</td>
+					    <td><input name="tip" id="tip" class="text" size="64" maxlength="64"  style="width:150px;" value="$!menu.getTip()"/></td>
+					  </tr>
+					  <tr>
+					    <td nowrap align="right">父菜单:</td>
+					    <td>
+							<select id="parentId" name="parentId">
+								#set ($menus=$!this.getMenus())
+    			  				#if($!menus)
+				    		      #foreach($allmenu in $menus)
+								  	<option value="$!allmenu.getId()" #if($!menu.getParentId() == $!allmenu.getId()) selected #end>$!allmenu.getName()</option>
+						       		#end
+    	          				 #end
+    	          				 <option value=""#if(!$!menu.getParentId() || $menu.getParentId() == 0) selected #end></option>
+							</select>
+						</td>
+					  </tr>
+					  <tr>
+					    <td nowrap align="right">系统ID:</td>
+					    <td>
+							<select id="systemId" name="systemId">
+								#set ($systems=$!this.getManagementSystems())
+								#if($!systems)
+				    		      #foreach($system in $systems)
+								  	<option value="$!system.getId()" #if($!menu.getSystemId() == $!system.getId()) selected #end>$!system.getName()</option>
+						       	  #end
+						       	#end
+							</select>
+							<span class="red"> *</span></span>
+						</td>
+					  </tr>
+					  <tr>
+					    <td nowrap align="right">排序:</td>
+					    <td><input name="sorting" id="sorting" class="text" size="10" maxlength="10" style="width:150px;" value="$!menu.getSorting()"/><span class="red"> *</span><span id="sorting-error" style="display:none" class="red"></span></td>
+					  </tr>
+					  <tr>
+					    <td nowrap align="right">动作:</td>
+					    <td><input name="action" id="action" class="text" size="256" maxlength="256" style="width:150px;" value="$!menu.getAction()"/></td>
+					  </tr>
+					  <tr>
+					    <td nowrap align="right">类型:</td>
+					    <td><input name="type" id="type" class="text" size="1" maxlength="1" style="width:150px;" value="$!menu.getType()"/><span class="red"> *</span><span id="type-error" style="display:none" class="red"></span></td>
+					  </tr>
+					  <tr>
+					    <td nowrap align="right">图片:</td>
+					    <td><input name="img" id="img" class="text" size="256" maxlength="256" style="width:150px;" value="$!menu.getImg()"/></td>
+					  </tr>
+					   <input type="hidden" name="id" value="$!menu.getId()"/>
+					  </table>
+			 <br />
+				</fieldset>			</td>
+		</TR>
+		
+		</table>
+	
+	
+	 </td>
+  </tr>
+		<tr>
+			<td colspan="2" align="center" height="50px">
+			<input type="button" id="Submit" name="Submit" value="保存" class="button"/>
+			<input type="button" name="back" value="返回" class="button" onclick="window.history.go(-1);"/></TD>
+		</tr>
+		</table>
+
+</div>
+</form>
+</body>
+</html>

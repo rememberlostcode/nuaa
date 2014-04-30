@@ -1,0 +1,327 @@
+* {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+a,img {
+	border: 0;
+}
+
+body {
+	font: 12px/180% Arial, Helvetica, sans-serif, "新宋体";
+}
+
+
+.tipbox,.tipword,.progress li,.tipbar .arrow,.tipBarword {
+	background: url(images/guidebg.gif) no-repeat;
+}
+
+#searchTip {
+	overflow: hidden;
+}
+
+.tipbox {
+	width: 290px;
+	position: relative;
+	height: 190px;
+	display: none;
+	background-position: 0 0;
+}
+
+.tipbox .tipboxBtn {
+	position: absolute;
+	display: inline-block;
+	width: 25px;
+	height: 25px;
+	left: 236px;
+	top: 36px;
+	cursor: pointer;
+}
+
+.tipboxNextbtn {
+	position: absolute;
+	display: inline-block;
+	width: 64px;
+	height: 22px;
+	left: 159px;
+	top: 127px;
+	cursor: pointer;
+}
+
+.progress {
+	position: absolute;
+	left: 71px;
+	top: 136px;
+	width: 60px;
+	height: 9px;
+	line-height: 9px;
+	font-size: 0px;
+}
+
+.progress li {
+	float: left;
+	width: 9px;
+	height: 9px;
+	margin-right: 6px;
+	font-size: 0px;
+	background-position: -635px -82px;
+}
+
+.progress .on {
+	background-position: 100% -82px;
+}
+
+.tipword {
+	position: absolute;
+}
+
+
+
+
+#guide_approve,#guide_apply,#guide_cateManage,#guide_rollback,#guide_cateCheck {
+	z-index: 1002;
+    height: 144px;
+    width: 322px;
+}
+#guide_approve {
+	background-position: 0 -176px;
+    position: absolute;
+    top: 26px;
+    left: 140px;
+}
+#guide_apply {
+	background-position: 0 -444px;
+    position: absolute;
+    top: 15px;
+    left: 408px;
+}
+#guide_cateManage {
+	background-position: 0 -176px;
+    position: absolute;
+    top: 160px;
+    left: 320px;
+}
+#guide_rollback {
+	background-position: 0 -444px;
+    position: absolute;
+    top: -30px;
+    left: 90px;
+}
+#guide_cateCheck {
+	background-position: 0 -176px;
+    position: absolute;
+    top: -138px;
+    left: -170px;
+}
+
+#guide_approve .tipword,#guide_apply .tipword,#guide_cateManage .tipword,#guide_rollback .tipword,#guide_cateCheck .tipword {
+    width: 273px;
+    height: 18px;
+}
+#guide_approve .tipword {
+	background-position: 0 -370px;
+    left: 60px;
+    top: 40px;
+}
+#guide_apply .tipword {
+	background-position: 0 -404px;
+    left: 37px;
+    top: 50px;
+}
+#guide_cateManage .tipword {
+	background-position: 0 -336px;
+    left: 70px;
+    top: 50px;
+}
+#guide_rollback .tipword {
+	background-position: 0 -590px;
+    left: 34px;
+    top: 50px;
+}
+#guide_cateCheck .tipword {
+	background-position: 0 -590px;
+    left: 25px;
+    top: 50px;
+}
+
+#guide_approve .tipboxBtn,#guide_apply .tipboxBtn,#guide_cateManage .tipboxBtn,#guide_rollback .tipboxBtn,#guide_cateCheck .tipboxBtn {
+	left: 252px;
+	top: 20px;
+}
+
+#guide_approve .tipboxNextbtn{
+	left: 77px;
+    top: 82px;
+}
+#guide_apply .tipboxNextbtn{
+	left: 95px;
+    top: 82px;
+}
+#guide_cateManage .tipboxNextbtn{
+	left: 77px;
+    top: 82px;
+}
+#guide_rollback .tipboxNextbtn{
+	left: 92px;
+    top: 82px;
+}
+#guide_cateCheck .tipboxNextbtn{
+	left: 92px;
+    top: 82px;
+}
+
+#guide_approve .notip,#guide_apply .notip,#guide_cateManage .notip,#guide_rollback .notip,#guide_cateCheck .notip{	
+    position: absolute;
+}
+#guide_approve .notip {
+	left: 150px;
+    top: 82px;
+}
+#guide_apply .notip {
+	left: 163px;
+    top: 82px;
+}
+#guide_cateManage .notip {
+	left: 150px;
+    top: 82px;
+}
+#guide_rollback .notip {
+	left: 160px;
+    top: 82px;
+}
+#guide_cateCheck .notip {
+	left: 150px;
+    top: 82px;
+}
+
+.notip input[type=checkbox]{
+	vertical-align: middle;
+}
+.notip label {
+	vertical-align: middle;
+	color: #0c5685;
+}
+
+
+
+
+.tipbarwrap {
+	position: absolute;
+	width: 100%;
+	height: 1px;
+	left: 0px;
+	top: 0px;
+	z-index: 1000;
+	background-color: transparent;
+}
+
+.tipbardiv {
+	position: relative;
+	width: 900px;
+	height: 1px;
+	margin: 0px auto;
+}
+
+.tipbar {
+	display: none;
+	position: absolute;
+	z-index: 1000;
+}
+
+.tipbarInner {
+	position: relative;
+}
+
+.tipbar .arrow {
+	width: 70px;
+	height: 46px;
+	background-position: 100% 0;
+	position: absolute;
+}
+
+.tipBarword {
+	position: absolute;
+}
+
+#tipbar1 {
+	width: 615px;
+	height: 249px;
+	left: 93px;
+	top: 70px;
+}
+
+#tipbar1 .arrow {
+	left: 284px;
+	top: -42px;
+}
+
+#tipbar1 .tipBarword {
+	width: 62px;
+	height: 25px;
+	left: 355px;
+	top: -39px;
+	background-position: -84px -192px;
+}
+
+#tipbar2 {
+	width: 768px;
+	height: 471px;
+	top: 330px;
+	left: 33px;
+}
+
+#tipbar2 .arrow {
+	left: 284px;
+	top: -42px;
+}
+
+#tipbar2 .tipBarword {
+	width: 62px;
+	height: 24px;
+	left: 355px;
+	top: -41px;
+	background-position: -156px -192px;
+}
+
+.clear {
+	font-size: 0px;
+	line-height: 0px;
+	height: 0px;
+	overflow: hidden;
+}
+
+#tipbar3 {
+	width: 680px;
+	height: 280px;
+	left: 59px;
+	top: 816px;
+}
+
+#tipbar3 .arrow {
+	left: 30px;
+	top: -35px;
+}
+
+#tipbar3 .tipBarword {
+	width: 62px;
+	height: 24px;
+	background-position: -235px -192px;
+	left: 100px;
+	top: -34px;
+}
+
+#tipbar1 .tipbarInner {
+	width: 615px;
+	height: 249px;
+}
+
+#tipbar2 .tipbarInner {
+	width: 768px;
+	height: 471px;
+}
+
+#tipbar3 .tipbarInner {
+	width: 680px;
+	height: 280px;
+}

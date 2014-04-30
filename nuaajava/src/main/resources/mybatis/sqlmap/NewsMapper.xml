@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.school.xnew.persistence.dao.NewsDao">
+	<insert id="insert" parameterType="NewsModel">
+		insert into core_news(title
+			<if test="content != null and content != ''">
+    			,content
+    		</if>
+			<if test="type != null and type != ''">
+    			,type
+    		</if>
+    		<if test="creater_id != null and creater_id != ''">
+    			,creater_id
+    		</if>
+    		<if test="time != null and time != ''">
+    			,time
+    		</if>
+    		<if test="modify_user_id != null and modify_user_id != ''">
+    			,modify_user_id
+    		</if>
+    		<if test="modify_time != null and modify_time != ''">
+    			,modify_time
+    		</if>) 
+		values(#{title}
+			<if test="content != null and content != ''">
+    			,#{content}
+    		</if>
+			<if test="type != null and type != ''">
+    			,#{type}
+    		</if>
+    		<if test="creater_id != null and creater_id != ''">
+    			,#{creater_id}
+    		</if>
+    		<if test="time != null and time != ''">
+    			,#{time}
+    		</if>
+    		<if test="modify_user_id != null and modify_user_id != ''">
+    			,#{modify_user_id}
+    		</if>
+    		<if test="modify_time != null and modify_time != ''">
+    			,#{modify_time}
+    		</if>)
+    	<selectKey resultType="int" keyProperty="id">
+            <![CDATA[SELECT LAST_INSERT_ID() AS id ]]>
+        </selectKey>
+	</insert>
+    <select id="findAllNews" resultType="NewsModel">
+        select t.id,t.title,t.content,t.type,date_format(t.modify_time, '%Y-%m-%d %H:%i:%s') modify_time,t.modify_user_id,u.fullname creater_name from core_news t,core_user u where t.modify_user_id=u.id and t.type=0 and t.is_delete=0 
+        	<if test="title != null and title != ''">
+    			and t.title like CONCAT('%',#{title},'%') 
+    		</if>
+    		<if test="creater_name != null and creater_name != ''">
+    			and u.fullname like CONCAT('%',#{creater_name},'%') 
+    		</if>
+    		<if test="beginDate != null and beginDate != ''">
+    			and t.modify_time >= #{beginDate} 
+    		</if>
+    		<if test="endDate != null and endDate != ''">
+    			and t.modify_time &lt;= #{endDate} 
+    		</if>
+        order by t.modify_time desc
+    </select>
+    
+    <select id="findAllNotice" resultType="NewsModel">
+        select t.id,t.title,t.content,t.type,date_format(t.modify_time, '%Y-%m-%d %H:%i:%s') modify_time,t.modify_user_id,u.fullname creater_name from core_news t,core_user u where t.modify_user_id=u.id and t.type=1 and t.is_delete=0 
+       		<if test="title != null and title != ''">
+    			and t.title like CONCAT('%',#{title},'%') 
+    		</if>
+    		<if test="creater_name != null and creater_name != ''">
+    			and u.fullname like CONCAT('%',#{creater_name},'%') 
+    		</if>
+    		<if test="beginDate != null and beginDate != ''">
+    			and t.modify_time >= #{beginDate} 
+    		</if>
+    		<if test="endDate != null and endDate != ''">
+    			and t.modify_time &lt;= #{endDate} 
+    		</if>
+        order by t.modify_time desc
+    </select>
+    
+    <select id="getModelById" parameterType="Integer" resultType="NewsModel">
+      select t.id,t.title,t.content,t.type,date_format(t.modify_time, '%Y-%m-%d %H:%i:%s') modify_time,t.modify_user_id,u.fullname creater_name from core_news t,core_user u
+      where t.id = #{id} and t.modify_user_id=u.id
+    </select>
+    
+    <!-- 修改信息 -->
+    <update id="update" parameterType="NewsModel">
+    	update core_news set title = #{title} 
+    		<if test="content != null and content != ''">
+    			,content = #{content}
+    		</if>
+    		<if test="modify_time != null and modify_time != ''">
+    			,modify_time = #{modify_time}
+    		</if>
+    		<if test="modify_user_id != null and modify_user_id != ''">
+    			,modify_user_id = #{modify_user_id}
+    		</if>
+    		where id=#{id}
+    </update>
+    
+    <delete id="delete" parameterType="NewsModel">
+		update core_news set is_delete=1,delete_user_id=#{creater_id},delete_time=#{delete_time} where id = #{id}
+    </delete>
+    
+    <select id="getCountOfAll" resultType="Integer">
+		select count(1) count from core_news t where t.is_delete=0
+    </select>
+    
+    <select id="findAll" parameterType="PageModel" resultType="NewsModel">
+		select t.id,t.title,t.content,t.type,date_format(t.modify_time, '%Y-%m-%d %H:%i:%s') modify_time,t.modify_user_id,u.fullname creater_name from core_news t,core_user u where t.modify_user_id=u.id and t.is_delete=0 limit #{start},#{num}
+    </select>
+    
+</mapper>

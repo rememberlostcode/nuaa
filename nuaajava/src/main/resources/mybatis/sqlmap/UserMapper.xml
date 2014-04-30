@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.school.xnew.persistence.dao.CoreUserDao">
+	<insert id="insert" parameterType="CoreUserModel">
+		insert into core_user(username
+			<if test="fullname != null and fullname != ''">
+    			,fullname
+    		</if>
+			<if test="password != null and password != ''">
+    			,password
+    		</if>
+			<if test="phoneNumber != null and phoneNumber != ''">
+    			,phonenumber
+    		</if>
+    		<if test="mobileNumber != null and mobileNumber != ''">
+    			,mobilenumber
+    		</if>
+    		<if test="email != null and email != ''">
+    			,email
+    		</if>) 
+		
+		values(#{username}
+			<if test="fullname != null and fullname != ''">
+    			,#{fullname}
+    		</if>
+    		<if test="password != null and password != ''">
+    			,#{password}
+    		</if>
+			<if test="phoneNumber != null and phoneNumber != ''">
+    			,#{phoneNumber}
+    		</if>
+    		<if test="mobileNumber != null and mobileNumber != ''">
+    			,#{mobileNumber}
+    		</if>
+    		<if test="email != null and email != ''">
+    			,#{email} 
+    		</if>)
+	</insert>
+    <select id="findAll" resultType="User">
+        select t.id,t.usercode,t.username,t.fullname,t.phonenumber,t.mobilenumber,t.email,t.is_del isDel 
+        from core_user t 
+        where t.is_del!=1 or t.is_del is null
+        order by t.id
+    </select>
+    <select id="getModelList" parameterType="CoreUserModel" resultType="CoreUserModel">
+        select t.id,t.usercode,t.username,t.fullname,t.phonenumber,t.mobilenumber,t.email,t.is_del isDel from core_user t        
+        where (t.is_del!=1 or t.is_del is null)
+        <if test="fullname != null and fullname != ''">
+	        and t.fullname like '%'||#{fullname}||'%'  
+        </if> 
+        <if test="username != null and username != ''">
+	        and t.username like '%'||#{username}||'%'   
+        </if>                
+    </select>
+    
+    <select id="getUsersByModel" parameterType="CoreUserModel" resultType="User">
+        select t.id,t.usercode,t.username,t.fullname,t.phonenumber,t.mobilenumber,t.qqnumber,t.email,t.is_del isDel 
+        from core_user t        
+        where (t.is_del!=1 or t.is_del is null)
+        <if test="id != null">
+	        and t.id = #{id}  
+        </if> 
+        <if test="fullname != null and fullname != ''">
+	        and (t.fullname like #{fullname} or t.username like #{username})
+        </if> 
+        <if test="username != null and username != ''">
+	        and (t.username like #{username} or t.fullname like #{username})
+        </if>
+        <if test="mobileNumber != null and mobileNumber != ''">
+	        and t.mobilenumber = #{mobileNumber}
+        </if>
+        <if test="email != null and email != ''">
+	        and t.email = #{email}
+        </if>               
+    </select>
+    
+    <select id="getUserByUsername" parameterType="String" resultType="CoreUserModel">
+        select t.id,t.usercode,t.username,t.fullname,t.phonenumber,t.mobilenumber,t.email,t.is_del isDel 
+        from core_user t
+        where t.username = #{username}
+    </select>
+    
+    <select id="getLoginUser" parameterType="CoreUserModel" resultType="User">
+        select t.id,t.username,t.fullname,t.phonenumber,t.mobilenumber,t.email,t.is_del isDel
+        from core_user t
+        where t.username = #{username} and t.password = #{password}
+    </select>
+    
+    <select id="findUsersByModel" parameterType="CoreUserModel" resultType="CoreUserModel">
+        select t.id,t.usercode,t.username,t.fullname,t.phonenumber,t.mobilenumber,t.qqnumber,t.email,t.is_del isDel
+        from core_user t 
+        where (t.is_del!=1 or t.is_del is null) and (t.usercode like #{usercode} or t.username like #{username})
+    </select>
+    
+    <select id="findUserByUserCode" parameterType="string" resultType="CoreUserModel">
+        select t.id,t.usercode,t.username,t.fullname,t.phonenumber,t.mobilenumber,t.qqnumber,t.email,t.is_del isDel
+        from core_user t 
+        where t.usercode = #{usercode}
+    </select>
+    
+    <select id="getModel" parameterType="CoreUserModel" resultType="CoreUserModel">
+        select t.id,t.usercode,t.username,t.fullname,t.phonenumber,t.mobilenumber,t.qqnumber,t.email,t.is_del isDel from core_user t 
+        where t.id=#{id}
+        <if test="username != null and username != ''">
+   			and t.username = #{username}
+   		</if>
+   		<if test="password != null and password != ''">
+   			and t.password = #{password}
+   		</if>
+    </select>
+    
+    <select id="getModelById" parameterType="Integer" resultType="CoreUserModel">
+        select t.id,t.usercode,t.username,t.fullname,t.phonenumber,t.mobilenumber,t.qqnumber,t.email,t.is_del isDel from core_user t 
+        where t.id=#{id}
+    </select>
+    
+    <!-- 修改用户信息 -->
+    <update id="update" parameterType="CoreUserModel">
+    	update core_user set id = id 
+    		<if test="mobileNumber != null and mobileNumber != ''">
+    			,mobilenumber = #{mobileNumber}
+    		</if>
+    		<if test="email != null and email != ''">
+    			,email = #{email} 
+    		</if>
+    		where id=#{id}
+    </update>
+    
+    <!-- 重置密码信息 -->
+    <update id="resetPassword" parameterType="PasswordReset">
+    	update core_user set id = id
+    		<if test=" newPw!= null and newPw != ''">
+    			,password = #{newPw}
+    		</if>
+    		where id=#{userId} and password = #{oldPw}
+    </update>
+    
+    <update id="deleteById" parameterType="Integer">
+	       update core_user set is_del=1 where id!=-1 and id = #{id};
+    </update>
+</mapper>

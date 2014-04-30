@@ -1,0 +1,46 @@
+@CHARSET "UTF-8";
+.xiamian {
+    margin-top: -120px;
+	position:relative;
+}
+.tongyong {
+    margin-top: -120px;
+}
+.jieru {
+	position:absolute;
+    padding-left: 550px;
+	margin-top: -102px;
+}
+.yangliku{
+	padding-left: 840px;
+	margin-top: -62px;
+}
+
+.pclass{
+	text-align: left;
+	margin: 10px;
+}
+.spanclass1 {
+	font-family: Arial;
+	font-size: 13px;
+	font-weight: bold; 
+	font-style: normal;
+	text-decoration: none;
+	color: #666666;
+}
+.spanclass2 {
+	font-family: Arial;
+	font-size: 13px; 
+	font-weight: normal;
+	font-style: normal;
+	text-decoration: underline;
+	color: #666666;
+}
+.spantitle {
+	font-family: Arial;
+	font-size: 20px;
+	font-weight: bold;
+	font-style: normal;
+	text-decoration: none;
+	color: #666666;
+}

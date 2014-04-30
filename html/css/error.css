@@ -1,0 +1,23 @@
+.error404,.error500 {
+	width: 982px;
+	height: 347px;
+	margin: 0 auto;
+	position:relative;
+}
+
+.error404 {
+	background: url(image/404.png) no-repeat center center transparent;
+}
+
+.error500 {
+	background: url(image/500.png) no-repeat center center transparent;
+}
+
+.error404 .secondline,.error500 .secondline{
+	position:absolute;
+	left:430px;
+	top:231px;
+	font-family:Tahoma,Helvetica,Arial,sans-serif;
+	font-size:18px;
+	color:#646b73;
+}

@@ -1,0 +1,252 @@
+<script language="JavaScript">
+//<!--
+var showPages = function() {
+    this.page = ${pager.currentPage};
+    this.pageCount = ${pager.totalPages};
+};
+
+showPages.prototype.createHtml = function() {
+    var self = this;
+	
+	var firstPage = $("td[id=firstPage]");
+	var prevPage = $("td[id=prevPage]");
+	var nowPage = $("span[id=nowPage]");
+	var totalPageNum = $("span[id=totalPageNum]");
+	var nextPage = $("td[id=nextPage]");
+	var lastPage = $("td[id=lastPage]");
+	var selectedPage = $("select[id=selectedPage]");
+	var totalDataNum = $("span[id=totalDataNum]");
+
+	var firstPageHidden = $("a[id=firstPageHidden]");
+	firstPageHidden.bind( {
+		click : function() {
+		    self.toPage(1);
+		}
+	});
+	if (this.page == 1) {
+		firstPage.addClass("ui-state-disabled");
+		prevPage.addClass("ui-state-disabled");
+	} else {		
+		firstPage.removeClass("ui-state-disabled");
+		prevPage.removeClass("ui-state-disabled");
+		
+	    var firstPage_a = $("<a />");
+		firstPage_a.css("cursor","pointer");
+		firstPage_a.bind( {
+			click : function() {
+			    self.toPage(1);
+			}
+		});
+		firstPage.find("span").wrap(firstPage_a);	
+		
+	    var prevPage_a = $("<a />");
+		prevPage_a.css("cursor","pointer");
+		prevPage_a.bind( {
+			click : function() {
+			    self.toPage(self.page - 1);
+			}
+		});		
+		prevPage.find("span").wrap(prevPage_a);
+	}
+	
+	nowPage.html(this.page);
+	totalPageNum.html(this.pageCount);
+
+	if (this.page == this.pageCount) {
+		nextPage.addClass("ui-state-disabled");
+		lastPage.addClass("ui-state-disabled");
+	} else {		
+		nextPage.removeClass("ui-state-disabled");
+		lastPage.removeClass("ui-state-disabled");
+		
+	    var nextPage_a = $("<a />");
+		nextPage_a.css("cursor","pointer");
+		nextPage_a.bind( {
+			click : function() {
+			    self.toPage(self.page + 1);
+			}
+		});
+		nextPage.find("span").wrap(nextPage_a);	
+		
+	    var lastPage_a = $("<a />");
+		lastPage_a.css("cursor","pointer");
+		lastPage_a.bind( {
+			click : function() {
+			    self.toPage(self.pageCount);
+			}
+		});
+		lastPage.find("span").wrap(lastPage_a);
+	}
+	
+	selectedPage.bind( {
+		change : function() {
+		    self.toPage(this);
+		}
+	});
+	selectedPage.html('#foreach($temp in $SelDisplayPage)<option value="$temp" #if($temp==$pager.pageSize) selected="selected" #end>$temp</option>#end');
+	
+	totalDataNum.html($pager.totalRowsAmount);
+};
+
+showPages.prototype.beforeSubmitCallback = function() {
+};
+showPages.prototype.toPage = function(page) {
+	var form = jQuery("#$!formId");
+	form.attr("action",window.location);
+	
+	var searchStr = location.search;
+	searchStr = searchStr.substr(1);
+	var searchs = searchStr.split("&");
+	for ( var i = 0; i < searchs.length; i++) {
+		var each = searchs[i].split("=");
+		var paramName = each[0];
+		var paramValue = each[1];
+		if(paramName != "currentPage"
+		   && paramName != "pageSize"){
+		    form.append('<input type="hidden" name="'+paramName+'" value="'+paramValue+'"/>');
+		}		
+	}
+	
+	if (typeof (page) == 'object') {
+		var turnTo = page.options[page.selectedIndex].value;
+		form.find("input[id=currentPage]").val(1);
+		form.find("input[id=pageSize]").val(turnTo);
+	} else {	
+		form.find("input[id=currentPage]").val(page);
+	}
+	var searchList = $("table[id=tableHead] form input");
+	searchList.each(function(){
+	    var type = $(this).attr("type");
+		if(type == "hidden" || type == "text"){
+		   if($(this).val() != ""){
+		       form.append("<input type=" + type + " name=" + $(this).attr("name") + " value=" + $(this).val() + ">");
+		   }
+		}
+	});
+	if("$!beforeSubmitCallback" != ""){
+        this.beforeSubmitCallback = function(param){
+		    window["$!beforeSubmitCallback"](param);
+		};
+		var result = this.beforeSubmitCallback();
+		if(result == false){
+		    return false;
+		}
+    } 
+	form.submit();
+};
+
+/*
+document.onkeydown = function(e) {
+	var isie = (document.all) ? true : false;
+	var key;
+	var ev;
+	if (isie) {// IE浏览器
+		key = window.event.keyCode;
+		ev = window.event;
+	} else {// 火狐浏览器
+		key = e.which;
+		ev = e;
+	}
+	var val = jQuery("#keySubmitInputBox").val();
+	if(val != undefined){
+    	if (isNaN(val)) {
+    		alert("输入框请输入数字！");
+    	} else {
+    		this.page = val;
+    		if (key == 13) {// IE浏览器
+    			if (isie) {
+    				pg.toPage(val);
+    			} else {// 火狐浏览器
+    				pg.toPage(val);
+    
+    			}
+    		}
+    	}
+	}
+};
+*/
+//-->
+</script>
+#if($!simple)
+<style>
+.fieldlist tbody td {
+    padding: 0;
+}
+.ui-pg-input{
+    height:17px;
+}
+.pager {
+    background: #D7EBF9;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-color: #DBDBDB -moz-use-text-color -moz-use-text-color;
+    border-style: solid none none;
+    border-width: 0 0 0 0;
+    color: #2779AA;
+    font-weight: bold;
+    width: 100%;
+}
+#pages{
+    /*bottom: 0;
+    position: absolute;*/
+}
+</style>
+#end
+<div id="pages">
+	<a id="firstPageHidden" style="display:none;"></a>
+    <div class="pager ui-state-default ui-jqgrid-pager ui-corner-bottom">
+    	<div id="pg_pager5" class="ui-pager-control" role="group">
+    		<table border="0" cellspacing="0" cellpadding="0" class="ui-pg-table" style="width: 100%; table-layout: fixed; ">
+    			<tbody>
+    				<tr>
+    					<td align="center">
+    						<table border="0" cellspacing="0" cellpadding="0" style="table-layout: auto;" class="ui-pg-table">
+    							<tbody>
+    								<tr>
+    									<td id="firstPage" style="cursor: default;" class="ui-pg-button ui-corner-all ui-state-disabled">
+											<span class="ui-icon ui-icon-seek-first"></span>
+										</td>
+    									<td id="prevPage" style="cursor: default;padding:0 4px 0 0;" class="ui-pg-button ui-corner-all ui-state-disabled">
+											<span class="ui-icon ui-icon-seek-prev"></span>
+										</td>
+    									<td>
+											<span id="nowPage"></span>/<span id="totalPageNum"></span>
+    									</td>
+    									<td id="nextPage" style="cursor: default;padding:0 0 0 4px;"class="ui-pg-button ui-corner-all">
+											<span class="ui-icon ui-icon-seek-next"></span>
+										</td>
+    									<td id="lastPage" style="cursor: default;"class="ui-pg-button ui-corner-all">
+											<span class="ui-icon ui-icon-seek-end"></span>
+										</td>
+    									<td style="padding:0 10px;">
+											每页<select id="selectedPage" class="ui-pg-selbox" style="width:42px;"></select>条
+										</td>
+                    					<td style="padding:0 5px;">
+                							共<span id="totalDataNum"></span>条
+                    					</td>
+    								</tr>
+    							</tbody>
+    						</table>
+    					</td>
+    				</tr>
+    			</tbody>
+    		</table>
+    	</div>
+    </div>
+</div>
+
+<form id="$!formId" action="" type="post">
+    <input type="hidden" name="currentPage" id="currentPage" value="${pager.currentPage}"/>  
+    <input type="hidden" name="pageSize"  id="pageSize" value="${pager.pageSize}"/> 
+</form>
+
+<script language="JavaScript">
+<!--
+try{
+    var page = new showPages();
+    page.createHtml();
+} catch (e) {
+	alert("e:" + e.message);
+}
+//-->
+</script>

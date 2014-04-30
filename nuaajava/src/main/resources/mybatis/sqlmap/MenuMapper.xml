@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.school.xnew.persistence.dao.CoreMenuDao">
+
+	<select id="findAll" resultType="CoreMenuModel">
+		select t.id,t.action,t.img,t.name,t.sorting,t.parent_id as parentid,t.type from core_menu t 
+		where t.parent_id=0
+	</select>
+	
+	<select id="getModel" parameterType="CoreMenuModel" resultType="CoreMenuModel">
+      select t.id,t.action,t.img,t.name,t.sorting, t.parent_id as parentid,t.type from core_menu t
+      where t.id = #{id}
+   </select>
+   
+   <select id="getModelById" parameterType="Integer" resultType="CoreMenuModel">
+      select t.id,t.action,t.img,t.name,t.sorting,t.parent_id as parentid,t.type from core_menu t
+      where t.id = #{value}
+   </select>
+   
+   <select id="getModelList" parameterType="CoreMenuModel" resultType="CoreMenuModel">
+      select t.id,t.action,t.img,t.name,t.sorting,t.parent_id as parentid,t.type from core_menu t
+      where 1=1 
+      <if test="id != null">
+	     and t.id = #{id}
+      </if>
+      <if test="parentId != null">
+	     and t.parent_id = #{parentId}
+      </if>
+      <if test="name != null and name !=''">
+	    and t.name like #{name}
+      </if>
+   </select>
+   
+   <select id="getMenusByUserId" parameterType="Integer" resultType="CoreMenuModel">
+      select distinct(t.id),t.action,t.img,t.name,t.sorting,t.parent_id as parentid,t.type
+      <if test="id == null">
+	      from core_menu t where t.type=0
+      </if>
+      <if test="id != null">
+          from core_menu t ,core_rel_user_menu u
+	       where t.type!=1  or (u.user_id = #{id} and u.menu_id=t.id)
+      </if>
+      order by t.sorting
+   </select>
+   
+   <delete id="delete" parameterType="CoreMenuModel">
+      delete from core_menu where id = #{id}
+   </delete>
+   
+   <update id="update" parameterType="CoreMenuModel">
+      update core_menu set name = #{name} 
+      <if test="action !=null ">
+          ,action = #{action}
+      </if>
+      <if test="img !=null ">
+          ,img = #{img}
+      </if>
+      <if test="parentId != null">
+          ,parent_id = #{parentId}
+      </if>
+      <if test="sorting !=null ">
+          ,sorting = #{sorting}
+      </if>
+      <if test="tip !=null ">
+          ,tip = #{tip}
+      </if>
+      <if test="type !=null ">
+          ,type = #{type}
+      </if>
+      <if test="isIndex !=null ">
+          ,is_index = #{isIndex}
+      </if>
+      where id = #{id}
+   </update>
+   
+   <insert id="insert" parameterType="CoreMenuModel">
+      insert into core_menu(name
+      <if test="action !=null ">
+          ,action
+      </if>
+      <if test="img !=null ">
+          ,img
+      </if>
+      <if test="parentId != null">
+          ,parent_id
+      </if>
+      <if test="sorting !=null ">
+          ,sorting
+      </if>
+      <if test="tip !=null ">
+          ,tip
+      </if>
+      <if test="type !=null ">
+          ,type
+      </if>
+      <if test="isIndex !=null ">
+          ,is_index
+      </if>
+      ) 
+      values(#{name}
+      <if test="action !=null ">
+          ,#{action}
+      </if>
+      <if test="img !=null ">
+          ,#{img}
+      </if>
+      <if test="parentId != null">
+          ,#{parentId}
+      </if>
+      <if test="sorting !=null ">
+          ,#{sorting}
+      </if>
+      <if test="tip !=null ">
+          ,#{tip}
+      </if>
+      <if test="type !=null ">
+          ,#{type}
+      </if>
+      <if test="isIndex !=null ">
+          ,#{isIndex}
+      </if>
+      )
+   </insert>
+
+</mapper>

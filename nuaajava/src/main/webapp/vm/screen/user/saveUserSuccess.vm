@@ -1,0 +1,12 @@
+
+			#mc_toolbar("申请成为用户",$!menu)
+		   <div class="mainframe_content">
+                 #if($!result)
+                   <div class="sdcg"><span>$!result</span></div><!--正式使用的时候把样式里面的top值改成35px-->
+                   #elseif($!errorMsg)
+                   <div class="sder"><span>$!errorMsg</span></div>
+             #end
+        				
+       </div>
+    
+

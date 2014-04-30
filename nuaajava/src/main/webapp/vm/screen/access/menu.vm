@@ -1,0 +1,44 @@
+<link href="$static_server_name:$server_port/static/css/ddsmoothmenu.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="$static_server_name:$server_port/static/js/ddsmoothmenu.js"></script>
+<script type="text/javascript">
+	ddsmoothmenu.init({
+	mainmenuid: "imenu", //menu DIV id
+	orientation: 'h', //Horizontal or vertical menu: Set to "h" or "v"
+	classname: 'ddsmoothmenu', //class added to menu's outer DIV
+	//customtheme: ["#1c5a80", "#18374a"],
+	contentsource: "markup" //"markup" or ["container_id", "path_to_menu_file"]
+	})  
+  
+
+	
+</script>
+
+<form action="/admin-console/access/post">
+        <tr>
+            <td><input name="users[0].id" value="1"/></td>
+            <td><input name="users[0].username" value="username"/></td>
+			<td><input name="users[1].id" value="2"/></td>
+            <td><input name="users[1].username" value="username2"/></td>
+			<td><input type="submit"/></td>
+        </tr>
+</form>
+<div id="imenu">
+	<ul>
+	#foreach($menu in $menuList)
+		<li>
+			<a href="$menu.action">$menu.name</a>
+			#set($subMenus = $menu.subMenus)
+			#if($!subMenus&&!$menu.subMenus.isEmpty())
+				<ul>
+					#foreach($subMenu in $subMenus)
+						<li>
+							<a href="$subMenu.action">$subMenu.name</a>
+                        </li>
+					#end
+                </ul>
+			#end
+        </li>
+	#end
+	</ul>
+	<br style="clear: left" />
+</div>

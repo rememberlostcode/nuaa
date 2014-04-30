@@ -1,0 +1,43 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:context="http://www.springframework.org/schema/context"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/context  
+http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+	<!-- this is the dao object -->
+    <bean id="userApplyDao" name="userApplyDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	    <property name="mapperInterface" value="com.school.xnew.persistence.dao.UserApplyDao"></property>
+	    <property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+    <bean id="menuDao" name="menuDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	    <property name="mapperInterface" value="com.school.xnew.persistence.dao.MenuDao"></property>
+	    <property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	 <bean id="user2MenuDao" name="user2MenuDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	    <property name="mapperInterface" value="com.school.xnew.persistence.dao.User2MenuDao"></property>
+	    <property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="CoreMenuDao" name="coreMenuDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	    <property name="mapperInterface" value="com.school.xnew.persistence.dao.CoreMenuDao"></property>
+	    <property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="CoreSystemDao" name="coreSystemDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	    <property name="mapperInterface" value="com.school.xnew.persistence.dao.CoreSystemDao"></property>
+	    <property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="CoreUserDao" name="coreUserDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	    <property name="mapperInterface" value="com.school.xnew.persistence.dao.CoreUserDao"></property>
+	    <property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	
+	<bean id="NewsDao" name="newsDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	    <property name="mapperInterface" value="com.school.xnew.persistence.dao.NewsDao"></property>
+	    <property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+</beans>
+
+
+
+
+

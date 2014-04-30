@@ -1,0 +1,200 @@
+#macro(menu1)
+	menu1
+#end
+
+<!--分页宏-->
+<!--@author yj-->
+#macro(mc_pagger $formId,$SelDisplayPage,$simple,$beforeSubmitCallback) 
+	<link rel="stylesheet" href="$static_server_name/css/ui.jqgrid.css"/>  
+	
+	#if($!SelDisplayPage)
+		<!---->
+	#else
+		#set($SelDisplayPage = ["10","15","20"])
+	#end 
+	  
+    #parse('page.vm' )
+#end
+
+#macro(mc_toolbar $locationName,$mainframeNavRights,$savePromptId)
+	<link href="$static_server_name/css/admin-style.css" rel="stylesheet" type="text/css" />
+	<script src="$static_server_name/js/guide.js" type="text/javascript"></script>
+    <div style="background-color: #f5f6f7;">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+        	<tr class="tablestyle_title">
+        		<th height="42">
+        			<strong >
+    					$!locationName
+                    </strong>
+                </th>
+				<th>
+					<table align="right" width="100%" border="0" cellspacing="0" cellpadding="0" >
+						<tr>
+							<td align="right" width="100%">
+                        		#foreach($each in $mainframeNavRights)
+                        		    #if($each.type == "a")
+                        				<span class="$each.className">
+                                            <a id="$each.id" name="$each.name" href="#if($each.href == '') # #else $each.href #end"><font color="#ffffff">$each.html</font></a>
+                                        </span>
+                        			#elseif($each.type == "select")
+                        				<select class="$each.className" id="$each.id" name="$each.name">
+                        					#foreach($option in $each.options)	
+                            					<option value="$option.value">
+                            						$option.html
+                            					</option>
+                        					#end
+                        				</select>
+									#end
+									&nbsp;&nbsp;
+        						#end
+							</td>	
+                        </tr>
+					</table>
+                </th>
+        	</tr>
+			<tr >
+				<td height="10"></td>
+            </tr>
+        </table>
+    </div>
+#end
+
+<!--jqGrid表格宏-->
+<!--$table：表格初始化服务器端参数，必填
+    $table：{"url":"/group/listGroupsJson.json",
+	         "daoPageSqlId":null,
+			 "fieldNames":["id","name","createrId","createrName","createTime","description"],
+			 "databaseNames":{"id":"id","name":"name"}}
+    ===============Json数据字段名注释===============
+	url----获取表格json数据的url地址，必填
+	daoPageSqlId----指定查询表格数据dao层方法是否需分页，值为null或者"com.zfsoft.cms.persistence.dao.StanDao.findAllStansByName"(仅举例)，默认为null(全部dao方法分页)
+	fieldNames----表格解析json数据的key值，对应jqgrid的colModel的name，为entity的属性值，可调方法排除部分表格不显示的属性，必填
+	databaseNames----Map<属性名,属性名对应数据库字段名>，用于支持表格列排序时返回服务器端的参数值
+-->
+<!--$tableInfoJson：表格初始化其他参数，必填
+    $tableInfoJson数据格式：{"caption":"用户组表",
+							"width":1000,
+							"height":"auto",
+							"pageSize":10,
+							"multiselect":true,
+							"lineNumbers":false,
+							"tableAlign":"center",
+							"tableDatefmt":null,
+							"editBtn":false,
+							"deleteBtn":false}
+	===============Json数据字段名注释===============
+	caption----表格标题，可不填，默认为"JqGrid Table"
+	width----表格宽度，值不填或为1000(具体数值)，默认为"none"
+	height----表格高度，值不填或为1000(具体数值)或者100%(具体百分比)，默认为"auto"
+	pageSize----表格每页显示记录数，值不填或为20(具体数值)，默认为20
+	multiselect----表格是否支持多选，值不填或为true或者false，默认为false
+	lineNumbers----表格是否显示行号，值不填或为true或者false，默认为false
+	tableAlign----表格单元格对齐方式，值不填或为left，center或者right，默认为center
+	tableDatefmt----表格日期格式，值不填或为"Y-m-d"(字符串类型数据，举例)，默认为"Y-m-d"
+	日期格式----可用/，-和.。作为间隔符。y、Y、yyyy用于4位年，m、mm用于2位的月，d、dd用于日期，例如Y-m-d H:i:s
+	editBtn----表格每行数据是否增加"编辑"按钮，默认为false
+	deleteBtn----表格每行数据是否增加"删除"按钮，默认为false
+-->
+<!--$columnInfoJson：表格列初始化和数据加载参数，必填
+    $columnInfoJson数据格式：
+	{"columnInfo":[{"columnName":"用户组ID","sortable":true,"editable":false,"width":50,"columnAlign":"center","formatType":"date","columnDatefmt":null,"hidedlg":true,"hidden":true},
+	               {"columnName":"用户组名称","sortable":true,"editable":false,"width":60,"columnAlign":"center","columnDatefmt":null}]
+	===============Json数据字段名注释===============
+	columnName----表格列名称，必填
+	sortable----表格列是否支持排序，值不填或为true或者false，默认为false
+	editable----表格列是否支持编辑，值不填或为true或者false，默认为false
+	width----表格列宽度，值不填或为50(具体数值)或者100%(具体百分比)，默认为60px
+	columnAlign----表格列单元格对齐方式，值不填或为left，center或者right，默认为表格的单元格对齐方式tableAlign
+	formatType----格式化表格数据类型，值不填或为select、integer、number、currency、date或者showlink，目前只实现了date的格式化
+	columnDatefmt----表格列日期格式，值不填或为"Y-m-d"(字符串类型数据，举例)
+	日期格式----可用/，-和.。作为间隔符。y、Y、yyyy用于4位年，m、mm用于2位的月，d、dd用于日期，例如Y-m-d H:i:s
+	editoptions----表格编辑的一系列选项。
+	               formatType为select时，可以根据代号显示具体名称，如"1:待审核;2:审核通过;3:审核不通过"。
+	hidedlg----表格设置列是否隐藏，值不填或为true或者false，默认为false
+	hidden----表格初始化时列是否隐藏，值不填或为true或者false，默认为false
+-->
+<!--$columnSortJson：表格列指定顺序参数，必填
+    $columnSortJson数据:
+	{"columnSort":["id","name","createrId","createrName","createTime","description"]}
+	===============Json数据字段名注释===============
+	columnSort----表格列指定顺序，对应jqgrid的colModel的name，为entity的属性值，必填
+-->
+#macro(mc_showTable $tableInfo,$tableInfoJson,$columnInfoJson,$columnSortJson)
+	<link type="text/css" rel="stylesheet" href="$static_server_name/css/jquery-ui-1.9.2.custom.css">
+    <link type="text/css" rel="stylesheet" href="$static_server_name/css/ui.jqgrid.css">
+    <script type="text/javascript" src="$static_server_name/js/i18n/grid.locale-cn.js"></script>
+    <script type="text/javascript" src="$static_server_name/js/jquery.jqGrid.min.js"></script>
+	<script src="$static_server_name/js/jqGridPotting.js" type="text/javascript"></script>
+	
+	<table id="tabGrid"></table>
+    <div id="pager"></div>
+    <script>
+		$(document).ready(function(){
+    	    var pageurl = "$server_name/page/commonPage";
+        	$("#tabGrid").bindTable($tableInfo,$tableInfoJson,$columnInfoJson,$columnSortJson,pageurl,function (data) {
+    		    //列表展示json数据
+            	var showData = JSON.parse(data.griddata);
+    			if(showData.length > 0){
+                	//判断每行是否要增加"编辑"和"删除"按钮
+        			var tableInfoObj = $tableInfoJson;
+        			var editBtn = tableInfoObj.editBtn == undefined ? false : tableInfoObj.editBtn;
+    				var editValue = tableInfoObj.editValue == undefined ? "修改" : tableInfoObj.editValue;
+        			var deleteBtn = tableInfoObj.deleteBtn == undefined ? false : tableInfoObj.deleteBtn;
+    				var deleteValue = tableInfoObj.deleteValue == undefined ? "删除" : tableInfoObj.deleteValue;
+    				var otherBtn = tableInfoObj.otherBtn == undefined ? false : tableInfoObj.otherBtn;
+    				var otherValue = tableInfoObj.otherValue == undefined ? "其他" : tableInfoObj.otherValue;
+                	for(var i=0;i < showData.length;i++){
+    					if(editBtn || deleteBtn || otherBtn){
+        					var actStr = "";
+        					var rowNum = i + 1;
+        					if(editBtn){
+        						actStr += "<input type='button' class='gradualBlue' value='"+editValue+"' onclick='javascript:modifyGridDate("+ rowNum +");'/>&nbsp;&nbsp;";
+        					}
+        					if(deleteBtn){
+        						actStr += "<input type='button' class='gradualBlue' value='"+deleteValue+"' onclick='javascript:deleteGridDate("+ rowNum +");'/>&nbsp;&nbsp;";
+        					}
+    						if(otherBtn){
+        						actStr += "<input type='button' class='gradualBlue' value='"+otherValue+"' onclick='javascript:otherGridDate("+ rowNum +");'/>&nbsp;&nbsp;";
+        					}
+    						showData[i].act = actStr;
+    					}
+                        $("#tabGrid").jqGrid('addRowData',i+1,showData[i]);
+                	}
+    			}else{
+    				//获得需合并的单元格数
+    				var columnSortObj = $columnSortJson;
+    				var cellNum = columnSortObj.columnSort.length;
+    				
+    				var tableInfoObj = $tableInfoJson;
+    				var multiselect = tableInfoObj.multiselect == undefined ? false : tableInfoObj.multiselect;
+    				if(multiselect == true){
+    					cellNum = cellNum + 1;
+    				}
+        			var lineNumbers = tableInfoObj.lineNumbers == undefined ? false : tableInfoObj.lineNumbers;
+    				if(lineNumbers == true){
+    					cellNum = cellNum + 1;
+    				}
+    				
+                    var noDataHtml = "<tr><td colspan='" + cellNum + "' class='nothing' align='center' height='22px'>";
+    				noDataHtml += "未查询到相关记录！";
+    				noDataHtml += "</td></tr>"
+    				$("#tabGrid tbody").append(noDataHtml);
+    			}	
+            	//显示右边的分页条
+            	var totalPage = data.totalPages;
+            	var totalRecords = data.totalRecords;
+            	var currentPage = data.currentPage;
+            	var pageSize = data.pageSize;
+    			if(showData.length > 0){
+            		var startIndex = (currentPage - 1)*pageSize + 1;
+    				var endIndex = startIndex +  showData.length - 1;
+    			}else{
+    				var startIndex = 0;
+    				var endIndex = 0;
+    			}
+            	var text = startIndex + " - " + endIndex +"&nbsp;&nbsp;&nbsp;&nbsp;共  "+totalRecords+" 条";
+            	document.getElementById("pager_right").innerHTML = text;
+        	});
+		});
+	</script>
+#end

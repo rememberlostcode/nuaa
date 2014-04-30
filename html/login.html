@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="stylesheet" type="text/css" href="css/login.css" />
+		<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+		<script type="text/javascript" src="js/jquery.json-2.3.min.js"></script>
+		<script type="text/javascript" src="js/login.js"></script>
+	</head>
+	<body>
+		<div id="all">
+		 <form id="loginForm" action="/nuaa/nanhang/LoginAuth" method="post">
+			<input type="text" name="oid" id="uname" />
+			<input type="password" name="key" id="pwd" />
+			<a href="#" id="login"></a>
+			<span id="point_uname"></span>
+			<span id="point_pwd"></span>
+			<span id="point"></span>
+		</form>
+		</div>
+		<script>
+			function getQueryString() {
+				// 如果链接没有参数，或者链接中不存在我们要获取的参数，直接返回空
+				if(location.href.indexOf('code=')==-1){
+					return '';
+				}
+			 
+				// 获取链接中参数部分
+				var code = location.href.substring(location.href.indexOf("code=")+5);
+				if(code!=""){
+					var msg="";
+				    if(code==0){
+						msg="登录失败，用户名或密码错误!";
+					}else if(code==1){
+						msg="登录成功!";
+					}else if(code==2){
+						msg="登录异常,请您联系管理员!";
+					}
+					alert(msg);
+				}
+			}
+			getQueryString();
+		</script>
+	</body>
+
+</html>

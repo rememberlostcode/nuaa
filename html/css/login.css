@@ -1,0 +1,66 @@
+body {
+	margin: 0;
+	padding: 0;
+	background-color: #0f1315;
+}
+
+#all {
+	width: 970px;
+	height: 820px;
+	margin: 0 auto;
+	background-image: url(../image/login_bg.png);
+	background-repeat: no-repeat;
+	background-position: left top;
+	background-color: #313a43;
+	position: relative;
+}
+
+#uname,#pwd {
+	width: 170px;
+	height: 32px;
+	position: absolute;
+	left: 381px;
+	background-color: #adb0b4;
+	border: none;
+	padding: 0 5px;
+}
+
+#uname {
+	top: 297px;
+}
+
+#pwd {
+	top: 367px;
+}
+
+#login {
+	display: block;
+	width: 56px;
+	height: 34px;
+	background-image: url(../image/login.png);
+	background-repeat: no-repeat;
+	position: absolute;
+	left: 586px;
+	top: 330px;
+}
+
+#login:hover {
+	background-image: url(../image/login-hover.png);
+}
+
+#point_uname,#point_pwd {
+	position: absolute;
+	left: 381px;
+	color: #d3d5d4;
+	line-height:20px;
+	background-image: url(../image/error.png);
+	background-repeat: no-repeat;
+	background-position:left center;
+	padding:0 0 0 24px;
+}
+#point_uname {
+	top: 336px;
+}
+#point_pwd {
+	top: 406px;
+}

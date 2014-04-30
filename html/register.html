@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="stylesheet" type="text/css" href="css/register.css" />
+		<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+		<script type="text/javascript" src="js/jquery.json-2.3.min.js"></script>
+		<script type="text/javascript" src="js/register.js"></script>
+	</head>
+	<body>
+		<div id="all">
+		    <form id="registerForm" action = "http://211.149.175.138/nuaa/nanhang/user/register" method="post">
+				<input type="text" name="username" id="uname" />
+				<input type="password" name="password" id="pwd" />
+				<input type="password" id="repwd" />
+				<input type="text" name="realname" id="name" />
+				<input type="text" name="email" id="email" />
+				<input type="text" name="mobileNumber" id="mobile" />
+				<a href="#" id="register"></a>
+				<span id="point_uname" class="tip">5-25个字符，一个汉字为两个字符</span>
+				<span id="point_pwd" class="tip">6-16个字符，字母、数字、符号组合</span>
+				<span id="point_repwd" class="tip"></span>
+				<span id="point_name" class="tip">请输入您的真实姓名</span>
+				<span id="point_email" class="tip">请输入正确的邮箱地址</span>
+				<span id="point_mobile" class="tip">请输入正确的手机号码</span>
+		    </form>
+		</div>
+		<script>
+			function getQueryString() {
+				// 如果链接没有参数，或者链接中不存在我们要获取的参数，直接返回空
+				if(location.href.indexOf('code=')==-1){
+					return '';
+				}
+			 
+				// 获取链接中参数部分
+				var code = location.href.substring(location.href.indexOf("code=")+5);
+				if(code!=""){
+					var msg="";
+				    if(code==0){
+						msg="注册失败，用户名已存在!";
+					}else if(code==2){
+						msg="注册异常,请您联系管理员!";
+					}
+					alert(msg);
+				}
+			}
+			getQueryString();
+		</script>
+	</body>
+
+</html>

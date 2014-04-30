@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.school.xnew.persistence.dao.UserApplyDao">
+
+	<!-- 领域专家申请管理 -->
+  	<insert id="registerUser" parameterType="UserApplyDto">
+        insert into user_apply(username,realname,apply_date,password,mobilenumber,phonenumber,email,status) 
+        values (#{username},#{realname},#{applyDate},#{password},#{mobileNumber},#{phoneNumber},#{email},#{status})
+    </insert>
+    
+    <update id="checkUser" parameterType="UserApplyDto">
+        update user_apply set status=#{status},check_date=#{checkDate}
+        <if test="checkUserId != null">
+	    	,check_user_id=#{checkUserId}
+	    </if>
+        where id = #{id}
+    </update>
+    
+    <select id="listRegisterUsers" resultType="UserApplyDto">
+        select t.id,t.username,t.realname,t.phonenumber,t.mobilenumber,t.email, t.apply_date applyDate,t.check_user_id checkUserId,t.check_date checkDate,t.status 
+        from user_apply t 
+        where t.status = 1 
+        order by t.apply_date desc
+    </select>
+    
+    <select id="findRegisterUsersByModel" parameterType="UserApplyDto" resultType="UserApplyDto">
+        select t.id,t.username,t.realname,t.phonenumber,t.mobilenumber,t.email, t.apply_date applyDate,
+        t.check_user_id checkUserId,t.check_date checkDate,t.status 
+        from user_apply t 
+        where t.status = 1 
+        <if test="username != null and username!=''">
+        	and (t.username like CONCAT('%',#{username}, '%') or t.realname like CONCAT('%',#{username}, '%'))
+        </if>
+        <if test="mobileNumber != null and mobileNumber != ''">
+       		and t.mobilenumber = #{mobileNumber}
+       </if>
+       <if test="email != null and email!=''">
+       		and t.email = #{email}
+       	</if>
+        order by t.apply_date desc
+    </select>
+    
+    <select id="listCheckUserLogs" parameterType="UserApplyDto" resultType="UserApplyDto">
+     	select a.id,a.username,a.realname,a.phonenumber,a.mobilenumber,a.email, a.apply_date applyDate,
+        a.check_user_id checkUserId,a.check_date checkDate,a.status ,u.fullname checkUserName from (
+          select t.* from user_apply t where (t.status!=1 and t.status is not null)
+	        <if test="status != null">
+	        	and t.status = #{status}
+	        </if>
+	        <if test="userCode != null">
+	        	and t.usercode = #{userCode} 
+	        </if>
+	        <if test="mobileNumber != null and mobileNumber != ''">
+	        	and t.mobilenumber = #{mobileNumber} 
+	        </if>
+	        <if test="checkUserId != null and checkUserId != ''">
+	        	and t.check_user_id = #{checkUserId}
+	        </if>
+	        <if test="username != null and username!=''">
+        		and (t.username like CONCAT('%',#{username}, '%') or t.realname like CONCAT('%',#{username}, '%'))
+        	</if>
+        	<if test="email != null and email!=''">
+        		and t.email = #{email}
+        	</if>
+	        <if test="beginDate != null and beginDate !=''" >
+	        	and t.check_date >= #{beginDate}
+	        </if>
+	       	<if test="endDate != null and endDate !=''">
+	       		and t.check_date &lt;= #{endDate}
+	       	</if> 
+	        order by t.check_date desc) a,core_user u
+        where a.check_user_id = u.id
+    </select>
+    
+    <select id="getApply2UserByCheckUserId" parameterType="Integer" resultType="UserApplyDto">
+        select t.id,t.username,t.realname,t.phonenumber,t.mobilenumber,t.email, t.apply_date applyDate,
+        t.check_user_id checkUserId,t.check_date checkDate,t.status 
+        from user_apply t 
+        where t.status != 1 
+    </select>
+    
+    <select id="getApply2UserCountByStatus" parameterType="Integer" resultType="int">
+        select count(id) from user_apply where status = #{status}
+    </select>
+    
+    <select id="getUserApplyByModel" parameterType="UserApplyDto" resultType="UserApplyDto">
+        select t.id,t.username,t.realname,t.password,t.phonenumber,t.mobilenumber,t.email, t.apply_date applyDate,
+        t.check_user_id checkUserId,t.check_date checkDate,t.status
+        from user_apply t 
+        where t.id=#{id} 
+    </select>
+    
+    <select id="getUserApplyByUsername" parameterType="String" resultType="UserApplyDto">
+        select t.id,t.username,t.realname,t.phonenumber,t.mobilenumber,t.email, t.apply_date applyDate,
+        t.check_user_id checkUserId,t.check_date checkDate,t.status 
+        from user_apply t 
+        where t.status!=3 and t.username=#{username}
+    </select>
+  
+</mapper>

@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Admin Console</title>
+		<link rel="stylesheet" type="text/css"
+			href="$static_server_name/css/base.css" />
+	</head>
+	<body>
+        <div id="head">
+        	<div class="logo"></div>
+        	<div id="welcome">
+        		<span id="date_uname"></span>
+        		<a id="logout" href="#">退出</a>
+        	</div>
+        	<div id="login_reg" style="display: block;">
+        		<a id="login" href="#">登录</a>
+        		<a id="reg" href="#">注册</a>
+        	</div>
+        	<div id="earth">
+        	</div>
+        </div>
+		<div id="navigation">
+        	<ul>
+        		<li class="now" now="true" action="home.html">
+        			首页
+        		</li>
+        		<li action="noticelist.html" now="false">
+        			通知
+        		</li>
+        		<li action="newslist.html" now="false">
+        			新闻
+        		</li>
+        		<li action="college.html" now="false">
+        			院系介绍
+        		</li>
+        		<li action="teacher.html" now="false" class="">
+        			教师介绍
+        		</li>
+        		<li action="scientific.html" now="false">
+        			科研介绍
+        		</li>
+        	</ul>
+        	<div id="search">
+        		<input type="text">
+        	</div>
+        </div>
+	</body>
+
+
+</html>

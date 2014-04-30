@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>用户权限编辑页面</title>
+<link rel="stylesheet" rev="stylesheet" href="$static_server_name/css/admin-style.css" type="text/css" media="all" />
+<style type="text/css">
+<!--
+.atten {font-size:12px;font-weight:normal;color:#F00;}
+-->
+</style>
+</head>
+
+<body>
+<script type="text/javascript">
+	$(document).ready(function(){
+	        $("#name").change(function(){
+	        	clearError("name-error");
+	        });
+	        $("#fullname").change(function(){
+	        	clearError("fullname-error");
+	        });
+			$("#Submit").click(function(){
+				if(checkNotNull()){
+					$("#modifyForm").submit();
+				}
+			});
+		});
+	function clearError(id){
+		$("#" + id).hide("slow");
+	}
+	
+		
+	function checkNotNull(){
+	    var flag = true;
+		if($("#name").val().replace(/\s/g,"") == ""){
+			$("#name-error").text("用户名称不能为空！").show("slow");
+			flag=false;
+		}
+		if($("#fullname").val().replace(/\s/g,"") == ""){
+			$("#fullname-error").text("真实姓名不能为空！").show("slow");
+			flag=false;
+		}
+		return flag;
+	}
+	
+	function allCheck(className,flag){
+		if(flag==true){
+			jQuery("."+className).attr("checked", "checked");
+		}else{
+			jQuery("."+className).removeAttr("checked");
+		}
+    }
+	
+	/**
+     * @param obj 复选框ID
+     * @作用 复选框选择功能
+     */
+    function all_select(obj,className){
+		if(obj.checked){
+			$(obj).attr("checked","checked");
+			allCheck(className,true);
+		}else{
+			$(obj).removeAttr("checked");
+			allCheck(className,false);
+		}
+    }
+	
+	function checkBox(obj,className,id){
+		if(obj.checked){
+			$(obj).attr("checked","checked");
+		}else{
+			$(obj).removeAttr("checked");
+		}
+		var flag = false;
+		$("input."+className).each(function(){
+			if(this.checked){
+				flag=true;
+			}
+		});
+		
+		if(flag==true){
+			$(".p-menu-"+id).attr("checked","checked");
+		}else{
+			$(".p-menu-"+id).removeAttr("checked");
+		}
+    }
+	
+</script>
+  <form id="modifyForm" action="$server_name/admin/user/modify" method="post"  >
+<div class="MainDiv">
+<table width="99%" border="0" cellpadding="0" cellspacing="0" class="CContent">
+  <tr>
+      <th class="tablestyle_title" >用户权限编辑页面</th>
+  </tr>
+  <tr>
+    <td class="CPanel">
+		
+		<table border="0" cellpadding="0" cellspacing="0" style="width:100%">
+		
+
+		<TR>
+			<TD width="100%">
+				<fieldset style="height:100%;">
+				<legend>权限编辑</legend>
+					  <table border="0" cellpadding="2" cellspacing="1" style="width:100%">
+					  <tr>
+					    <td nowrap align="right" width="13%">名称:</td>
+					    <td><input name="name" id="username" class="text" style="width:150px;" type="text" size="64" maxlength="64" value="$!user.getUsername()" readOnly=true/>
+				        <span class="red"> *</span><span id="name-error" style="display:none" class="red"></span></td>
+					    </tr>
+					  <tr>
+					    <td nowrap align="right">真实姓名:</td>
+					    <td><input name="fullname" id="fullname" class="text" size="256" maxlength="256"  style="width:150px;" value="$!user.getFullname()" readOnly=true/><span class="red"> *</span><span id="fullname-error" style="display:none" class="red"></span></td>
+					  </tr>
+					  <tr>
+					    <td nowrap align="right">关联权限:</td>
+					    <td>
+							#set ($menus=$!this.getMenus())
+			  				#if($!menus)
+			  				<fieldset>
+			  				  <table>
+			  				  <tr>
+			    		      #foreach($allmenu in $menus)
+    			    		      #if(($foreach.count - 1) % 4 == 0)
+    			    		      </tr>
+    							  <tr>
+    			    		      #end
+							  	<td>
+									<input type="checkbox" id="p-menu-$allmenu.getId()" class="p-menu-$allmenu.getId()" onclick="all_select(this,'sub-menu-$allmenu.getId()');" #if($!allmenu.getType()!=1)  name="common_menuId" checked disabled #else name="menuIds" #end value="$!allmenu.getId()" 
+										#if($user.getMenuList() && $user.getMenuList().size() > 0 )
+											#foreach($menu in $!user.getMenuList()) 
+												#if($!menu.getId() == $!allmenu.getId())
+													checked 
+												#end 
+											#end 
+										#end >
+										$!allmenu.getName()</input>
+								</td>
+								#set ($subMenus=$!allmenu.subMenus)
+								#if($!subMenus)
+									 #foreach($subMenu in $subMenus)
+										#if(($foreach.count - 1) % 4 == 0)
+            			    		      </tr>
+            							  <tr>
+            			    		      #end
+        							  	<td>
+        									<input class="sub-menu-$allmenu.getId()" onclick="checkBox(this,'sub-menu-$allmenu.getId()',$allmenu.getId());" type="checkbox"  #if($!subMenu.getType()!=1)  name="common_menuId" checked disabled #else name="menuIds" #end value="$!subMenu.getId()" 
+        										#if($user.getMenuList() && $user.getMenuList().size() > 0 )
+        											#foreach($menu in $!user.getMenuList())
+        												#if($!menu.getId() == $!subMenu.getId()) 
+        													checked 
+        												#end 
+        											#end 
+        										#end >
+        										$!subMenu.getName()</input>
+        								</td>
+									 #end
+								#end
+							  #end
+							  </tr>
+					       		</table>
+					       	 </fieldset>
+	          				 #end
+						</td>
+					  </tr>
+					   <input type="hidden" name="id" value="$!user.getId()"/>
+					  </table>
+			 <br />
+				</fieldset>			</TD>
+		</TR>
+		
+		</TABLE>
+	
+	
+	 </td>
+  </tr>
+		<TR>
+			<TD colspan="2" align="center" height="50px">
+			<button id="Submit" class="button">保存</button>
+			
+			<input type="button" name="back" value="返回" class="button" onclick="window.history.go(-1);"/></TD>
+		</TR>
+		</TABLE>
+	
+	
+	 </td>
+  </tr>
+  
+  
+  
+  
+  </table>
+
+</div>
+</form>
+</body>
+</html>

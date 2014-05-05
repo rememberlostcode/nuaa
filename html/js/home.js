@@ -1,7 +1,7 @@
 function getHomeDataFromServer() {
 	/*最新通知*/
 	jQuery.ajax({
-		url: "http://211.149.175.138/nuaa/node/notice/list?rows=5",
+		url: "/nuaa/node/notice/list?rows=5",
 		type: "GET",
 		success: function(data) {
     		setHomeData2PageNotice(data);
@@ -10,7 +10,7 @@ function getHomeDataFromServer() {
      
     /*热点新闻*/
 	jQuery.ajax({
-		url: "http://211.149.175.138/nuaa/node/news/list?rows=25",
+		url: "/nuaa/node/news/list?rows=25",
 		type: "GET",
 		success: function(data) {
     		setHomeData2PageNews(data);
@@ -29,7 +29,7 @@ function getHomeDataFromServer() {
 
     /*学术报告*/
 	jQuery.ajax({
-		url: "http://211.149.175.138/nuaa/node/report/list?rows=5",
+		url: "/nuaa/node/report/list?rows=5",
 		type: "GET",
 		success: function(data) {
 			//var str = '{"notices":[{"id":"54","title":"高维拟线性双曲型方程组具间断始值的柯西问题","user":"陈恕行 院士","loca":"光华东主楼2001","time":"2014-03-21 13:05","action":"#"},{"id":"54","title":"高维拟线性双曲型方程组具间断始值的柯西问题","user":"陈恕行 院士","loca":"光华东主楼2001","time":"2014-03-21 13:05","action":"#"},{"id":"54","title":"高维拟线性双曲型方程组具间断始值的柯西问题","user":"陈恕行 院士","loca":"光华东主楼2001","time":"2014-03-21 13:05","action":"#"}],"currentPage":"1","totalPages":"2"}';

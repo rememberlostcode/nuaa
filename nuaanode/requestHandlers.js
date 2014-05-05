@@ -457,7 +457,7 @@ function reportlist(query,response) {
 					result += ',\"loca\":';
                     result += JSON.stringify(docs[i].address);
                     result += ',\"time\":';
-                    result += JSON.stringify(docs[i].time).substring(0,14).replace('T',' ')+'\"';
+                    result += JSON.stringify(docs[i].time).substring(0,17).replace('T',' ')+'\"';
                     result += ',\"action\":\"\"}';
                     if(i!=docs.length-1){
                         result += ',';

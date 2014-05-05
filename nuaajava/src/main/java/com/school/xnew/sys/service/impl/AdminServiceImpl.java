@@ -135,7 +135,9 @@ public class AdminServiceImpl implements AdminService {
 					for (CoreMenuModel subMenuEntity : subMenuEntities) {
 						// 超级管理员拥有所有菜单权限
 						if (menuIdSet.contains(subMenuEntity.getId())
-								|| (userId != null && userId.equals(-1))) {
+								|| (userId != null && userId.equals(-1))
+								|| (subMenuEntity.getType() != null && subMenuEntity.getType()
+																					.equals('0'))) {
 							CoreMenuModel menuEntityFull = coreMenuDao.getModelById(subMenuEntity.getId());
 							if (menuEntityFull != null) {
 								RtnMenuValue tmpMenu = new RtnMenuValue();

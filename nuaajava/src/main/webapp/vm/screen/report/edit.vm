@@ -1,0 +1,117 @@
+<script type="text/javascript" src="$static_server_name/js/kindeditor/kindeditor-min.js"></script>
+<script src="$!static_server_name/js/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+<script type="text/javascript" src="$static_server_name/js/kindeditor/lang/zh_CN.js"></script>
+<link href="$static_server_name/css/admin-style.css" rel="stylesheet" type="text/css" />
+<table style="margin: auto;">
+	<input type="hidden" id="id" value="$!reportModel.id" />
+	<tr>
+		<td>报告标题：</td>
+		<td><input type="text" id="title" name="title"
+			style="width: 700px;" value="$!reportModel.title" maxlength="50" /></td>
+	</tr>
+	<tr>
+		<td>报 告 人：</td>
+		<td><input type="text" id="author" name="author"
+			style="width: 700px;" value="$!reportModel.author" maxlength="20" />
+		</td>
+	</tr>
+	<tr>
+		<td>报告人所在单位：</td>
+		<td><input type="text" id="institution" name="institution"
+			style="width: 700px;" value="$!reportModel.institution"
+			maxlength="50" /></td>
+	</tr>
+	<tr>
+		<td>报告时间：</td>
+		<td><input type="text" name="time" id="time"
+			value="$!reportModel.time" class="Wdate"
+			onclick="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm'})"
+			readonly="true" /></td>
+	</tr>
+	<tr>
+		<td>报告地点：</td>
+		<td><input type="text" id="address" name="address"
+			style="width: 700px;" value="$!reportModel.address" maxlength="50" />
+		</td>
+	</tr>
+	<tr>
+		<td>报告摘要：</td>
+		<td><textarea id="introduction" name="introduction"
+				style="width: 700px; height: 250px;">$!reportModel.introduction</textarea>
+		</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td>
+			<button type="button" id="qx" style="float: right;"
+				onclick="history.go(-1);">取消</button>
+			<button type="button" name="tijiao" style="float: right;" value="保存"
+				onclick="tjsave()">保存</button>
+		</td>
+	</tr>
+</table>
+<script type="text/javascript">
+	function tjsave() {
+		if (!jQuery('#title').val()) {
+			alert('标题不能为空');
+			return false;
+		}
+		if (jQuery('#title').val().length > 50) {
+			alert('标题长度最多为50个字符');
+			return false;
+		}
+		if (!jQuery('#author').val()) {
+			alert('报告人不能为空');
+			return false;
+		}
+		if (jQuery('#author').val().length > 20) {
+			alert('报告人长度最多为20个字符');
+			return false;
+		}
+		if (!jQuery('#institution').val()) {
+			alert('报告人所在单位不能为空');
+			return false;
+		}
+		if (jQuery('#institution').val().length > 50) {
+			alert('报告人所在单位长度最多为50个字符');
+			return false;
+		}
+		if (!jQuery('#address').val()) {
+			alert('报告地点不能为空');
+			return false;
+		}
+		if (jQuery('#address').val().length > 50) {
+			alert('报告地点长度最多为50个字符');
+			return false;
+		}
+		if (!jQuery('#time').val()) {
+			alert('报告时间不能为空');
+			return false;
+		}
+		if (jQuery('#introduction').val().length > 500) {
+			alert('报告摘要长度最多为500个字符');
+			return false;
+		}
+		if (confirm('确定要发布吗？') == true) {
+			jQuery.post("$server_name/sys/report/save", {
+				id : jQuery('#id').val(),
+				title : jQuery('#title').val(),
+				author : jQuery('#author').val(),
+				institution : jQuery('#institution').val(),
+				time : jQuery('#time').val(),
+				address : jQuery('#address').val(),
+				introduction : jQuery('#introduction').val()
+			}, function(data) {
+				if (data == 1) {
+					alert('保存成功！');
+					window.location = '$server_name/sys/report/list';
+				} else if (data == 2) {
+					alert('操作失败，您未登录！');
+					window.location = '$static_server_name/login.html';
+				} else {
+					alert('操作失败，请稍候重试！');
+				}
+			});
+		}
+	}
+</script>

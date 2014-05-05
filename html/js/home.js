@@ -32,8 +32,8 @@ function getHomeDataFromServer() {
 		url: "http://211.149.175.138/nuaa/node/report/list?rows=5",
 		type: "GET",
 		success: function(data) {
-			var str = '{"notices":[{"id":"54","title":"高维拟线性双曲型方程组具间断始值的柯西问题","user":"陈恕行 院士","loca":"光华东主楼2001","time":"2014-03-21 13:05","action":"#"},{"id":"54","title":"高维拟线性双曲型方程组具间断始值的柯西问题","user":"陈恕行 院士","loca":"光华东主楼2001","time":"2014-03-21 13:05","action":"#"},{"id":"54","title":"高维拟线性双曲型方程组具间断始值的柯西问题","user":"陈恕行 院士","loca":"光华东主楼2001","time":"2014-03-21 13:05","action":"#"}],"currentPage":"1","totalPages":"2"}';
-    		data = $.parseJSON(str);
+			//var str = '{"notices":[{"id":"54","title":"高维拟线性双曲型方程组具间断始值的柯西问题","user":"陈恕行 院士","loca":"光华东主楼2001","time":"2014-03-21 13:05","action":"#"},{"id":"54","title":"高维拟线性双曲型方程组具间断始值的柯西问题","user":"陈恕行 院士","loca":"光华东主楼2001","time":"2014-03-21 13:05","action":"#"},{"id":"54","title":"高维拟线性双曲型方程组具间断始值的柯西问题","user":"陈恕行 院士","loca":"光华东主楼2001","time":"2014-03-21 13:05","action":"#"}],"currentPage":"1","totalPages":"2"}';
+    		//data = $.parseJSON(str);
 			setHomeData2PageReport(data);
         }
     });

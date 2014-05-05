@@ -1,24 +1,23 @@
-function getBaseDataFromServer() {
-	var dataStr = "";
-	$.ajax( {
-		type : "get",
+function getBaseDataFromServer() {	
+	jQuery.ajax( {
+		type : "GET",
 		url : "http://211.149.175.138/nuaa/nanhang/menus.json",
 		beforeSend : function(XMLHttpRequest) {
 		},
 		success : function(result) {
-			setBaseData2Page(result.data);
+			var dataStr = "";
+			//dataStr = '{"user":{"id":-1,"name":"超级管理员"},"menus":[{"id":1,"name":"首页","now":false,"action":"/nuaa/home.html","subMenus":null},{"id":2,"name":"通知","now":false,"action":"/nuaa/noticelist.html","subMenus":null},{"id":3,"name":"新闻","now":false,"action":"/nuaa/newslist.html","subMenus":null},{"id":4,"name":"院系介绍","now":false,"action":"/nuaa/college.html","subMenus":null},{"id":5,"name":"教师介绍","now":false,"action":"/nuaa/teacher.html","subMenus":null},{"id":6,"name":"科研介绍","now":false,"action":"/nuaa/scientific.html","subMenus":null},{"id":7,"name":"系统管理","now":false,"action":null,"subMenus":[{"id":8,"name":"用户管理","now":false,"action":"/nuaa/nanhang/admin/listUsers","subMenus":null},{"id":9,"name":"新闻发布","now":false,"action":"/nuaa/nanhang/sys/news/list","subMenus":null},{"id":10,"name":"通知管理","now":false,"action":"/nuaa/nanhang/sys/news/listNotice","subMenus":null},{"id":11,"name":"用户审核","now":false,"action":"/nuaa/nanhang/user/listCheckUser","subMenus":null},{"id":13,"name":"报告管理","now":false,"action":"/nuaa/nanhang/sys/report/list","subMenus":null}]}]}';			
+			dataStr = result.data;
+			setBaseData2Page(dataStr);
 		},
 		complete : function(XMLHttpRequest, textStatus) {
 		},
 		error : function() {
 		}
 	});
-	//dataStr = "{\"user\":null,\"menus\":[{\"id\":\"1\",\"name\":\"首页\",\"now\":\"true\",\"action\":\"home.html\"},{\"id\":\"2\",\"name\":\"通知\",\"now\":\"false\",\"action\":\"noticelist.html\"},{\"id\":\"3\",\"name\":\"新闻\",\"now\":\"false\",\"action\":\"newslist.html\"},{\"id\":\"4\",\"name\":\"院系介绍\",\"now\":\"false\",\"action\":\"college.html\"},{\"id\":\"5\",\"name\":\"教师介绍\",\"now\":\"false\",\"action\":\"teacher.html\"},{\"id\":\"6\",\"name\":\"科研介绍\",\"now\":\"false\",\"action\":\"scientific.html\"},{\"id\":\"7\",\"name\":\"系统管理\",\"now\":\"false\",\"action\":\"\",\"subMenus\":[{\"id\":\"8\",\"name\":\"菜单管理\",\"now\":\"false\",\"action\":\"\"},{\"id\":\"9\",\"name\":\"用户管理\",\"now\":\"false\",\"action\":\"\"}]}]}";	
-	return dataStr;
 }
 function setBaseData2Page(dataStr) {
 	try {
-		//var dataStr = getBaseDataFromServer();
 		var dataObj = $.parseJSON(dataStr);
 		if (dataObj.user == null) {
 			$("#head #login_reg").css("display", "block");
@@ -32,10 +31,12 @@ function setBaseData2Page(dataStr) {
 		}
 		var menus = dataObj.menus;
 		if (menus != null) {
-			$("#navigation").append($("<ul />"));
+			var ulFirst = $("<ul />");
+			ulFirst.attr("layer","1");
+			$("#navigation").append(ulFirst);
 			for ( var key in menus) {
 				var menu = menus[key];
-				$("#navigation ul").append(geneLi(menu,1));
+				$("#navigation ul[layer=1]").append(geneLi(menu,1));
 			}
 		} else {
 
@@ -59,8 +60,9 @@ function setBaseData2Page(dataStr) {
 		}
 	});
 		
-		$("#navigation").append(search);
+		$("#head").append(search);
 		/*搜索框 end*/
+		setNavigationNow();
 	} catch (e) {
 		// alert("e:"+e.message);
 	}
@@ -175,7 +177,12 @@ function setNavigationNow() {
 	var hrefNow = window.location.href;
 	var x = hrefNow.lastIndexOf("/") + 1;
 	var y = hrefNow.lastIndexOf(".");
-	var r = hrefNow.substring(x, y);
+	var r ;
+	if(x < y){
+		r = hrefNow.substring(x, y);
+	}else{
+		r = "home";
+	}
 	$("#navigation ul li").each(function(index) {
 		var action = $(this).attr("action");
 		$(this).removeClass("now");
@@ -194,7 +201,7 @@ function setNavigationNow() {
 function geneBaseHtml(){
 	var headHtml = '';
 	headHtml += '<div id="head">';
-	headHtml += '	<div class="logo"></div>';
+	headHtml += '	<a class="logo" href="/nuaa/home.html"></a>';
 	headHtml += '	<div id="welcome">';
 	headHtml += '		<span id="date_uname"></span>';
 	headHtml += '		<a href="#" id="logout">退出</a>';
@@ -213,7 +220,7 @@ function geneBaseHtml(){
 	
 	var foot = $("<div />");
 	foot.attr("id","foot");	
-	foot.addClass("bottomcut");
+	/*foot.addClass("bottomcut");*/
 	
 	var left = $("<div />");
 	left.attr("id","left");	
@@ -239,13 +246,13 @@ function geneBaseHtml(){
 	content.before(head);
 	content.before(navigation);
 	//由于foot是固定在浏览器上的，有可能盖住下面的内容，所有添加一个空白的div
-	var kongbai = $("<div />");
+	/*var kongbai = $("<div />");
 	if($('#home').html()){
 		kongbai.css("height","300px");	
 	} else{
 		kongbai.css("height","50px");	
 	}
-	content.after(kongbai);
+	content.after(kongbai);*/
 	content.after(foot);
 }
 
@@ -254,7 +261,6 @@ jQuery(document).ready(function() {
 	getBaseDataFromServer();
 	setFootData2Page();
 	headClickDeal();
-	setNavigationNow();
 	
 	$("#searchInputText").keydown(function(e){
 		var curKey = e.which; 
@@ -264,7 +270,7 @@ jQuery(document).ready(function() {
 		} 
 	}); 
 			
-	setFootInBottom();
+	/*setFootInBottom();*/
 });
 
 /**
@@ -302,4 +308,57 @@ function getQueryString(name) {
 
 function clickDetail(obj){
 	window.location.href = "news.html?id="+obj.id;
+}
+
+/*字符串to日期*/
+function string2Date(temp){
+	temp = temp.replace(/-/g, "/"); 
+	var date = new Date(Date.parse(temp)); 
+	return date; 
+}
+
+/*格式化日期*/
+function formatDate(dateObj,formator) { 
+	var returnText = formator.toUpperCase(); 
+	if (returnText.indexOf("YYYY") > -1){ 
+	    returnText = returnText.replace("YYYY", dateObj.getFullYear()); 
+	} 
+	if (returnText.indexOf("MM") > -1){ 
+		var mm = dateObj.getMonth() + 1;
+		if(mm >= 1 && mm <= 9){
+			mm = "0" + mm;
+		}
+	    returnText = returnText.replace("MM", mm); 
+	} 
+
+	if (returnText.indexOf("DD") > -1){ 
+	    returnText = returnText.replace("DD", dateObj.getDate()); 
+	} 
+
+	if (returnText.indexOf("HH") > -1){ 
+	    returnText = returnText.replace("HH", dateObj.getHours()); 
+	} 
+
+	if (returnText.indexOf("MI") > -1){ 
+		var mi = dateObj.getMinutes();
+		if(mi >= 1 && mi <= 9){
+			mi = "0" + mi;
+		}
+	    returnText = returnText.replace("MI", mi); 
+	} 
+
+	if (returnText.indexOf("SS") > -1){ 
+	    returnText = returnText.replace("SS", dateObj.getSeconds()); 
+	} 
+
+	if (returnText.indexOf("SI") > -1){ 
+	    returnText = returnText.replace("SI", dateObj.getMilliseconds()); 
+	} 
+	return returnText; 
+}
+/*获取星期*/
+function getWeek(dateObj) { 
+	var weeks = ["日","一","二","三","四","五","六"];
+    var week = dateObj.getDay();
+	return "星期" + weeks[week];
 }

@@ -23,7 +23,7 @@ body {
 	background-repeat: repeat-x;
 	font-family: "Microsoft YaHei";
 	color: #125E72;
-	min-width:994px;
+	/*min-width:994px;*/
 }
 #wrap{
 	min-height:582px;
@@ -51,7 +51,7 @@ body {
 #head #welcome,#head #login_reg {
 	display: none;
 	float: right;
-	padding: 10px 50px;
+	padding: 0 24px;
 }
 
 #head #welcome a {
@@ -97,9 +97,10 @@ body {
 	float: left;
 	height: 40px;
 	line-height: 40px;
-	padding: 0 20px;
+	padding: 0 10px;
 	position: relative;
     width: auto;
+    font-size: 14px;
 }
 
 #navigation .childs {
@@ -112,21 +113,23 @@ body {
 
 #navigation .childs li {
 	float: none;
-	background-color: #004A6E;
+	background-color: #4388a7;
 }
 
 #navigation .childs li:hover {
-	background-color: #4388a7;
+	background-color: #004A6E;
 }
 
 #search {
 	float: right;
 	width: 160px;
-	height: 100%;
+	height: 40px;
 	background-image: url(image/search_bg.png);
 	background-repeat: no-repeat;
 	background-position: left center;
-	margin: 0 90px 0 0;
+	position: absolute;
+    right: 40px;
+    top: 34px;
 }
 
 #search :hover {
@@ -156,23 +159,22 @@ body {
 }
 
 #main {
-	width: 994px;
+	width: 999px;
 	margin: 0 auto;
-	padding: 0 20px;
 	min-height: 200px;
 }
 
 #main #left {
 	float: left;
-	width: 50px;
+	width: 7px;
 	min-height: 470px;
 	background-image: url(image/shadow_left.png);
 	background-repeat: no-repeat;
 }
 
-#main #right {
+#main .right {
 	float: left;
-	width: 50px;
+	width: 7px;
 	min-height: 470px;
 	background-image: url(image/shadow_right.png);
 	background-repeat: no-repeat;
@@ -180,7 +182,7 @@ body {
 
 #main #content {
 	float: left;
-	width: 854px;
+	width: 945px;
 	min-height: 448px;
 	background-color: #f5fcf0;
 	padding: 20px 20px 0;
@@ -188,6 +190,7 @@ body {
 
 #main #content #location {
 	color: #5a94ac;
+	margin: 0 0 30px;
 }
 
 #main #content #list {
@@ -302,7 +305,7 @@ body {
 }
 
 #home {
-	width: 969px;
+	width: 985px;
 	margin: 0 auto;
 	padding: 10px 0px;
 	min-height: 200px;
@@ -310,37 +313,164 @@ body {
 
 #home #logo {
 	float: left;
-	width: 335px;
+	/*width: 335px;
 	height: 451px;
 	background-image: url(image/home_logo.png);
-	background-repeat: no-repeat;
+	background-repeat: no-repeat;*/
+	background-color: #FFFFFF;
+	border: 1px solid #DDDDDD;
+	padding: 4px;
+    width: 386px;
 }
 
 #home #center {
 	float: left;
-	width: 44px;
+	/*width: 44px;
 	height: 451px;
 	background-image: url(image/dot_v.png);
 	background-repeat: repeat-y;
-	background-position: center top;
+	background-position: center top;*/
+    width: 306px;
+
+	color: #14466E;
+    line-height: 24px;
+    padding: 10px 5px 0;
+	background-color: #EEEEEE;
+    border: 1px solid #DDDDDD;
+	margin: 0 10px 0 0;
+	font-size: 12px;
+	min-height: 263px;
 }
 
-#home #right {
+#home .right {
 	float: left;
 	color: #125e72;
-	width: 590px;
+	/*width: 590px;*/
 }
 
-#home #right .title {
-	background-image: url(image/vline.png);
+#home .right #notice,#home .right #hotnews{
+    
+}
+#home .right .time{
+    color:#bbbbbb;
+}
+#home .right .title {
 	background-repeat: no-repeat;
-	background-position: left center;
+	background-position: 8px center;
 	text-indent: 10px;
-	font-size: 24px;
+	font-size: 14px;
 	font-weight: bold;
+	padding: 8px 8px 8px 28px;
+}
+#home .right #notice .title {
+	background-image: url(image/notice_bg.png);
+	background-color: #337e9f;
+	color: #ffffff;
+}
+#home .right #rellinks .title {
+	background-image: url(image/rellinks_bg.png);
+	color: #125E72;
+}
+#home .right #report .title {
+	background-image: url(image/report_bg.png);
+	background-color: #ffffff;
+	color: #125E72;
+}
+#home .right #hotnews .title {
+	background-image: url(image/hotnews_bg.png);
+	background-color: #ffffff;
+	color: #125E72;
+}
+#home .right #meeting .title {
+	background-image: url(image/meeting_bg.png);
+	background-color: #ffffff;
+	color: #125E72;
 }
 
-#home #right .doth {
+#home .right #notice .list{
+    border-bottom: 1px solid #DEDEDE;
+    border-left: 1px solid #DEDEDE;
+    border-right: 1px solid #DEDEDE;
+	background-color: #ffffff;
+}
+#home .right #rellinks{
+    margin:0 10px 0 0;
+}
+#home .right #rellinks .list {
+    width: 188px;
+	padding: 8px 0 8px 24px;
+	height: auto;
+}
+#home .right #rellinks .imglist {
+    /*width: 212px;*/
+}
+#home .right #rellinks .imglist img{
+    width: 36px;
+}
+#home .right #report{
+    margin:0 10px 0 0;
+    border: 1px solid #DEDEDE;
+	background-color: #ffffff;
+}
+#home .right #report .list{
+    width: 466px;
+	height: auto;
+}
+#home .right #report .list li{
+    list-style:none;
+}
+#home .right #report .list .one{
+    float:left;
+	background-image: url(image/time_bg.png);
+	background-repeat:no-repeat;
+	width:61px;
+	height:61px;
+	color: #FFFFFF;
+	margin: 0 10px 0 0;
+    text-align: center;
+}
+#home .right #report .list .one .yearmonth{
+    font-size: 12px;
+    line-height: 20px;
+}
+#home .right #report .list .one .day{
+    font-size: 24px;
+}
+#home .right #report .list .one .week{
+    font-size: 10px;
+}
+#home .right #report .list .two{
+    float:left;
+	width: 370px;
+}
+#home .right #report .list .two span.bold{
+    font-weight:bold;
+}
+#home .right #hotnews{
+    border: 1px solid #DEDEDE;
+	background-color: #ffffff;
+}
+#home .right #hotnews .list{
+    overflow: hidden;
+	list-style:none;
+}
+#marqueediv_hotnews{
+    height:366px; 
+	overflow:hidden;
+}
+#home .right #meeting{
+	margin:  10px 0 0;
+    border: 1px solid #DEDEDE;
+	background-color: #ffffff;
+}
+#home .right #meeting .list{
+	list-style:none;
+	height: auto;
+	margin: 0;
+}
+
+
+#home .right .doth {
 	width: 100%;
 	height: 10px;
 	background-image: url(image/dot_h.png);
@@ -348,39 +478,40 @@ body {
 	background-position: left center;
 }
 
-#home #right .list li {
-	cursor: pointer;
+#home .right .list li {
 	margin: 0 0 10px 0;
+	font-size: 12px;
 }
 
-#home #right .list li:hover {
+#home .right #notice .list li:hover,#home .right #hotnews .list li:hover,#home .right #meeting .list li:hover,#home #report .list a:hover, {
 	color: #0d3470;
-}
-
-#home #right .list {
-	min-width: 463px;
-	min-height: 147px;
-	padding: 4px 100px 4px 14px;
-	background-repeat: no-repeat;
-	background-position: right bottom;
-}
-
-#home #right #notice .list {
-	background-image: url(image/notice_bg.png);
-}
-
-#home #right #hotnews .list {
-	background-image: url(image/hotnews_bg.png);
-}
-
-#home #right .more {
 	cursor: pointer;
-	width: 100%;
-	text-align: right;
 }
 
-#home #right .more:hover {
-	color: #0d3470;
+#home .right .list {
+	/*min-width: 463px;
+	min-height: 147px;*/
+	/*background-repeat: no-repeat;
+	background-position: right bottom;*/
+
+	overflow: auto;
+	width: 235px;
+    height: 248px;
+    padding: 8px 12px;
+	margin: 0 0 10px;
+}
+
+#home .right .more {
+	cursor: pointer;
+	text-align: right;
+	float: right;
+	font-size: 12px;
+    font-weight: normal;
+    line-height: 19px;
+}
+
+#home .right .more:hover {
+	text-decoration:underline;
 }
 
 #list {
@@ -467,8 +598,8 @@ body {
 }
 
 #earth {
-	width: 64px;
-	height: 156px;
+	width: 43px;
+	height: 106px;
 	position: absolute;
 	right: 0;
 	top: 30px;
@@ -494,7 +625,7 @@ body {
 
 a:link {color: #5a94ac;}               /* δ�����ʵ�����*/
 a:visited {color: #5a94ac;}            /* �ѱ����ʹ������ */
-a:hover {color: blue;}            /* ��������ϵ�����*/
+a:hover {color: blue;cursor: pointer;}            /* ��������ϵ�����*/
 a:active {color: blue;}
 
 .gradualBlue,.gradualOrange,.gradualRed,.gradualGray {
@@ -544,4 +675,41 @@ a:active {color: blue;}
 	background: #bbbbbb; 
 	background: -moz-linear-gradient(top, #dddddd, #bbbbbb);
 	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#dddddd),to(#bbbbbb));
+}
+
+#main .twocolumnleft {
+    width: 200px;
+    float: left;
+    margin: 35px 0 0;
+}
+#main .twocolumnleft li{
+    list-style:none;
+}
+
+#main .twocolumnleft li div:hover{
+    cursor: pointer;
+    text-decoration:underline;
+}
+
+#main .twocolumnleft li.first div{
+	background-color:#ffffff;
+    margin:0 5px 5px 0;
+    padding: 5px;
+    border-left:1px solid #DEDEDE;
+    border-top:1px solid #DEDEDE;
+    border-bottom:1px solid #DEDEDE;
+}
+#main .twocolumnleft li.second div{
+	background-color:#ffffff;
+    margin: 0 5px 5px 20px;
+    border-left:1px solid #DEDEDE;
+    border-top:1px solid #DEDEDE;
+    border-bottom:1px solid #DEDEDE;
+}
+#main #content.twocolumnright {
+    width: 745px;
+}
+#main .twocolumnleft li div.now{
+    background-color: #72a7ba;
+    color: #FFFFFF;
 }

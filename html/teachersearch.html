@@ -1,0 +1,299 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="stylesheet" type="text/css" href="css/base.css" />
+		<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+		<script type="text/javascript" src="js/jquery.json-2.3.min.js"></script>
+		<script type="text/javascript" src="js/base.js"></script>
+		<script type="text/javascript" src="js/teachersearch.js"></script>
+		<style>		
+		#main #content #list li {
+    	    clear: none;
+		}
+		li.teacher_each{
+			float: left;
+    		height: 120px;
+    	    width: 456px;
+    	    color:#000000;
+		}
+		li.teacher_each img{
+			border: 1px solid #DEE8F0;
+    		float: left;
+    		margin-right: 20px;
+    		padding: 4px;
+    		width:auto;
+    		height:110px;
+		}
+		#list li.teacher_each li{
+			float: none;
+    		height: 20px;
+    		line-height: 20px;
+    		white-space: nowrap;
+    		width: auto;
+    		margin-right:20px;
+    		margin-bottom:0;
+    		font-size:12px;
+		}	
+		.searchNav{
+		    clear: both;
+		    height:50px;
+		    padding: 0 0 0 2em;
+		}
+		.searchNav div.notes{
+		    font-weight:bold;
+    	    color:#000000;
+		}	
+		.searchNav div.notes:hover{
+		    cursor:auto;
+    	    text-decoration:none;
+		}
+		.searchNav div{
+		    float:left;
+		    margin: 5px 0;
+    	    padding: 5px;
+    	    color:#036BC5;
+		}			
+		.searchNav div:hover{		
+    	    cursor:pointer;
+    	    text-decoration:underline;
+		}
+		.searchNav span{
+		    display:block;
+		    float:left;
+		    margin:8px 0 12px 0;
+    	    color:#000000;
+		}
+		.searchNav .selected{
+		    background-color:#036BC5;
+    	    color:#ffffff;
+		}
+		</style>
+	</head>
+	<body>
+		<div id="main">
+			<div id="content">
+				<div id="location">
+					您所在的位置:
+					<a href="/nuaa">首页</a> > 教师介绍
+				</div>
+				<div id="searchByZC" class="searchNav">
+				    <div class="notes">职称：</div>
+				    <div class="selected" val="all">全部</div>
+				    <div val="jiaoShou">教授</div>
+				    <div val="fuJiaoShou">副教授</div>
+				    <div val="jiangShi">讲师</div>
+				</div>
+				<div id="searchByZY" class="searchNav">
+				    <div class="notes">研究专业：</div>
+				    <div class="selected" val="all">全部</div>
+				    <div val="jiChuShuXue">基础数学</div>
+				    <div val="yingYongShuXue">应用数学</div>
+				    <div val="jiSuanShuXue">计算数学</div>
+				    <div val="yunChouXue">运筹学</div>
+				    <div val="gaiLvLun">概率论</div>
+				</div>
+				<div id="searchByZM" class="searchNav">
+				    <div class="notes">姓名首字母：</div>
+				    <div class="selected" val="all">全部</div>
+				    <div val="A">A</div>
+				    <span>-</span>
+				    <div val="B">B</div>
+				    <span>-</span>
+				    <div val="C">C</div>
+				    <span>-</span>
+				    <div val="D">D</div>
+				    <span>-</span>
+				    <div val="E">E</div>
+				    <span>-</span>
+				    <div val="F">F</div>
+				    <span>-</span>
+				    <div val="G">G</div>
+				    <span>-</span>
+				    <div val="H">H</div>
+				    <span>-</span>
+				    <div val="I">I</div>
+				    <span>-</span>
+				    <div val="J">J</div>
+				    <span>-</span>
+				    <div val="K">K</div>
+				    <span>-</span>
+				    <div val="L">L</div>
+				    <span>-</span>
+				    <div val="M">M</div>
+				    <span>-</span>
+				    <div val="N">N</div>
+				    <span>-</span>
+				    <div val="O">O</div>
+				    <span>-</span>
+				    <div val="P">P</div>
+				    <span>-</span>
+				    <div val="Q">Q</div>
+				    <span>-</span>
+				    <div val="R">R</div>
+				    <span>-</span>
+				    <div val="S">S</div>
+				    <span>-</span>
+				    <div val="T">T</div>
+				    <span>-</span>
+				    <div val="U">U</div>
+				    <span>-</span>
+				    <div val="V">V</div>
+				    <span>-</span>
+				    <div val="W">W</div>
+				    <span>-</span>
+				    <div val="X">X</div>
+				    <span>-</span>
+				    <div val="Y">Y</div>
+				    <span>-</span>
+				    <div val="Z">Z</div>
+				</div>
+				<ul id="list" class="stylenone">
+					<li class="teacher_each" zc="jiangShi" zy="yingYongShuXue" zm="A">
+						<img src="teacher/anyk.png">
+						<ul>
+							<li>
+								姓 名：安玉坤
+							</li>
+							<li>
+								英文名：
+							</li>
+							<li>
+								职称：
+							</li>
+							<li>
+								办公室：
+							</li>
+							<li>
+								办公电话：
+							</li>
+							<li>
+								E-mail：
+							</li>
+						</ul>
+					</li>
+					<li class="teacher_each" zc="jiaoShou" zy="gaiLvLun" zm="D">
+						<img src="teacher/daih.png">
+						<ul>
+							<li>
+								姓 名：戴华
+							</li>
+							<li>
+								英文名：
+							</li>
+							<li>
+								职称：
+							</li>
+							<li>
+								办公室：
+							</li>
+							<li>
+								办公电话：
+							</li>
+							<li>
+								E-mail：
+							</li>
+						</ul>
+					</li>
+					<li class="teacher_each" zc="jiaoShou" zy="jiSuanShuXue" zm="G">
+						<img src="teacher/guzm.png">
+						<ul>
+							<li>
+								姓 名：古志鸣
+							</li>
+							<li>
+								英文名：
+							</li>
+							<li>
+								职称：
+							</li>
+							<li>
+								办公室：
+							</li>
+							<li>
+								办公电话：
+							</li>
+							<li>
+								E-mail：
+							</li>
+						</ul>
+					</li>
+					<li class="teacher_each" zc="fuJiaoShou" zy="yunChouXue" zm="L">
+						<img src="teacher/lipt.png">
+						<ul>
+							<li>
+								姓 名：李鹏同
+							</li>
+							<li>
+								英文名：
+							</li>
+							<li>
+								职称：
+							</li>
+							<li>
+								办公室：
+							</li>
+							<li>
+								办公电话：
+							</li>
+							<li>
+								E-mail：
+							</li>
+						</ul>
+					</li>
+					<li class="teacher_each" zc="jiangShi" zy="yingYongShuXue" zm="Z">
+						<img src="teacher/zhanglm.png">
+						<ul>
+							<li>
+								姓 名：张鲁明
+							</li>
+							<li>
+								英文名：
+							</li>
+							<li>
+								职称：
+							</li>
+							<li>
+								办公室：
+							</li>
+							<li>
+								办公电话：
+							</li>
+							<li>
+								E-mail：
+							</li>
+						</ul>
+					</li>
+					<li class="teacher_each" zc="fuJiaoShou" zy="jiChuShuXue" zm="Z">
+						<img src="teacher/zhaohy.png">
+						<ul>
+							<li>
+								姓 名：赵洪涌
+							</li>
+							<li>
+								英文名：
+							</li>
+							<li>
+								职称：
+							</li>
+							<li>
+								办公室：
+							</li>
+							<li>
+								办公电话：
+							</li>
+							<li>
+								E-mail：
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<div id="nodata" style="text-align: center;display:none;">
+				    暂无数据
+				</div>
+			</div>
+		</div>
+
+	</body>
+
+</html>

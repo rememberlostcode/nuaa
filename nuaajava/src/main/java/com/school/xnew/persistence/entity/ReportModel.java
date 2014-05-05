@@ -1,6 +1,8 @@
 
 package com.school.xnew.persistence.entity;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 /**
  * 报告
  * 
@@ -16,20 +18,29 @@ public class ReportModel {
 	private String	time;			// 报告日期
 	private String	address;		// 报告地点
 	private String	introduction;	// 报告摘要
+	private Integer	serial_number;	// 本年度学院报告总序号
 
+	@JsonIgnore
 	private String	create_time;	// 创建时间
+	@JsonIgnore
 	private Integer	creater_id;	// 创建人
 	private String	creater_name;	// 创建人名字
 
 	private String	modify_time;	// 最后修改时间
 	private Integer	modify_user_id; // 最后修改人
 
+	@JsonIgnore
 	private String	delete_time;
+	@JsonIgnore
 	private Integer	delete_user_id;
+	@JsonIgnore
 	private String	isDel	= "0";
 
+	@JsonIgnore
 	private String	beginDate;
+	@JsonIgnore
 	private String	endDate;
+	@JsonIgnore
 	private String	ids;			// id字符串
 
 	public Integer getId() {
@@ -174,5 +185,13 @@ public class ReportModel {
 
 	public void setIds(String ids) {
 		this.ids = ids;
+	}
+
+	public Integer getSerial_number() {
+		return serial_number;
+	}
+
+	public void setSerial_number(Integer serial_number) {
+		this.serial_number = serial_number;
 	}
 }

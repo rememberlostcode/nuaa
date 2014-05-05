@@ -64,7 +64,7 @@ public class AccountServiceImpl implements AccountService {
 			}
 			return loginUser.getId();
 		} else {
-			throw new BusinessException(0);
+			return null;
 		}
 	}
 

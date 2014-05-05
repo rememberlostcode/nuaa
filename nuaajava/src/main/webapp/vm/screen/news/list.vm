@@ -96,7 +96,8 @@
 	</script>
 #end
 <script>
-	jQuery("#tabGrid").navGrid("#pager", { edit: false, add: true, del: false, search: false, refresh: false })
+	jQuery(document).ready(function(){
+		jQuery("#tabGrid").navGrid("#pager", { edit: false, add: true, del: false, search: false, refresh: false })
 			.navButtonAdd('#pager',{  
 				caption:"添加",   
 				buttonicon:"ui-icon-add",   
@@ -105,6 +106,7 @@
 				},   
 				position:"last"  
 			});
+	});
 	function addNews(){
 		window.location = '$server_name/sys/news/edit?type=$!type';
 	}

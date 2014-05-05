@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.school.xnew.persistence.dao.ReportDao">
+	<insert id="insert" parameterType="ReportModel">
+		insert into core_report(title,author,institution,time,address,create_time,creater_id,modify_time,modify_user_id
+			<if test="introduction != null and introduction != ''">
+    			,introduction
+    		</if>
+    		,serial_number) 
+		values(#{title},#{author},#{institution},#{time},#{address},#{create_time},#{creater_id},#{modify_time},#{modify_user_id}
+    		<if test="introduction != null and introduction != ''">
+    			,#{introduction}
+    		</if>
+    		,(select if(max(r.serial_number) is NULL,0,max(r.serial_number) )+1  from core_report r  where r.create_time>=#{beginDate} and r.create_time&lt;#{endDate}))
+    	<selectKey resultType="int" keyProperty="id">
+            <![CDATA[SELECT LAST_INSERT_ID() AS id ]]>
+        </selectKey>
+	</insert>
+    <select id="findAllReports" resultType="ReportModel" parameterType="ReportModel">
+        select t.id,t.title,serial_number,date_format(t.time, '%Y-%m-%d %H:%i') time,t.author,t.institution,date_format(t.modify_time, '%Y-%m-%d %H:%i:%s') modify_time,t.modify_user_id,u.fullname creater_name from core_report t,core_user u where t.modify_user_id=u.id and t.is_delete=0 
+        	<if test="title != null and title != ''">
+    			and t.title like CONCAT('%',#{title},'%') 
+    		</if>
+    		<if test="creater_name != null and creater_name != ''">
+    			and u.fullname like CONCAT('%',#{creater_name},'%') 
+    		</if>
+    		<if test="beginDate != null and beginDate != ''">
+    			and t.time >= #{beginDate} 
+    		</if>
+    		<if test="endDate != null and endDate != ''">
+    			and t.time &lt;= #{endDate} 
+    		</if>
+        order by t.time desc
+    </select>
+    
+    <select id="getModelById" parameterType="Integer" resultType="ReportModel">
+      select t.id,t.title,t.author,t.institution,address,introduction,date_format(t.time, '%Y-%m-%d %H:%i') time,serial_number from core_report t
+      where t.id = #{id}
+    </select>
+    
+    <!-- 修改信息 -->
+    <update id="update" parameterType="ReportModel">
+    	update core_report set title = #{title} 
+    		<if test="author != null and author != ''">
+    			,author = #{author}
+    		</if>
+    		<if test="institution != null and institution != ''">
+    			,institution = #{institution}
+    		</if>
+    		<if test="time != null and time != ''">
+    			,time = #{time}
+    		</if>
+    		<if test="address != null and address != ''">
+    			,address = #{address}
+    		</if>
+    		<if test="introduction != null and introduction != ''">
+    			,introduction = #{introduction}
+    		</if>
+    		<if test="modify_time != null and modify_time != ''">
+    			,modify_time = #{modify_time}
+    		</if>
+    		<if test="modify_user_id != null and modify_user_id != ''">
+    			,modify_user_id = #{modify_user_id}
+    		</if>
+    		where id=#{id}
+    </update>
+    
+    <delete id="delete" parameterType="ReportModel">
+		update core_report set is_delete=1,delete_user_id=#{creater_id},delete_time=#{delete_time} where id = #{id}
+    </delete>
+    
+    <select id="getCountOfAll" resultType="Integer">
+		select count(1) count from core_report t where t.is_delete=0
+    </select>
+    
+    <select id="findAll" parameterType="PageModel" resultType="ReportModel">
+		select t.id,t.title,t.author,t.institution,address,serial_number,introduction,date_format(t.time, '%Y-%m-%d %H:%i:%s') time,t.modify_user_id,u.fullname creater_name from core_report t,core_user u where t.modify_user_id=u.id and t.is_delete=0 limit #{start},#{num}
+    </select>
+    
+</mapper>

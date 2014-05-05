@@ -111,7 +111,8 @@ function geneLi(menu,layer){
 			}	
 		}
 	});
-	if(menu.subMenus != null){
+	//alert(menu.subMenus != null && menu.subMenus != '');
+	if(menu.subMenus != null && menu.subMenus != ''){
 	  var ul_child = $("<ul />");
 	  ul_child.addClass("childs");
 	  ul_child.css("display","none");
@@ -135,7 +136,7 @@ function geneLi(menu,layer){
 			  });
 			  $("#navigation ul li[layer='1'][now='true']").addClass("now");
 		  }
-	  ); 
+	  );
 	  li.attr("childs", "true");
 	  li.append(ul_child);
 	}else{

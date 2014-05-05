@@ -14,6 +14,7 @@
 		<property name="maxUploadSize" value="10240000" />
 	</bean>
 	<bean id="newsService" class="com.school.xnew.sys.service.impl.NewsServiceImpl"></bean>
+	<bean id="reportService" class="com.school.xnew.sys.service.impl.ReportServiceImpl"></bean>
 	<bean id="cacheRepository" class="com.school.xnew.redis.impl.RCacheRepository"></bean>
 	<bean name="buildTask" class="org.springframework.scheduling.quartz.JobDetailBean">
 		<property name="jobClass" value="com.school.xnew.redis.build.AllBuild" />
@@ -21,6 +22,7 @@
 			<map>
 				<entry key="timeout" value="5" />
 				<entry key="newsService" value-ref="newsService" />
+				<entry key="reportService" value-ref="reportService" />
 				<entry key="cacheRepository" value-ref="cacheRepository" />
 				<entry key="server_url" value="${new.admin.solr.url}" />
 			</map>
@@ -48,6 +50,9 @@
 			<map>
 				<entry key="com.school.xnew.persistence.entity.NewsModel">
 					<value>news</value>
+				</entry>
+				<entry key="com.school.xnew.persistence.entity.ReportModel">
+					<value>report</value>
 				</entry>
 			</map>
 		</constructor-arg>

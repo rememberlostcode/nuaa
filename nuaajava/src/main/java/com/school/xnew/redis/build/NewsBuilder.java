@@ -21,19 +21,20 @@ import com.school.xnew.sys.util.UrlUtil;
 public class NewsBuilder implements Builder {
 	private CacheRepository	cacheRepository;
 	private NewsService		newsService;
-	private String server_url;
+	private String			server_url;
 
-	public NewsBuilder(NewsService newsService,CacheRepository	cacheRepository,String server_url){
+	public NewsBuilder(NewsService newsService, CacheRepository cacheRepository, String server_url) {
 		this.newsService = newsService;
 		this.cacheRepository = cacheRepository;
 		this.server_url = server_url;
 	}
+
 	@Override
 	public void build() {
 		System.out.println("定时器开始....");
-		
+
 		try {
-		
+
 			System.out.println("redis start....");
 			int maxIdCount = newsService.getCountOfAll();
 			// 500条数据查询一次并插入数据库
@@ -51,11 +52,11 @@ public class NewsBuilder implements Builder {
 				thisNum += resultSize;
 			}
 			System.out.println("redis end");
-			
+
 			System.out.println("solr start...");
-			UrlUtil.sendGet(server_url+"/solr/collection1/dataimport?full-import&commit=y&clean=y");
+			UrlUtil.sendGet(server_url + "/solr/nuaa_news/dataimport?full-import&commit=y&clean=y");
 			System.out.println("solr end");
-		
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

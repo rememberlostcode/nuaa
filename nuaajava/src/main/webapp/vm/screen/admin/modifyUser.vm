@@ -138,7 +138,7 @@
 										$!allmenu.getName()</input>
 								</td>
 								#set ($subMenus=$!allmenu.subMenus)
-								#if($!subMenus)
+								#if($!subMenus && $!subMenus!="")
 									 #foreach($subMenu in $subMenus)
 										#if(($foreach.count - 1) % 4 == 0)
             			    		      </tr>
@@ -157,6 +157,7 @@
         								</td>
 									 #end
 								#end
+								#set ($subMenus="")
 							  #end
 							  </tr>
 					       		</table>

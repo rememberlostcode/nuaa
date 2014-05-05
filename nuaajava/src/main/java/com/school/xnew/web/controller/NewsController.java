@@ -1,7 +1,6 @@
 
 package com.school.xnew.web.controller;
 
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -28,35 +27,39 @@ import com.school.xnew.util.JsonUtil;
 
 /**
  * 新闻通知
+ * 
  * @author silvermoon
- *
+ * 
  */
 @Controller
 @RequestMapping(value = "/sys/news")
-public class NewsController{
+public class NewsController {
 
 	@Resource
 	private NewsService	newsService;
 	@Resource
-	private AuthService		authService;
+	private AuthService	authService;
+
 	/**
 	 * 新闻列表
+	 * 
 	 * @param model
 	 * @return
 	 * @throws BusinessException
 	 */
 	@RequestMapping(value = "/list")
-	public String list(NewsModel newsModel,Model model) throws BusinessException {
-		WebTable<NewsModel> webTable = WebTable.getInstance(NewsModel.class, new String[] {
-			"id", "title", "modify_time", "creater_name","ids"});
-		
-		setJsonTable("/sys/news/listJson.json",newsModel, webTable, model);
-		
+	public String list(NewsModel newsModel, Model model) throws BusinessException {
+		WebTable<NewsModel> webTable = WebTable.getInstance(NewsModel.class, new String[] { "id",
+				"title", "modify_time", "creater_name", "ids" });
+
+		setJsonTable("/sys/news/listJson.json", newsModel, webTable, model);
+
 		model.addAttribute("type", 0);
 		return "news/list";
 	}
-	
-	private void setJsonTable(String urlJson,NewsModel newsModel,WebTable<NewsModel> webTable,Model model){
+
+	private void setJsonTable(String urlJson, NewsModel newsModel, WebTable<NewsModel> webTable,
+			Model model) {
 		Map<String, String> databaseNames = new HashMap<String, String>();
 		databaseNames.put("id", "id");
 		StringBuffer condition = new StringBuffer();
@@ -94,7 +97,7 @@ public class NewsController{
 		webTable.setDatabaseNames(databaseNames);
 		model.addAttribute("tableInfo", JsonUtil.getEntity2Json(webTable));
 	}
-	
+
 	/**
 	 * jqGrid新闻列表
 	 */
@@ -111,24 +114,25 @@ public class NewsController{
 		}
 		return "news/list";
 	}
-	
+
 	/**
 	 * 通知列表
+	 * 
 	 * @param model
 	 * @return
 	 * @throws BusinessException
 	 */
 	@RequestMapping(value = "/listNotice")
-	public String listNotice(NewsModel newsModel,Model model) throws BusinessException {
-		WebTable<NewsModel> webTable = WebTable.getInstance(NewsModel.class, new String[] {
-			"id", "title", "modify_time", "creater_name","ids" });
-		
-		setJsonTable("/sys/news/listNoticeJson.json",newsModel, webTable, model);
-		
+	public String listNotice(NewsModel newsModel, Model model) throws BusinessException {
+		WebTable<NewsModel> webTable = WebTable.getInstance(NewsModel.class, new String[] { "id",
+				"title", "modify_time", "creater_name", "ids" });
+
+		setJsonTable("/sys/news/listNoticeJson.json", newsModel, webTable, model);
+
 		model.addAttribute("type", 1);
 		return "news/list";
 	}
-	
+
 	/**
 	 * jqGrid通知列表
 	 */
@@ -145,96 +149,98 @@ public class NewsController{
 		}
 		return "news/list";
 	}
-	
-	
+
 	/**
 	 * 编辑新闻/通知
+	 * 
 	 * @param id
 	 * @param model
 	 * @return
 	 * @throws BusinessException
 	 */
 	@RequestMapping(value = "/edit")
-	public String edit(NewsModel newsModel,Model model) throws BusinessException {
+	public String edit(NewsModel newsModel, Model model) throws BusinessException {
 		NewsModel news = null;
-		if(newsModel.getId()!=null){
+		if (newsModel.getId() != null) {
 			news = newsService.getModelById(newsModel.getId());
 		}
-		if(newsModel.getType()!=null){
-			if(news==null){
+		if (newsModel.getType() != null) {
+			if (news == null) {
 				news = new NewsModel();
-			}		
+			}
 			news.setType(newsModel.getType());
 		}
 		model.addAttribute("news", news);
 		model.addAttribute("type", news.getType());
 		return "news/edit";
 	}
-	
+
 	/**
 	 * 保存新闻/通知
+	 * 
 	 * @param newsModel
 	 * @param model
 	 * @param response
 	 * @throws BusinessException
 	 */
 	@RequestMapping(value = "/save")
-	public void save(NewsModel newsModel,Model model,HttpServletRequest request,HttpServletResponse response) throws BusinessException {
-		System.out.println("save");
+	public void save(NewsModel newsModel, Model model, HttpServletRequest request,
+			HttpServletResponse response) throws BusinessException {
 		Integer userId = authService.recognize(request, response);
 		String res = "0";
-		if(userId!=null){
-			if(newsModel.getId()==null){
+		if (userId != null) {
+			if (newsModel.getId() == null) {
 				newsModel.setCreater_id(userId);
 			}
 			newsModel.setModify_user_id(userId);
-			res = newsService.saveNews(newsModel)?"1":"0";
+			res = newsService.saveNews(newsModel) ? "1" : "0";
 		} else {
 			res = "2";
 		}
-		
+
 		try {
 			PrintWriter writer = response.getWriter();
 			response.reset();
-	        response.setCharacterEncoding("UTF-8");
-	        response.setContentType("text/html");
+			response.setCharacterEncoding("UTF-8");
+			response.setContentType("text/html");
 			writer.println(res);
 			return;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * 删除新闻/通知
+	 * 
 	 * @param newsModel
 	 * @param model
 	 * @param response
 	 * @throws BusinessException
 	 */
 	@RequestMapping(value = "/delete")
-	public void delete(NewsModel newsModel,Model model,HttpServletRequest request,HttpServletResponse response) throws BusinessException {
+	public void delete(NewsModel newsModel, Model model, HttpServletRequest request,
+			HttpServletResponse response) throws BusinessException {
 		Integer userId = authService.recognize(request, response);
 		String res = "0";
-		if(userId!=null){
+		if (userId != null) {
 			newsModel.setCreater_id(userId);
-			res = newsService.delete(newsModel)?"1":"0";
+			res = newsService.delete(newsModel) ? "1" : "0";
 		} else {
 			res = "2";
 		}
 		try {
 			PrintWriter writer = response.getWriter();
 			response.reset();
-	        response.setCharacterEncoding("UTF-8");
-	        response.setContentType("text/html");
+			response.setCharacterEncoding("UTF-8");
+			response.setContentType("text/html");
 			writer.println(res);
 			return;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	@RequestMapping(value = "/build")
 	public String build(Model model) throws BusinessException {
 		newsService.build();

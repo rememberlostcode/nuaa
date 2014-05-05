@@ -148,13 +148,13 @@
         					var actStr = "";
         					var rowNum = i + 1;
         					if(editBtn){
-        						actStr += "<input type='button' class='gradualBlue' value='"+editValue+"' onclick='javascript:modifyGridDate("+ rowNum +");'/>&nbsp;&nbsp;";
+        						actStr += "<input type='button' title='"+editValue+"' class='gradualBlue' value='"+editValue+"' onclick='javascript:modifyGridDate("+ rowNum +");'/>&nbsp;&nbsp;";
         					}
         					if(deleteBtn){
-        						actStr += "<input type='button' class='gradualBlue' value='"+deleteValue+"' onclick='javascript:deleteGridDate("+ rowNum +");'/>&nbsp;&nbsp;";
+        						actStr += "<input type='button' title='"+deleteValue+"' class='gradualBlue' value='"+deleteValue+"' onclick='javascript:deleteGridDate("+ rowNum +");'/>&nbsp;&nbsp;";
         					}
     						if(otherBtn){
-        						actStr += "<input type='button' class='gradualBlue' value='"+otherValue+"' onclick='javascript:otherGridDate("+ rowNum +");'/>&nbsp;&nbsp;";
+        						actStr += "<input type='button' title='"+otherValue+"' class='gradualBlue' value='"+otherValue+"' onclick='javascript:otherGridDate("+ rowNum +");'/>&nbsp;&nbsp;";
         					}
     						showData[i].act = actStr;
     					}

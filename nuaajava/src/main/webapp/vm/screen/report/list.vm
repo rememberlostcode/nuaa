@@ -1,0 +1,78 @@
+<script src="$!static_server_name/js/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+#mc_toolbar("&nbsp;报告列表",$mainframeNavRights)
+<div class="mainframe_content">
+        <div class="smalldiv" style="margin:0 20px 10px 0; text-align:left;">
+        	<form id="searchForm" action="$!server_name/sys/report/list" method="post" autocomplete="off">
+               <label>标题：</label>
+               <input type="text" name="title" id="title" value="$!reportModel.title"/>
+               <label>发布人：</label>
+               <input type="text" style="width:80px;" name="creater_name" id="creater_name" value="$!reportModel.creater_name"/>
+			   <label>报告时间：</label>
+               <input type="text" style="width:120px;" name="beginDate" id="beginDate" value="$!reportModel.beginDate" class="Wdate"  onclick="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm'})" readonly="true"/>
+            	至 
+               <input type="text" style="width:120px;" name="endDate" id="endDate" value="$!reportModel.endDate" class="Wdate" onclick="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm'})" readonly="true"/>
+               <input type="submit" name="sumbimt" class="button" value="搜索"/>
+           </form>
+        </div>
+        #set($tableInfoJson = '{"caption":"报告列表","pageSize":10,"lineNumbers":true,"tableAlign":"center","editBtn":true,"deleteBtn":true}')
+		#set($columnSortJson = '{"columnSort":["id","title","time","creater_name","modify_time","act"]}')
+        #set($columnInfoJson = '{"columnInfo":[
+            {"columnName":"ID","sortable":true,"width":"10%","hidden":true},
+            {"columnName":"标题","width":"40%"},
+			{"columnName":"报告时间","width":"13%","formatType":"date","columnDatefmt":"Y-m-d H:i"},
+            {"columnName":"发布人","width":"8%"},
+    		{"columnName":"最后编辑时间","width":"15%","formatType":"date","columnDatefmt":"Y-m-d H:i:s"},
+			{"columnName":"操作","width":"12%"}
+		]}'
+        )
+        #mc_showTable($!tableInfo,$!tableInfoJson,$columnInfoJson)
+</div>
+#if($!result)
+	<script >
+        alert("操作成功！");
+	</script>
+#end
+#if($!resultMsg)
+	<script >
+		alert("$!resultMsg");
+	</script>
+#end
+<script>
+	jQuery(document).ready(function(){
+		jQuery("#tabGrid").navGrid("#pager", { edit: false, add: true, del: false, search: false, refresh: false })
+			.navButtonAdd('#pager',{  
+				caption:"添加",   
+				buttonicon:"ui-icon-add",   
+				onClickButton: function(){   
+					addReport();  
+				},   
+				position:"last"  
+			});
+	});
+	function addReport(){
+		window.location = '$server_name/sys/report/edit';
+	}
+	function modifyGridDate(rowid){
+		var rowDatas = jQuery("#tabGrid").jqGrid('getRowData', rowid);
+		var id = rowDatas["id"];
+		window.location = '$server_name/sys/report/edit?type=$!type&id='+id;
+	}
+			
+	function deleteGridDate(rowid){
+		var rowDatas = jQuery("#tabGrid").jqGrid('getRowData', rowid);
+		var id = rowDatas["id"];
+		if(confirm('确认要删除选中的记录吗？')==true){ 
+    		jQuery.post( "$server_name/sys/report/delete", { ids : id },function(data) {
+				if(data==1){
+					alert('删除成功！');
+    				jQuery("#searchForm").submit();
+    			} else if(data==2) {
+					alert('未登录，请先登录！');
+				} else {
+					alert('删除失败，请稍候重试！');
+				}
+			});
+		}
+    }
+
+</script>

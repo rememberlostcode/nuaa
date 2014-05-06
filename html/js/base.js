@@ -6,30 +6,29 @@ function getBaseDataFromServer() {
 		},
 		success : function(result) {
 			var dataStr = "";
-			//dataStr = '{"user":{"id":-1,"name":"超级管理员"},"menus":[{"id":1,"name":"首页","now":false,"action":"/nuaa/home.html","subMenus":null},{"id":2,"name":"通知","now":false,"action":"/nuaa/noticelist.html","subMenus":null},{"id":3,"name":"新闻","now":false,"action":"/nuaa/newslist.html","subMenus":null},{"id":4,"name":"院系介绍","now":false,"action":"/nuaa/college.html","subMenus":null},{"id":5,"name":"教师介绍","now":false,"action":"/nuaa/teacher.html","subMenus":null},{"id":6,"name":"科研介绍","now":false,"action":"/nuaa/scientific.html","subMenus":null},{"id":7,"name":"系统管理","now":false,"action":null,"subMenus":[{"id":8,"name":"用户管理","now":false,"action":"/nuaa/nanhang/admin/listUsers","subMenus":null},{"id":9,"name":"新闻发布","now":false,"action":"/nuaa/nanhang/sys/news/list","subMenus":null},{"id":10,"name":"通知管理","now":false,"action":"/nuaa/nanhang/sys/news/listNotice","subMenus":null},{"id":11,"name":"用户审核","now":false,"action":"/nuaa/nanhang/user/listCheckUser","subMenus":null},{"id":13,"name":"报告管理","now":false,"action":"/nuaa/nanhang/sys/report/list","subMenus":null}]}]}';			
+			//dataStr = '{"user":{"id":-1,"name":"超级管理员"},"menus":[{"id":1,"name":"首页","now":false,"action":"/home.html","subMenus":null},{"id":2,"name":"通知","now":false,"action":"/noticelist.html","subMenus":null},{"id":3,"name":"新闻","now":false,"action":"/newslist.html","subMenus":null},{"id":4,"name":"院系介绍","now":false,"action":"/college.html","subMenus":null},{"id":5,"name":"教师介绍","now":false,"action":"/teacher.html","subMenus":null},{"id":6,"name":"科研介绍","now":false,"action":"/scientific.html","subMenus":null},{"id":7,"name":"系统管理","now":false,"action":null,"subMenus":[{"id":8,"name":"用户管理","now":false,"action":"/nanhang/admin/listUsers","subMenus":null},{"id":9,"name":"新闻发布","now":false,"action":"/nanhang/sys/news/list","subMenus":null},{"id":10,"name":"通知管理","now":false,"action":"/nanhang/sys/news/listNotice","subMenus":null},{"id":11,"name":"用户审核","now":false,"action":"/nanhang/user/listCheckUser","subMenus":null},{"id":13,"name":"报告管理","now":false,"action":"/nanhang/sys/report/list","subMenus":null}]}]}';			
 			dataStr = result.data;
 			setBaseData2Page(dataStr);
+			jQuery.navlevel2 = function(level1, dytime) {
+				$(level1).mouseenter(function() {
+					varthis = $(this);
+					delytime = setTimeout(function() {
+						varthis.find('ul').slideDown();
+					}, dytime);
+				});
+				$(level1).mouseleave(function() {
+					clearTimeout(delytime);
+					$(this).find('ul').slideUp();
+					
+				});
+			};
+			$.navlevel2("li[layer=1]", 0);
 		},
 		complete : function(XMLHttpRequest, textStatus) {
 		},
 		error : function() {
 		}
-	});
-	
-    jQuery.navlevel2 = function(level1, dytime) {
-		$(level1).mouseenter(function() {
-			varthis = $(this);
-			delytime = setTimeout(function() {
-				varthis.find('ul').slideDown();
-			}, dytime);
-		});
-		$(level1).mouseleave(function() {
-			clearTimeout(delytime);
-			$(this).find('ul').slideUp();
-			
-		});
-	};
-	$.navlevel2("li[layer=1]", 300); 
+	});     
 }
 function setBaseData2Page(dataStr) {
 	try {
@@ -197,7 +196,7 @@ function headClickDeal() {
 	$("#head #logout").bind( {
 		"click" : function() {
 			if(window.confirm("您确定要退出！")){
-				window.location.href = "/nuaa/nanhang/exit";
+				window.location.href = "/nanhang/exit";
 			}
 		}
 	});
@@ -231,7 +230,7 @@ function setNavigationNow() {
 function geneBaseHtml(){
 	var headHtml = '';
 	headHtml += '<div id="head">';
-	headHtml += '	<a class="logo" href="/nuaa/home.html"></a>';
+	headHtml += '	<a class="logo" href="/home.html"></a>';
 	headHtml += '	<div id="welcome">';
 	headHtml += '		<span id="date_uname"></span>';
 	headHtml += '		<a href="#" id="logout">退出</a>';

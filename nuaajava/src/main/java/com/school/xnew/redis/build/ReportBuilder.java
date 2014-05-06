@@ -32,7 +32,7 @@ public class ReportBuilder implements Builder {
 
 	@Override
 	public void build() {
-		System.out.println("定时器开始....");
+		System.out.println("报告定时器开始....");
 
 		try {
 
@@ -62,6 +62,6 @@ public class ReportBuilder implements Builder {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("知定时器结束");
+		System.out.println("报告定时器结束");
 	}
 }

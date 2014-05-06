@@ -11,7 +11,7 @@ function start(route, handle) {
             var headers = request.headers;
             //console.log("heades ->"+JSON.stringify(headers));
             console.log(JSON.stringify(urlObj));
-            var pathname = urlObj.pathname.substring(11).split("/");
+            var pathname = urlObj.pathname.substring(6).split("/");
 
             var methodName = "";
             for(var i = 0;i<pathname.length;i++){

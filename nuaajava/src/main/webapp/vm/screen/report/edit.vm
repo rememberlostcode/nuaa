@@ -1,6 +1,4 @@
-<script type="text/javascript" src="$static_server_name/js/kindeditor/kindeditor-min.js"></script>
 <script src="$!static_server_name/js/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
-<script type="text/javascript" src="$static_server_name/js/kindeditor/lang/zh_CN.js"></script>
 <link href="$static_server_name/css/admin-style.css" rel="stylesheet" type="text/css" />
 <table style="margin: auto;">
 	<input type="hidden" id="id" value="$!reportModel.id" />

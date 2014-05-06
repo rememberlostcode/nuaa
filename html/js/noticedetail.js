@@ -1,6 +1,6 @@
 function getDetailDataFromServer() {
 	jQuery.ajax({
-		url: "/nuaa/node/detail?key="+getQueryString('id'),
+		url: "/node/detail?key="+getQueryString('id'),
 		type: "GET",
 		success: function(data) {
     		setDetailData2Page(data);

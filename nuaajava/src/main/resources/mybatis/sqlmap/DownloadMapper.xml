@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.school.xnew.persistence.dao.DownloadDao">
+	<insert id="insert" parameterType="DownloadModel">
+		insert into core_download(name,path,create_time,create_user_id,modify_time,modify_user_id) values(#{name},#{path},#{create_time},#{create_user_id},#{modify_time},#{modify_user_id})
+    	<selectKey resultType="int" keyProperty="id">
+            <![CDATA[SELECT LAST_INSERT_ID() AS id ]]>
+        </selectKey>
+	</insert>
+    <select id="findAllDownload" resultType="DownloadModel" parameterType="DownloadModel">
+        select t.id,t.name,t.path,date_format(t.create_time, '%Y-%m-%d %H:%i') create_time,u.fullname user_name from core_download t,core_user u where t.create_user_id=u.id and t.is_delete=0 
+        	<if test="name != null and name != ''">
+    			and t.name like CONCAT('%',#{name},'%') 
+    		</if>
+    		<if test="user_name != null and user_name != ''">
+    			and u.fullname like CONCAT('%',#{user_name},'%') 
+    		</if>
+    		<if test="beginDate != null and beginDate != ''">
+    			and t.create_time >= #{beginDate} 
+    		</if>
+    		<if test="endDate != null and endDate != ''">
+    			and t.create_time &lt;= #{endDate} 
+    		</if>
+    		<if test="create_user_id != null and create_user_id != ''">
+    			and t.create_user_id = #{create_user_id} 
+    		</if>
+        order by t.create_time desc
+    </select>
+    
+    <select id="getModelById" parameterType="Integer" resultType="DownloadModel">
+      select t.id,t.name,t.path,date_format(t.create_time, '%Y-%m-%d %H:%i') create_time from core_download t
+      where t.id = #{id}
+    </select>
+    
+    <!-- 修改信息 -->
+    <update id="update" parameterType="DownloadModel">
+    	update core_download set name = #{name} 
+    		<if test="path != null and path != ''">
+    			,path = #{path}
+    		</if>
+    		<if test="modify_time != null and modify_time != ''">
+    			,modify_time = #{modify_time}
+    		</if>
+    		<if test="modify_user_id != null and modify_user_id != ''">
+    			,modify_user_id = #{modify_user_id}
+    		</if>
+    		where id=#{id}
+    </update>
+    
+    <delete id="delete" parameterType="DownloadModel">
+		update core_download set is_delete=1,delete_user_id=#{delete_user_id},delete_time=#{delete_time} where id = #{id}
+    </delete>
+    
+</mapper>

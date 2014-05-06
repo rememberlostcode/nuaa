@@ -55,7 +55,7 @@
 	function modifyGridDate(rowid){
 		var rowDatas = jQuery("#tabGrid").jqGrid('getRowData', rowid);
 		var id = rowDatas["id"];
-		window.location = '$server_name/sys/report/edit?type=$!type&id='+id;
+		window.location = '$server_name/sys/report/edit?id='+id;
 	}
 			
 	function deleteGridDate(rowid){

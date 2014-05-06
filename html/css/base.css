@@ -97,13 +97,13 @@ body {
 	height: 40px;
 	line-height: 40px;
 	padding: 0 10px;
-	position: relative;
+	/*position: relative;*/
     width: auto;
     font-size: 14px;
 }
 
 #navigation .childs {
-	/*position: absolute;*/
+	position: absolute;
 	white-space: nowrap;
 	/*left: 0;*/
 	height: auto;
@@ -120,7 +120,7 @@ body {
 }
 
 #navigation .childs li:hover {
-	background-color: #337E9F;
+	background-color: #004A6E;
 }
 
 #search {
@@ -451,6 +451,7 @@ body {
 }
 #home .right #report .list .one .day{
     font-size: 24px;
+    line-height: 26px;
 }
 #home .right #report .list .one .week{
     font-size: 10px;
@@ -460,7 +461,10 @@ body {
 	width: 84%;
 }
 #home .right #report .list .two span.bold{
-    font-weight:bold;
+    display: block;
+    float: left;
+    font-weight: bold;
+    height: 20px;
 }
 #home .right #hotnews{
     border: 1px solid #DEDEDE;

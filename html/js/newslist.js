@@ -1,5 +1,5 @@
 function getListFromServer() {
-	var newsurl = "/nuaa/node/news/list";
+	var newsurl = "/node/news/list";
 	if($('#currentPage')){
 		newsurl += '?page='+$('#currentPage').val();
 	}

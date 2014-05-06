@@ -20,7 +20,7 @@ function loginBind() {
 }
 
 function login(uname,pwd){
-	var url = "/nuaa/nanhang/LoginAuth.json";
+	var url = "/nanhang/LoginAuth.json";
 	$.ajax( {
 		type : "post",
 		url : url,
@@ -31,7 +31,7 @@ function login(uname,pwd){
 		},
 		success : function(data, textStatus) {
 			alert(data.data);
-			window.location.href = "/nuaa/home.html";
+			window.location.href = "/home.html";
 		},
 		complete : function(XMLHttpRequest, textStatus) {
 		},

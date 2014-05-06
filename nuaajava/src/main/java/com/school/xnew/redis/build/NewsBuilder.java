@@ -31,7 +31,7 @@ public class NewsBuilder implements Builder {
 
 	@Override
 	public void build() {
-		System.out.println("定时器开始....");
+		System.out.println("新闻通知定时器开始....");
 
 		try {
 
@@ -60,6 +60,6 @@ public class NewsBuilder implements Builder {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("知定时器结束");
+		System.out.println("新闻通知定时器结束");
 	}
 }

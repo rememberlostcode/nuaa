@@ -1,6 +1,6 @@
 ﻿function getListFromServer() {
 	$("#searchInputText").val(getQueryString('keywords'));
-	var newsurl = "/nuaa/node/search/list?keywords="+encodeURIComponent(getQueryString('keywords'));
+	var newsurl = "/node/search/list?keywords="+encodeURIComponent(getQueryString('keywords'));
 	if($('#currentPage')){
 		newsurl += '&page='+$('#currentPage').val();
 	}

@@ -1,7 +1,7 @@
 function getHomeDataFromServer() {
 	/*最新通知*/
 	jQuery.ajax({
-		url: "http://math.science.nuaa.edu.cn/node/notice/list?rows=5",
+		url: "http://math.science.nuaa.edu.cn/node/notice/list?rows=8",
 		type: "GET",
 		success: function(data) {
     		setHomeData2PageNotice(data);

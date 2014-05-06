@@ -32,6 +32,7 @@
         <typeAlias alias="NewsModel" type="com.school.xnew.persistence.entity.NewsModel"/>
         <typeAlias alias="PageModel" type="com.school.xnew.persistence.entity.PageModel"/>
         <typeAlias alias="ReportModel" type="com.school.xnew.persistence.entity.ReportModel"/>
+        <typeAlias alias="DownloadModel" type="com.school.xnew.persistence.entity.DownloadModel"/>
         
         <typeAlias alias="User" type="com.school.xnew.sys.service.User"/>
         <typeAlias alias="PasswordReset" type="com.school.xnew.sys.service.PasswordReset"/>

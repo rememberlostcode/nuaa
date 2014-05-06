@@ -20,7 +20,7 @@ function getHomeDataFromServer() {
 
     /*学术会议*/
 	/*jQuery.ajax({
-		url: "http://211.149.175.138/nuaa/node/news/list?rows=5",
+		url: "/nuaa/node/news/list?rows=5",
 		type: "GET",
 		success: function(data) {
     		setHomeData2PageMeeting(data);

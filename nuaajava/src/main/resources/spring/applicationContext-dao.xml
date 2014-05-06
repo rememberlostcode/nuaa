@@ -40,6 +40,11 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 	    <property name="mapperInterface" value="com.school.xnew.persistence.dao.ReportDao"></property>
 	    <property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
 	</bean>
+	
+	<bean id="DownloadDao" name="downloadDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	    <property name="mapperInterface" value="com.school.xnew.persistence.dao.DownloadDao"></property>
+	    <property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
 </beans>
 
 

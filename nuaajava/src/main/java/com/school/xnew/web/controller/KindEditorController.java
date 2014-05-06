@@ -1,3 +1,4 @@
+
 package com.school.xnew.web.controller;
 
 import java.io.File;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -28,67 +30,90 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * kindeditor上传文件控制器
- * @author silvermoon
- *
+ * 
+ * @author zhangb
+ * 
  */
 @Controller
 @RequestMapping(value = "/kindeditor")
 public class KindEditorController {
+	@Resource
+	@Value(value = "${nuaa.upload.fileType.file}")
+	public String							fileType_file;
+	@Resource
+	@Value(value = "${nuaa.upload.fileType.image}")
+	public String							fileType_image;
+	@Resource
+	@Value(value = "${nuaa.upload.fileType.flash}")
+	public String							fileType_flash;
+	@Resource
+	@Value(value = "${nuaa.upload.fileType.media}")
+	public String							fileType_media;
 	// 定义允许上传的文件扩展名
-	private static HashMap<String, String> extMap = new HashMap<String, String>();
-	static {
-		extMap.put("image", "gif,jpg,jpeg,png,bmp");
-		extMap.put("flash", "swf,flv");
-		extMap.put("media", "swf,flv,mp3,wav,wma,wmv,mid,avi,mpg,asf,rm,rmvb");
-		extMap.put("file", "doc,docx,xls,xlsx,ppt,htm,html,txt,zip,rar,gz,bz2");
+	private static HashMap<String, String>	extMap	= new HashMap<String, String>();
+
+	// static {
+	// extMap.put("file", "doc,docx,xls,xlsx,ppt,pptx,txt,zip,rar");
+	// extMap.put("image", "gif,jpg,jpeg,png,bmp");
+	// extMap.put("flash", "swf,flv");
+	// extMap.put("media", "swf,flv,mp3,wav,wma,wmv,mid,avi,mpg,asf,rm,rmvb");
+	// }
+
+	private void initExtMap() {
+		if (extMap.isEmpty()) {
+			extMap.put("file", fileType_file);
+			extMap.put("image", fileType_image);
+			extMap.put("flash", fileType_flash);
+			extMap.put("media", fileType_media);
+		}
 	}
 
-//	private static final String rootPath = "E:/static/upload/";
-	private static final String rootPath = "/root/www/static/upload/";
-	private static final String rootUrl = "/static/upload/";
-	private static final ObjectMapper objectMapper = new ObjectMapper();
-	private  PrintWriter writer = null;
-	
-	
+	private static final String			rootPath		= "E:/static/upload/";
+	// private static final String rootPath = "/root/www/static/upload/";
+	private static final String			rootUrl			= "/static/upload/";
+	private static final ObjectMapper	objectMapper	= new ObjectMapper();
+	private PrintWriter					writer			= null;
+
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "file_upload", method = RequestMethod.POST)
-	public void fileUpload(HttpServletRequest  request,
-			HttpServletResponse response) throws ServletException, IOException,
-			FileUploadException {
-//		ServletContext application = request.getSession().getServletContext();
-//		String savePath = application.getRealPath("/") + "attached/";
+	public void fileUpload(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException, FileUploadException {
+		initExtMap();
+		// ServletContext application =
+		// request.getSession().getServletContext();
+		// String savePath = application.getRealPath("/") + "attached/";
 		// 文件上传保存的目录
 		String savePath = rootPath;
 
 		// 文件保存目录URL
-//		String saveUrl = request.getContextPath() + "/attached/";
+		// String saveUrl = request.getContextPath() + "/attached/";
 		String saveUrl = rootUrl;
 
-		
-		// 最大文件大小
-		long maxSize = 1000000;
+		// 最大文件大小，1MB
+		long maxSize = 1024 * 1024;
 
 		response.reset();
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("text/html");
-        writer = response.getWriter();
-       // writer.println(json);  //想办法把map转成json
-		
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html");
+		writer = response.getWriter();
+		// writer.println(json); //想办法把map转成json
+
 		if (!ServletFileUpload.isMultipartContent(request)) {
 			writer.println(objectMapper.writeValueAsString(getError("请选择文件。")));
 			return;
-			
+
 		}
 		// 检查目录
 		File uploadDir = new File(savePath);
-		if(!uploadDir.exists()){
-			uploadDir.mkdir();
+		if (!uploadDir.exists()) {
+			uploadDir.mkdirs();
 		}
 		if (!uploadDir.isDirectory()) {
 			writer.println(objectMapper.writeValueAsString(getError("上传目录不存在。")));
@@ -103,6 +128,10 @@ public class KindEditorController {
 		String dirName = request.getParameter("dir");
 		if (dirName == null) {
 			dirName = "image";
+		}
+		// 文件类型的最大限制改为5倍
+		if (dirName.equals("file")) {
+			maxSize *= 5;
 		}
 		if (!extMap.containsKey(dirName)) {
 			writer.println(objectMapper.writeValueAsString(getError("目录名不正确。")));
@@ -138,17 +167,16 @@ public class KindEditorController {
 					writer.println(objectMapper.writeValueAsString(getError("上传文件大小超过限制。")));
 				}
 				// 检查扩展名
-				String fileExt = fileName.substring(
-						fileName.lastIndexOf(".") + 1).toLowerCase();
-				if (!Arrays.<String> asList(extMap.get(dirName).split(","))
-						.contains(fileExt)) {
-					writer.println(objectMapper.writeValueAsString(getError("上传文件扩展名是不允许的扩展名。\n只允许"+ extMap.get(dirName) + "格式。")));
+				String fileExt = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
+				if (!Arrays.<String> asList(extMap.get(dirName).split(",")).contains(fileExt)) {
+					writer.println(objectMapper.writeValueAsString(getError("上传文件扩展名是不允许的扩展名。\n只允许"
+							+ extMap.get(dirName) + "格式。")));
 					return;
 				}
 
 				SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
-				String newFileName = df.format(new Date()) + "_"
-						+ new Random().nextInt(1000) + "." + fileExt;
+				String newFileName = df.format(new Date()) + "_" + new Random().nextInt(1000) + "."
+						+ fileExt;
 				try {
 					File uploadedFile = new File(savePath, newFileName);
 					item.write(uploadedFile);
@@ -175,8 +203,8 @@ public class KindEditorController {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value = "file_manager", method = RequestMethod.GET)
-	public void fileManager(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	public void fileManager(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		ServletContext application = request.getSession().getServletContext();
 		ServletOutputStream out = response.getOutputStream();
 		// 根目录路径，可以指定绝对路径，比如 /var/www/attached/
@@ -188,9 +216,8 @@ public class KindEditorController {
 
 		String dirName = request.getParameter("dir");
 		if (dirName != null) {
-			if (!Arrays.<String> asList(
-					new String[] { "image", "flash", "media", "file" })
-					.contains(dirName)) {
+			if (!Arrays.<String> asList(new String[] { "image", "flash", "media", "file" })
+						.contains(dirName)) {
 				out.println("Invalid Directory name.");
 				return;
 			}
@@ -202,22 +229,20 @@ public class KindEditorController {
 			}
 		}
 		// 根据path参数，设置各路径和URL
-		String path = request.getParameter("path") != null ? request
-				.getParameter("path") : "";
+		String path = request.getParameter("path") != null ? request.getParameter("path") : "";
 		String currentPath = rootPath + path;
 		String currentUrl = rootUrl + path;
 		String currentDirPath = path;
 		String moveupDirPath = "";
 		if (!"".equals(path)) {
-			String str = currentDirPath.substring(0,
-					currentDirPath.length() - 1);
-			moveupDirPath = str.lastIndexOf("/") >= 0 ? str.substring(0,
-					str.lastIndexOf("/") + 1) : "";
+			String str = currentDirPath.substring(0, currentDirPath.length() - 1);
+			moveupDirPath = str.lastIndexOf("/") >= 0 ? str.substring(0, str.lastIndexOf("/") + 1)
+					: "";
 		}
 
 		// 排序形式，name or size or type
-		String order = request.getParameter("order") != null ? request
-				.getParameter("order").toLowerCase() : "name";
+		String order = request.getParameter("order") != null ? request.getParameter("order")
+																		.toLowerCase() : "name";
 
 		// 不允许使用..移动到上一级目录
 		if (path.indexOf("..") >= 0) {
@@ -248,19 +273,17 @@ public class KindEditorController {
 					hash.put("is_photo", false);
 					hash.put("filetype", "");
 				} else if (file.isFile()) {
-					String fileExt = fileName.substring(
-							fileName.lastIndexOf(".") + 1).toLowerCase();
+					String fileExt = fileName.substring(fileName.lastIndexOf(".") + 1)
+												.toLowerCase();
 					hash.put("is_dir", false);
 					hash.put("has_file", false);
 					hash.put("filesize", file.length());
-					hash.put("is_photo", Arrays.<String> asList(fileTypes)
-							.contains(fileExt));
+					hash.put("is_photo", Arrays.<String> asList(fileTypes).contains(fileExt));
 					hash.put("filetype", fileExt);
 				}
 				hash.put("filename", fileName);
 				hash.put("datetime",
-						new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(file
-								.lastModified()));
+						new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(file.lastModified()));
 				fileList.add(hash);
 			}
 		}
@@ -288,15 +311,12 @@ public class KindEditorController {
 		public int compare(Object a, Object b) {
 			Hashtable hashA = (Hashtable) a;
 			Hashtable hashB = (Hashtable) b;
-			if (((Boolean) hashA.get("is_dir"))
-					&& !((Boolean) hashB.get("is_dir"))) {
+			if (((Boolean) hashA.get("is_dir")) && !((Boolean) hashB.get("is_dir"))) {
 				return -1;
-			} else if (!((Boolean) hashA.get("is_dir"))
-					&& ((Boolean) hashB.get("is_dir"))) {
+			} else if (!((Boolean) hashA.get("is_dir")) && ((Boolean) hashB.get("is_dir"))) {
 				return 1;
 			} else {
-				return ((String) hashA.get("filename"))
-						.compareTo((String) hashB.get("filename"));
+				return ((String) hashA.get("filename")).compareTo((String) hashB.get("filename"));
 			}
 		}
 	}
@@ -306,18 +326,14 @@ public class KindEditorController {
 		public int compare(Object a, Object b) {
 			Hashtable hashA = (Hashtable) a;
 			Hashtable hashB = (Hashtable) b;
-			if (((Boolean) hashA.get("is_dir"))
-					&& !((Boolean) hashB.get("is_dir"))) {
+			if (((Boolean) hashA.get("is_dir")) && !((Boolean) hashB.get("is_dir"))) {
 				return -1;
-			} else if (!((Boolean) hashA.get("is_dir"))
-					&& ((Boolean) hashB.get("is_dir"))) {
+			} else if (!((Boolean) hashA.get("is_dir")) && ((Boolean) hashB.get("is_dir"))) {
 				return 1;
 			} else {
-				if (((Long) hashA.get("filesize")) > ((Long) hashB
-						.get("filesize"))) {
+				if (((Long) hashA.get("filesize")) > ((Long) hashB.get("filesize"))) {
 					return 1;
-				} else if (((Long) hashA.get("filesize")) < ((Long) hashB
-						.get("filesize"))) {
+				} else if (((Long) hashA.get("filesize")) < ((Long) hashB.get("filesize"))) {
 					return -1;
 				} else {
 					return 0;
@@ -331,15 +347,12 @@ public class KindEditorController {
 		public int compare(Object a, Object b) {
 			Hashtable hashA = (Hashtable) a;
 			Hashtable hashB = (Hashtable) b;
-			if (((Boolean) hashA.get("is_dir"))
-					&& !((Boolean) hashB.get("is_dir"))) {
+			if (((Boolean) hashA.get("is_dir")) && !((Boolean) hashB.get("is_dir"))) {
 				return -1;
-			} else if (!((Boolean) hashA.get("is_dir"))
-					&& ((Boolean) hashB.get("is_dir"))) {
+			} else if (!((Boolean) hashA.get("is_dir")) && ((Boolean) hashB.get("is_dir"))) {
 				return 1;
 			} else {
-				return ((String) hashA.get("filetype"))
-						.compareTo((String) hashB.get("filetype"));
+				return ((String) hashA.get("filetype")).compareTo((String) hashB.get("filetype"));
 			}
 		}
 	}

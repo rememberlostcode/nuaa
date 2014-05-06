@@ -9,9 +9,4 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 	<context:component-scan base-package="com.school.xnew.biz.service.impl" /> 
 	<context:component-scan base-package="com.school.xnew.sys.service.impl" /> 
 	<context:component-scan base-package="com.school.xnew.redis.impl" />
-	<!-- <bean id="NewsServiceImpl" name="newsServiceImpl" class="com.school.xnew.sys.service.impl.NewsServiceImpl">
-	    <property name="newsDao" ref="newsDao"></property>
-	    <property name="cacheRepository" ref="cacheRepository"></property>
-	    <property name="server_url" value="${new.admin.db.url}"></property>
-	</bean> -->
 </beans>

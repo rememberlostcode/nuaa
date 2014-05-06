@@ -1,7 +1,7 @@
 function getBaseDataFromServer() {	
 	jQuery.ajax( {
 		type : "GET",
-		url : "http://211.149.175.138/nuaa/nanhang/menus.json",
+		url : "/nuaa/nanhang/menus.json",
 		beforeSend : function(XMLHttpRequest) {
 		},
 		success : function(result) {
@@ -26,7 +26,7 @@ function setBaseData2Page(dataStr) {
 			var datetime = new Date();
 			$("#head #welcome #date_uname").html(
 					"今天是" + (datetime.getMonth() + 1) + "月"
-							+ datetime.getDate() + "号，欢迎您，<a href='http://211.149.175.138/nuaa/nanhang/user/setting'>" + dataObj.user.name
+							+ datetime.getDate() + "号，欢迎您，<a href='/nuaa/nanhang/user/setting'>" + dataObj.user.name
 							+ "!</a>");
 		}
 		var menus = dataObj.menus;
@@ -297,7 +297,7 @@ function setFootInBottom(){
 function searchWite(){
 	var searchInputTextva = $("#searchInputText");
 	if(searchInputTextva && searchInputTextva.val()!='' && $.trim(searchInputTextva.val())!=''){
-		window.location.href = "http://211.149.175.138/nuaa/searchlist.html?keywords="+escape(searchInputTextva.val());
+		window.location.href = "/nuaa/searchlist.html?keywords="+escape(searchInputTextva.val());
 	}
 }
 

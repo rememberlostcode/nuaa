@@ -1,0 +1,80 @@
+<script src="$!static_server_name/js/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+#mc_toolbar("&nbsp;下载区列表",$mainframeNavRights)
+<div class="mainframe_content">
+        <div class="smalldiv" style="margin:0 20px 10px 0; text-align:left;">
+        	<form id="searchForm" action="$!server_name/sys/download/list" method="post" autocomplete="off">
+               <label>名称：</label>
+               <input type="text" name="name" id="name" value="$!downloadModel.name"/>
+			   
+			   #if($!isAdmin)
+                	<label>上传人：</label>
+					<input type="text" style="width:80px;" name="user_name" id="user_name" value="$!downloadModel.user_name"/>
+               #end
+			   <label>上传时间：</label>
+               <input type="text" style="width:120px;" name="beginDate" id="beginDate" value="$!downloadModel.beginDate" class="Wdate"  onclick="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm'})" readonly="true"/>
+            	至 
+               <input type="text" style="width:120px;" name="endDate" id="endDate" value="$!downloadModel.endDate" class="Wdate" onclick="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm'})" readonly="true"/>
+               <input type="submit" name="sumbimt" class="button" value="搜索"/>
+           </form>
+        </div>
+        #set($tableInfoJson = '{"caption":"下载区列表","pageSize":10,"lineNumbers":true,"tableAlign":"center","deleteBtn":true}')
+		#set($columnSortJson = '{"columnSort":["id","name","user_name","create_time","act"]}')
+        #set($columnInfoJson = '{"columnInfo":[
+            {"columnName":"ID","sortable":true,"width":"10%","hidden":true},
+            {"columnName":"名称","width":"50%"},
+            {"columnName":"上传人","width":"10%"},
+    		{"columnName":"上传时间","width":"15%","formatType":"date","columnDatefmt":"Y-m-d H:i:s"},
+			{"columnName":"操作","width":"10%"}
+		]}'
+        )
+        #mc_showTable($!tableInfo,$!tableInfoJson,$columnInfoJson)
+</div>
+#if($!result)
+	<script >
+        alert("操作成功！");
+	</script>
+#end
+#if($!resultMsg)
+	<script >
+		alert("$!resultMsg");
+	</script>
+#end
+<script>
+	jQuery(document).ready(function(){
+		jQuery("#tabGrid").navGrid("#pager", { edit: false, add: true, del: false, search: false, refresh: false })
+			.navButtonAdd('#pager',{  
+				caption:"上传",   
+				buttonicon:"ui-icon-add",   
+				onClickButton: function(){   
+					addDownload();  
+				},   
+				position:"last"  
+			});
+	});
+	function addDownload(){
+		window.location = '$server_name/sys/download/edit';
+	}
+	function modifyGridDate(rowid){
+		var rowDatas = jQuery("#tabGrid").jqGrid('getRowData', rowid);
+		var id = rowDatas["id"];
+		window.location = '$server_name/sys/download/edit?id='+id;
+	}
+			
+	function deleteGridDate(rowid){
+		var rowDatas = jQuery("#tabGrid").jqGrid('getRowData', rowid);
+		var id = rowDatas["id"];
+		if(confirm('确认要删除选中的记录吗？')==true){ 
+    		jQuery.post( "$server_name/sys/download/delete", { ids : id },function(data) {
+				if(data==1){
+					alert('删除成功！');
+    				jQuery("#searchForm").submit();
+    			} else if(data==2) {
+					alert('未登录，请先登录！');
+				} else {
+					alert('删除失败，请稍候重试！');
+				}
+			});
+		}
+    }
+
+</script>

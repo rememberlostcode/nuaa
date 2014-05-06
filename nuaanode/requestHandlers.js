@@ -1,3 +1,4 @@
+var redis = require("redis");
 var solr_server_host = "211.149.175.138";
 var client = redis.createClient(6379,'211.149.175.138');
 //var solr_server_host = "10.22.22.40";
@@ -7,8 +8,6 @@ var solr_server_port = 8983;
 var applicationJson = "application/json; charset=utf-8";
 var UserAgent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.154 Safari/537.36";
 var http = require("http");
-var redis = require("redis");
-
 
 client.on('error', function (err) {
     console.log('Error ' + err);

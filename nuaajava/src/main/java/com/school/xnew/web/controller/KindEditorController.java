@@ -56,8 +56,13 @@ public class KindEditorController {
 	@Resource
 	@Value(value = "${nuaa.upload.fileType.media}")
 	public String							fileType_media;
-	// 定义允许上传的文件扩展名
-	private static HashMap<String, String>	extMap	= new HashMap<String, String>();
+	@Resource
+	@Value(value = "${nuaa.upload.rootPath}")
+	public String							rootPath;									// 上传文件的根目录
+	@Resource
+	@Value(value = "${nuaa.download.rootUrl}")
+	public String							rootUrl;									// 根目录在nginx的映射目录
+	private static HashMap<String, String>	extMap	= new HashMap<String, String>();	// 定义允许上传的文件扩展名
 
 	// static {
 	// extMap.put("file", "doc,docx,xls,xlsx,ppt,pptx,txt,zip,rar");
@@ -75,9 +80,6 @@ public class KindEditorController {
 		}
 	}
 
-	private static final String			rootPath		= "E:/static/upload/";
-	// private static final String rootPath = "/root/www/static/upload/";
-	private static final String			rootUrl			= "/static/upload/";
 	private static final ObjectMapper	objectMapper	= new ObjectMapper();
 	private PrintWriter					writer			= null;
 

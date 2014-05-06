@@ -17,13 +17,14 @@
                <input type="submit" name="sumbimt" class="button" value="搜索"/>
            </form>
         </div>
-        #set($tableInfoJson = '{"caption":"下载区列表","pageSize":10,"lineNumbers":true,"tableAlign":"center","deleteBtn":true}')
-		#set($columnSortJson = '{"columnSort":["id","name","user_name","create_time","act"]}')
+        #set($tableInfoJson = '{"caption":"下载区列表","pageSize":10,"lineNumbers":true,"tableAlign":"center","deleteBtn":true,"otherBtn":true,"otherValue":"下载"}')
+		#set($columnSortJson = '{"columnSort":["id","name","user_name","create_time","path","act"]}')
         #set($columnInfoJson = '{"columnInfo":[
             {"columnName":"ID","sortable":true,"width":"10%","hidden":true},
             {"columnName":"名称","width":"50%"},
             {"columnName":"上传人","width":"10%"},
     		{"columnName":"上传时间","width":"15%","formatType":"date","columnDatefmt":"Y-m-d H:i:s"},
+			{"columnName":"路径","sortable":true,"width":"10%","hidden":true},
 			{"columnName":"操作","width":"10%"}
 		]}'
         )
@@ -54,10 +55,10 @@
 	function addDownload(){
 		window.location = '$server_name/sys/download/edit';
 	}
-	function modifyGridDate(rowid){
+	function otherGridDate(rowid){
 		var rowDatas = jQuery("#tabGrid").jqGrid('getRowData', rowid);
-		var id = rowDatas["id"];
-		window.location = '$server_name/sys/download/edit?id='+id;
+		var path = '$static_server_name'+rowDatas["path"];
+		window.open(path.replace('/nuaa',''));
 	}
 			
 	function deleteGridDate(rowid){

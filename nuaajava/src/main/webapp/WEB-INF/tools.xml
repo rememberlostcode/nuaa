@@ -27,5 +27,4 @@
     <data type="number" key="version" value="1.0"/>
     <data type="string" key="static_server_name" value="http://211.149.175.138/nuaa"></data>
     <data type="string" key="server_name" value="http://211.149.175.138/nuaa/nanhang"></data>
-    <data type="string" key="url_pre" value="/nanhang"></data>
 </tools>

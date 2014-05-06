@@ -58,7 +58,7 @@
 	function otherGridDate(rowid){
 		var rowDatas = jQuery("#tabGrid").jqGrid('getRowData', rowid);
 		var path = '$static_server_name'+rowDatas["path"];
-		window.open(path.replace('/nuaa',''));
+		window.open(path);
 	}
 			
 	function deleteGridDate(rowid){

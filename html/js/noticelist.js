@@ -23,7 +23,7 @@ function setList2Page(dataObj) {
 				li.html(notice.content);
 				li.bind( {
 					"click" : function() {
-						clickDetail(this);
+					    window.location.href = "notice.html?id="+$(this).attr("id");
 					}
 				});
 				var fonttime = $("<font style='float:right;'/>");

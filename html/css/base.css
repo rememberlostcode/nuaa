@@ -80,7 +80,7 @@ body {
 }
 
 #navigation .now {
-	background-color: #003250;
+	text-decoration:underline;
 }
 
 #navigation ul {
@@ -88,7 +88,6 @@ body {
 	padding: 0;
 	height: 100%;
 	list-style: none;
-	float: left;
 	z-index: 1000;
 }
 
@@ -104,20 +103,24 @@ body {
 }
 
 #navigation .childs {
-	position: absolute;
+	/*position: absolute;*/
 	white-space: nowrap;
-	left: 0;
+	/*left: 0;*/
 	height: auto;
 	z-index: 888;
+	margin: 0 0 0 -10px;
 }
 
 #navigation .childs li {
-	float: none;
+	/*float: none;*/
 	background-color: #4388a7;
+	font-size: 12px;
+    height: 30px;
+    line-height: 30px;
 }
 
 #navigation .childs li:hover {
-	background-color: #004A6E;
+	background-color: #337E9F;
 }
 
 #search {
@@ -159,9 +162,12 @@ body {
 }
 
 #main {
-	width: 999px;
+	width: 94%;
+	/*min-width: 999px;*/
 	margin: 0 auto;
 	min-height: 200px;
+	background-color: #F5FCF0;
+	padding: 20px;
 }
 
 #main #left {
@@ -182,10 +188,10 @@ body {
 
 #main #content {
 	float: left;
-	width: 945px;
+	width:100%;
 	min-height: 448px;
 	background-color: #f5fcf0;
-	padding: 20px 20px 0;
+	/*padding: 20px;*/
 }
 
 #main #content #location {
@@ -288,10 +294,11 @@ body {
 
 #main #content #bottom {
 	width: 100%;
+	list-style: none outside none;
 }
 
 #main #content #bottom li {
-	margin: 0 0 10px 0;
+	margin: 10px 0;
 }
 
 #main #content #bottom .value {
@@ -305,8 +312,9 @@ body {
 }
 
 #home {
-	width: 985px;
-	margin: 0 auto;
+	width: 94%;
+	min-width: 985px;
+	margin: 30px auto 0;
 	padding: 10px 0px;
 	min-height: 200px;
 }
@@ -316,11 +324,19 @@ body {
 	/*width: 335px;
 	height: 451px;
 	background-image: url(image/home_logo.png);
-	background-repeat: no-repeat;*/
+	background-repeat: no-repeat;
 	background-color: #FFFFFF;
 	border: 1px solid #DDDDDD;
-	padding: 4px;
-    width: 386px;
+	padding: 4px;*/
+	margin:0 10px 0 0;
+}
+#home #logo{	
+    width: 60%;
+    max-height: 312px;
+}
+#home #logo img {	
+    width: 100%;
+    max-height: 312px;
 }
 
 #home #center {
@@ -330,22 +346,20 @@ body {
 	background-image: url(image/dot_v.png);
 	background-repeat: repeat-y;
 	background-position: center top;*/
-    width: 306px;
 
 	color: #14466E;
     line-height: 24px;
-    padding: 10px 5px 0;
-	background-color: #EEEEEE;
+    padding: 4px;
+	background-color: #FFFFFF;
     border: 1px solid #DDDDDD;
-	margin: 0 10px 0 0;
 	font-size: 12px;
-	min-height: 263px;
+	height: 100%;
 }
 
 #home .right {
-	float: left;
+	float: right;
 	color: #125e72;
-	/*width: 590px;*/
+	width: 29%;
 }
 
 #home .right #notice,#home .right #hotnews{
@@ -392,28 +406,30 @@ body {
     border-left: 1px solid #DEDEDE;
     border-right: 1px solid #DEDEDE;
 	background-color: #ffffff;
+	padding: 8px 0 8px 24px;
+	min-height: 271px;
 }
-#home .right #rellinks{
-    margin:0 10px 0 0;
+#home .right #rellinks {
+    background-color: #FFFFFF;
+    border: 1px solid #DEDEDE;
+    margin: 0 10px 0 0;
 }
 #home .right #rellinks .list {
-    width: 188px;
 	padding: 8px 0 8px 24px;
 	height: auto;
 }
 #home .right #rellinks .imglist {
     /*width: 212px;*/
+    padding: 0 0 0 10px;
 }
 #home .right #rellinks .imglist img{
     width: 36px;
 }
 #home .right #report{
-    margin:0 10px 0 0;
     border: 1px solid #DEDEDE;
 	background-color: #ffffff;
 }
 #home .right #report .list{
-    width: 466px;
 	height: auto;
 }
 #home .right #report .list li{
@@ -441,7 +457,7 @@ body {
 }
 #home .right #report .list .two{
     float:left;
-	width: 370px;
+	width: 84%;
 }
 #home .right #report .list .two span.bold{
     font-weight:bold;
@@ -483,7 +499,7 @@ body {
 	font-size: 12px;
 }
 
-#home .right #notice .list li:hover,#home .right #hotnews .list li:hover,#home .right #meeting .list li:hover,#home #report .list a:hover, {
+#home .right #notice .list li:hover,#home .right #hotnews .list li:hover,#home .right #report .list a:hover,#home .right #rellinks .list a:hover {
 	color: #0d3470;
 	cursor: pointer;
 }
@@ -495,8 +511,8 @@ body {
 	background-position: right bottom;*/
 
 	overflow: auto;
-	width: 235px;
-    height: 248px;
+	/*width: 235px;
+    height: 248px;*/
     padding: 8px 12px;
 	margin: 0 0 10px;
 }
@@ -678,9 +694,9 @@ a:active {color: blue;}
 }
 
 #main .twocolumnleft {
-    width: 200px;
+    width: 20%;
     float: left;
-    margin: 35px 0 0;
+    padding: 35px 0 0;
 }
 #main .twocolumnleft li{
     list-style:none;
@@ -707,7 +723,7 @@ a:active {color: blue;}
     border-bottom:1px solid #DEDEDE;
 }
 #main #content.twocolumnright {
-    width: 745px;
+    width: 80%;
 }
 #main .twocolumnleft li div.now{
     background-color: #72a7ba;

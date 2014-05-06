@@ -16,7 +16,7 @@ $skinList:[
 $wdate:true,
 $crossFrame:true,
 $preLoad:false,
-$dpPath:"http://211.149.175.138/nuaa/js/My97DatePicker/",
+$dpPath:"http://math.science.nuaa.edu.cn/js/My97DatePicker/",
 doubleCalendar:false,
 enableKeyboard:true,
 enableInputMask:true,

@@ -19,12 +19,17 @@ function setList2Page(dataObj) {
 			$("#neirong").empty();
 			for ( var key in searchs) {
 				var each = searchs[key];
-				var one = $("<span id='"+each.id+"' style='cursor: pointer;'/>");
+				var one = $("<span id='"+each.id+"' style='cursor: pointer;' module='" + each.module + "' />");
 				one.attr("class","one");
 				one.html(each.title);
 				one.bind( {
 					"click" : function() {
-						clickDetail(this);
+					    var module = $(this).attr("module");
+					    if(module == "通知"){
+					    	window.location.href = "notice.html?id="+$(this).attr("id");
+					    }else if(module == "新闻"){
+					    	window.location.href = "news.html?id="+$(this).attr("id");
+					    }					    
 					}
 				});
 

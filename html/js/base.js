@@ -1,7 +1,7 @@
 function getBaseDataFromServer() {	
 	jQuery.ajax( {
 		type : "GET",
-		url : "http://211.149.175.138/nuaa/nanhang/menus.json",
+		url : "http://math.science.nuaa.edu.cn/nanhang/menus.json",
 		beforeSend : function(XMLHttpRequest) {
 		},
 		success : function(result) {
@@ -15,6 +15,21 @@ function getBaseDataFromServer() {
 		error : function() {
 		}
 	});
+	
+    jQuery.navlevel2 = function(level1, dytime) {
+		$(level1).mouseenter(function() {
+			varthis = $(this);
+			delytime = setTimeout(function() {
+				varthis.find('ul').slideDown();
+			}, dytime);
+		});
+		$(level1).mouseleave(function() {
+			clearTimeout(delytime);
+			$(this).find('ul').slideUp();
+			
+		});
+	};
+	$.navlevel2("li[layer=1]", 300); 
 }
 function setBaseData2Page(dataStr) {
 	try {
@@ -26,7 +41,7 @@ function setBaseData2Page(dataStr) {
 			var datetime = new Date();
 			$("#head #welcome #date_uname").html(
 					"今天是" + (datetime.getMonth() + 1) + "月"
-							+ datetime.getDate() + "号，欢迎您，<a href='http://211.149.175.138/nuaa/nanhang/user/setting'>" + dataObj.user.name
+							+ datetime.getDate() + "号，欢迎您，<a href='http://math.science.nuaa.edu.cn/nanhang/user/setting'>" + dataObj.user.name
 							+ "!</a>");
 		}
 		var menus = dataObj.menus;
@@ -70,47 +85,34 @@ function setBaseData2Page(dataStr) {
 
 function geneLi(menu,layer){
 	var li = $("<li />");
-	li.html(menu.name);
+	li.html("<span>" + menu.name + "</span>");
 	if (menu.now == "true") {
 		li.addClass("now");
 		li.attr("now", "true");
 	}
 	li.attr("layer", layer);
 	li.attr("action", menu.action);
-	li.bind( {
+	li.find("span").first().bind( {
 		"click" : function() {
-			var url = $(this).attr("action");
-			//alert($(this).attr("action"));
+		    var objNow = $(this).parent();
+			var url = objNow.attr("action");
 			if(url!="" && url!=undefined){
 				window.location.href = url;
 			}
-		},
-		"mouseenter" : function() {
-			if($(this).attr("layer") == 1){
-				$("#navigation ul li[layer='1']").each(function(index) {
-					$(this).removeClass("now");
-				});
-				$(this).addClass("now");
-				if($(this).find("ul") != null){
-				  $(this).find("ul").css("display","block");
-				}
-			}		
-		},
-		"mouseout" : function() {
-		    var action = $(this).attr("action");
-			if($(this).attr("layer") == 1){
-				//if($(this).attr("childs") == "false"){
-					$("#navigation ul li[layer='1']").each(function(index) {
-						$(this).removeClass("now");
-					});
-					$("#navigation ul li[layer='1'][now='true']").addClass("now");
-					if($(this).find("ul") != null){
-					  $(this).find("ul").css("display","none");
-					}
-				//}			
-			}	
 		}
 	});
+	/*li.children().bind( {
+		"mouseenter" : function() {
+		    console.log("mouseenter-li");
+			var objNow = $(this).parent();
+			mouseenterDeal(objNow);	
+		},
+		"mouseout" : function() {
+			console.log("mouseout-li");
+			var objNow = $(this).parent();
+			mouseoutDeal(objNow);	
+		}
+	});*/
 	//alert(menu.subMenus != null && menu.subMenus != '');
 	if(menu.subMenus != null && menu.subMenus != ''){
 	  var ul_child = $("<ul />");
@@ -143,6 +145,33 @@ function geneLi(menu,layer){
 	  li.attr("childs", "false");
 	}
 	return li;
+}
+
+function mouseenterDeal(objNow){
+	if(objNow.attr("layer") == 1){
+		$("#navigation ul li[layer='1']").each(function(index) {
+			$(this).removeClass("now");
+		});
+		objNow.addClass("now");
+		if(objNow.find("ul") != null){
+		    objNow.find("ul").css("display","block");
+		}
+	}		
+}
+function mouseoutDeal(objNow){
+	var action = objNow.attr("action");
+	if(objNow.attr("layer") == 1){
+		//if($(this).attr("childs") == "false"){
+			$("#navigation ul li[layer='1']").each(function(index) {
+				$(this).removeClass("now");
+			});
+			$("#navigation ul li[layer='1'][now='true']").addClass("now");
+			if(objNow.find("ul") != null){
+				console.log("display-none");
+				objNow.find("ul").css("display","none");
+			}
+		//}			
+	}
 }
 
 function setFootData2Page() {
@@ -223,11 +252,11 @@ function geneBaseHtml(){
 	foot.attr("id","foot");	
 	/*foot.addClass("bottomcut");*/
 	
-	var left = $("<div />");
+	/*var left = $("<div />");
 	left.attr("id","left");	
 	
 	var right = $("<div />");
-	right.attr("id","right");
+	right.attr("id","right");*/
 	
 	var clear = $("<div />");
 	clear.css("clear","both");
@@ -237,8 +266,8 @@ function geneBaseHtml(){
 	var home = $("#home");
 	if(main.length > 0){
 		content = main;
-		content.prepend(left);
-		content.append(right);
+		/*content.prepend(left);
+		content.append(right);*/
 		content.append(clear);
 	}else if(home != null){
 		content = home;		
@@ -297,7 +326,7 @@ function setFootInBottom(){
 function searchWite(){
 	var searchInputTextva = $("#searchInputText");
 	if(searchInputTextva && searchInputTextva.val()!='' && $.trim(searchInputTextva.val())!=''){
-		window.location.href = "http://211.149.175.138/nuaa/searchlist.html?keywords="+escape(searchInputTextva.val());
+		window.location.href = "http://math.science.nuaa.edu.cn/searchlist.html?keywords="+escape(searchInputTextva.val());
 	}
 }
 
@@ -305,10 +334,6 @@ function getQueryString(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
     var r = window.location.search.substr(1).match(reg);
     if (r != null) return unescape(r[2]); return '';
-}
-
-function clickDetail(obj){
-	window.location.href = "news.html?id="+obj.id;
 }
 
 /*字符串to日期*/
@@ -342,7 +367,7 @@ function formatDate(dateObj,formator) {
 
 	if (returnText.indexOf("MI") > -1){ 
 		var mi = dateObj.getMinutes();
-		if(mi >= 1 && mi <= 9){
+		if(mi >= 0 && mi <= 9){
 			mi = "0" + mi;
 		}
 	    returnText = returnText.replace("MI", mi); 

@@ -8,7 +8,7 @@
     	<tr>
     		<td style="width: 200px;">上传文件：</td>
     		<td style="width: 80%;">
-				<input type="hidden" id="name" readonly="readonly"/>
+				<input type="hidden" id="name" readonly="readonly" maxlength="100"/>
 				<input id="upload" name="upload" type="file" style="width: 500px;"/>
 				<br>（<font color="red">5MB</font>以内，可上传格式：$!fileType_file）
 				<input type="hidden" id="path"/>
@@ -25,13 +25,13 @@
 </form>
 <script type="text/javascript">
 jQuery(document).ready(function(){
-    $('#baocun').click(
+    jQuery('#baocun').click(
     		function() {
     			waiting();
     			var name = jQuery('#upload').val().substring(
     					jQuery('#upload').val().lastIndexOf('\\') + 1);
-    			$('#name').val(name);
-    			$.ajaxFileUpload({
+    			jQuery('#name').val(name);
+    			jQuery.ajaxFileUpload({
     				url : '$!server_name/kindeditor/file_upload?dir=file',
     				type : "post",
     				secureuri : false,

@@ -1,0 +1,1 @@
+服务器上的根目录可能是collection1，而不是nuaa_news,但core的别名是nuaa_news

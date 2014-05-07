@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <dataConfig>  
+      <dataSource type="JdbcDataSource"   
+                  driver="com.mysql.jdbc.Driver"  
+                  url="jdbc:mysql://211.149.175.138:3306/admin_new"   
+                  user="root"   
+                  password="hello1234"/>  
+      <document>  
+        <entity name="report"  pk="ID" 
+                query="select r.id,r.title news_title,date_sub(r.time, interval -8 hour) time,r.author creater_name,r.address from core_report r where r.is_delete=0 order by r.time desc"  
+				deltaQuery="select ID from core_report where is_delete=0 order by time desc"    
+				deletedPkQuery="select ID from core_report where is_delete=1"  
+				deltaImportQuery="select r.id,r.title news_title,date_sub(r.time, interval -8 hour) time,r.author creater_name,r.address from core_report r where r.is_delete=0 and r.id='${dih.delta.ID}'">
+				<field column="ID" name="id"/>
+        </entity>
+      </document>  
+    </dataConfig>  

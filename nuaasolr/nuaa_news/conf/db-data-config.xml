@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<!--<dataConfig>
+ <dataSource type="JdbcDataSource" driver="oracle.jdbc.driver.OracleDriver"  
+   url="jdbc:oracle:thin:@10.22.23.91:1521:orcl"  
+   user="irdp_new"  
+   password="1234"/>
+   <document>
+      <entity name="EXPERT" pk="PK_EXPERT" query="select t.id id ,fullname name from expert t">  
+          <field column="id" name="id" />  
+          <field column="name" name="name" />  
+      </entity>
+ </document> 
+</dataConfig>-->
+
+
+    <dataConfig>  
+      <dataSource type="JdbcDataSource"   
+                  driver="com.mysql.jdbc.Driver"  
+                  url="jdbc:mysql://211.149.175.138:3306/admin_new"   
+                  user="root"   
+                  password="hello1234"/>  
+      <document>  
+        <entity name="news"  pk="ID" 
+                query="select k.id,k.title news_title,date_sub(k.modify_time, interval -8 hour) time,k.type,k.modify_user_id creater_id,u.fullname creater_name from core_news k,core_user u where k.modify_user_id=u.id and k.is_delete=0 order by modify_time desc"  
+				deltaQuery="select ID from core_news where modify_time > '${dataimporter.last_index_time}' and is_delete=0 order by modify_time desc"    
+				deletedPkQuery="select ID from core_news where is_delete=1"  
+				deltaImportQuery="select k.id,k.title news_title,date_sub(k.modify_time, interval -8 hour) time,k.type,k.modify_user_id creater_id,u.fullname creater_name from core_news k,core_user u where k.modify_user_id=u.id and k.is_delete=0 and k.id='${dih.delta.ID}'">
+				<field column="ID" name="id"/>
+        </entity>
+      </document>  
+    </dataConfig>  

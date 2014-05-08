@@ -1,3 +1,26 @@
+jQuery.navlevel2 = function(level1, dytime) {
+	$(level1).mouseenter(function() {
+		varthis = $(this);
+		delytime = setTimeout(function() {
+			varthis.find('ul').slideDown();
+		}, dytime);
+	});
+	$(level1).mouseleave(function() {
+		clearTimeout(delytime);
+		$(this).find('ul').slideUp();
+		
+	});
+};
+jQuery.navlevel2enter = function(level1) {
+	$(level1).mouseenter(function() {
+		var ul = $(this).find('ul');
+		if(ul.is(":visible")){
+			ul.slideUp();
+		}else{
+			ul.slideDown();
+		}		
+	});
+};
 function getBaseDataFromServer() {	
 	jQuery.ajax( {
 		type : "GET",
@@ -9,26 +32,13 @@ function getBaseDataFromServer() {
 			//dataStr = '{"user":{"id":-1,"name":"超级管理员"},"menus":[{"id":1,"name":"首页","now":false,"action":"/home.html","subMenus":null},{"id":2,"name":"通知","now":false,"action":"/noticelist.html","subMenus":null},{"id":3,"name":"新闻","now":false,"action":"/newslist.html","subMenus":null},{"id":4,"name":"院系介绍","now":false,"action":"/college.html","subMenus":null},{"id":5,"name":"教师介绍","now":false,"action":"/teacher.html","subMenus":null},{"id":6,"name":"科研介绍","now":false,"action":"/scientific.html","subMenus":null},{"id":7,"name":"系统管理","now":false,"action":null,"subMenus":[{"id":8,"name":"用户管理","now":false,"action":"/nanhang/admin/listUsers","subMenus":null},{"id":9,"name":"新闻发布","now":false,"action":"/nanhang/sys/news/list","subMenus":null},{"id":10,"name":"通知管理","now":false,"action":"/nanhang/sys/news/listNotice","subMenus":null},{"id":11,"name":"用户审核","now":false,"action":"/nanhang/user/listCheckUser","subMenus":null},{"id":13,"name":"报告管理","now":false,"action":"/nanhang/sys/report/list","subMenus":null}]}]}';			
 			dataStr = result.data;
 			setBaseData2Page(dataStr);
-			jQuery.navlevel2 = function(level1, dytime) {
-				$(level1).mouseenter(function() {
-					varthis = $(this);
-					delytime = setTimeout(function() {
-						varthis.find('ul').slideDown();
-					}, dytime);
-				});
-				$(level1).mouseleave(function() {
-					clearTimeout(delytime);
-					$(this).find('ul').slideUp();
-					
-				});
-			};
-			$.navlevel2("li[layer=1]", 0);
+			$.navlevel2("div[id='navigation'] li[layer=1]", 0);
 		},
 		complete : function(XMLHttpRequest, textStatus) {
 		},
 		error : function() {
 		}
-	});     
+	});   
 }
 function setBaseData2Page(dataStr) {
 	try {
@@ -69,11 +79,16 @@ function setBaseData2Page(dataStr) {
 		search.append(searchBtn);
 		
 		searchBtn.bind( {
-		"click" : function() {
-			searchWite();
-		}
-	});
-		
+			"click" : function() {
+				searchWite();
+			}
+		});
+		searchInput.keydown(function(e){
+			if(e.keyCode==13){
+				searchWite();
+			}
+		}); 
+			
 		$("#head").append(search);
 		/*搜索框 end*/
 		setNavigationNow();
@@ -123,7 +138,7 @@ function geneLi(menu,layer){
 	    var li_child = geneLi(menu_child,2);	
 	    ul_child.append(li_child);
 	  }
-	  ul_child.find("li").hover(
+	  /*ul_child.find("li").hover(
 	      function() {
 	    	  $(this).parent().css("display","block");
 	    	  $("#navigation ul li[layer='1']").each(function(index) {
@@ -137,7 +152,7 @@ function geneLi(menu,layer){
 			  });
 			  $("#navigation ul li[layer='1'][now='true']").addClass("now");
 		  }
-	  );
+	  );*/
 	  li.attr("childs", "true");
 	  li.append(ul_child);
 	}else{
@@ -298,6 +313,8 @@ jQuery(document).ready(function() {
 			return false;
 		} 
 	}); 
+	
+	$.navlevel2enter("div[id='xueyuanjigou'] li[layer=1]");
 			
 	/*setFootInBottom();*/
 });

@@ -10,7 +10,7 @@ function getHomeDataFromServer() {
      
     /*热点新闻*/
 	jQuery.ajax({
-		url: "http://math.science.nuaa.edu.cn/node/news/list?rows=25",
+		url: "http://math.science.nuaa.edu.cn/node/news/list?rows=35",
 		type: "GET",
 		success: function(data) {
     		setHomeData2PageNews(data);
@@ -120,6 +120,7 @@ function setHomeData2PageReport(dataObj) {
 				var time = each.time;
 				var timeObj = string2Date(time);
 				var li = $("<li />");
+				li.addClass("layer1");
 				var yearmonth = $("<div />");
 				yearmonth.attr("class","yearmonth");
 				yearmonth.html(formatDate(timeObj,"YYYY.MM"));

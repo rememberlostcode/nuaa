@@ -51,4 +51,12 @@
 		update core_download set is_delete=1,delete_user_id=#{delete_user_id},delete_time=#{delete_time} where id = #{id}
     </delete>
     
+    <select id="getCountOfAll" resultType="Integer">
+		select count(1) count from core_download t where t.is_delete=0
+    </select>
+    
+    <select id="findAll" parameterType="PageModel" resultType="DownloadModel">
+		select t.id,t.name,t.path,date_format(t.create_time, '%Y-%m-%d %H:%i:%s') create_time,u.fullname user_name from core_download t,core_user u where t.create_user_id=u.id and t.is_delete=0 limit #{start},#{num}
+    </select>
+    
 </mapper>

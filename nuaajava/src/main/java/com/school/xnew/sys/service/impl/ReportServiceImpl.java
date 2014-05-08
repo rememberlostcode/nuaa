@@ -6,16 +6,14 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.school.xnew.biz.service.SolrRedisData;
 import com.school.xnew.persistence.dao.ReportDao;
 import com.school.xnew.persistence.entity.PageModel;
 import com.school.xnew.persistence.entity.ReportModel;
-import com.school.xnew.redis.CacheRepository;
 import com.school.xnew.redis.build.ReportBuilder;
 import com.school.xnew.sys.service.ReportService;
-import com.school.xnew.sys.util.UrlUtil;
 import com.school.xnew.util.DateUtil;
 
 /**
@@ -27,12 +25,9 @@ import com.school.xnew.util.DateUtil;
 @Service
 public class ReportServiceImpl implements ReportService {
 	@Resource
-	@Value(value = "${new.admin.solr.url}")
-	public String			server_url;
-	@Resource
 	private ReportDao		reportDao;
 	@Resource
-	private CacheRepository	cacheRepository;
+	private SolrRedisData	solrRedisData;
 
 	public List<ReportModel> findAllReport(ReportModel report) {
 		return reportDao.findAllReports(report);
@@ -53,9 +48,7 @@ public class ReportServiceImpl implements ReportService {
 		}
 		if (num == 1 && report.getId() != null) {
 			report = reportDao.getModelById(report.getId());
-			cacheRepository.set(report.getId().toString(), report);
-			UrlUtil.sendGet(server_url
-					+ "/solr/nuaa_report/dataimport?command=delta-import&commit=y");
+			solrRedisData.submitReport(report);
 			res = true;
 		}
 		return res;
@@ -75,12 +68,8 @@ public class ReportServiceImpl implements ReportService {
 				report.setId(Integer.parseInt(ids[i]));
 				if (reportDao.delete(report) == 1) {
 					res = true;
-					cacheRepository.setNull(ids[i], report);
+					solrRedisData.removeReport(report);
 				}
-			}
-			if (res) {
-				UrlUtil.sendGet(server_url
-						+ "/solr/nuaa_report/dataimport?command=delta-import&commit=y");
 			}
 		}
 		return res;
@@ -98,6 +87,6 @@ public class ReportServiceImpl implements ReportService {
 	}
 
 	public void build() {
-		new ReportBuilder(this, cacheRepository, server_url).build();
+		new ReportBuilder(this, solrRedisData).build();
 	}
 }

@@ -17,7 +17,7 @@
         </selectKey>
 	</insert>
     <select id="findAllReports" resultType="ReportModel" parameterType="ReportModel">
-        select t.id,t.title,serial_number,date_format(t.time, '%Y-%m-%d %H:%i') time,t.author,t.institution,date_format(t.modify_time, '%Y-%m-%d %H:%i:%s') modify_time,t.modify_user_id,u.fullname creater_name from core_report t,core_user u where t.modify_user_id=u.id and t.is_delete=0 
+        select t.id,t.title,serial_number,date_format(t.time, '%Y-%m-%d %H:%i:%s') time,t.author,t.institution,date_format(t.modify_time, '%Y-%m-%d %H:%i:%s') modify_time,t.modify_user_id,u.fullname creater_name from core_report t,core_user u where t.modify_user_id=u.id and t.is_delete=0 
         	<if test="title != null and title != ''">
     			and t.title like CONCAT('%',#{title},'%') 
     		</if>
@@ -34,7 +34,7 @@
     </select>
     
     <select id="getModelById" parameterType="Integer" resultType="ReportModel">
-      select t.id,t.title,t.author,t.institution,address,introduction,date_format(t.time, '%Y-%m-%d %H:%i') time,serial_number from core_report t
+      select t.id,t.title,t.author,t.institution,address,introduction,date_format(t.time, '%Y-%m-%d %H:%i:%s') time,serial_number from core_report t
       where t.id = #{id}
     </select>
     

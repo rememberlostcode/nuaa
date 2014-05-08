@@ -8,8 +8,11 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.school.xnew.biz.service.SolrRedisData;
 import com.school.xnew.persistence.dao.DownloadDao;
 import com.school.xnew.persistence.entity.DownloadModel;
+import com.school.xnew.persistence.entity.PageModel;
+import com.school.xnew.redis.build.DownloadBuilder;
 import com.school.xnew.sys.service.DownloadService;
 import com.school.xnew.util.DateUtil;
 
@@ -22,7 +25,9 @@ import com.school.xnew.util.DateUtil;
 @Service
 public class DownloadServiceImpl implements DownloadService {
 	@Resource
-	private DownloadDao	downloadDao;
+	private DownloadDao		downloadDao;
+	@Resource
+	private SolrRedisData	solrRedisData;
 
 	public List<DownloadModel> findAllDownload(DownloadModel download) {
 		return downloadDao.findAllDownload(download);
@@ -64,5 +69,22 @@ public class DownloadServiceImpl implements DownloadService {
 			}
 		}
 		return res;
+	}
+
+	@Override
+	public int getCountOfAll() {
+		return downloadDao.getCountOfAll();
+	}
+
+	@Override
+	public List<DownloadModel> findAll(int start, int num) {
+		PageModel page = new PageModel();
+		page.setStart(start);
+		page.setNum(num);
+		return downloadDao.findAll(page);
+	}
+
+	public void build() {
+		new DownloadBuilder(this, solrRedisData).build();
 	}
 }

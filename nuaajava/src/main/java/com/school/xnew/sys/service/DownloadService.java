@@ -45,4 +45,10 @@ public interface DownloadService {
 	 */
 	public boolean delete(DownloadModel download);
 
+	public int getCountOfAll();
+
+	public List<DownloadModel> findAll(int start, int num);
+
+	public void build();
+
 }

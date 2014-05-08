@@ -15,7 +15,8 @@
 	</bean>
 	<bean id="newsService" class="com.school.xnew.sys.service.impl.NewsServiceImpl"></bean>
 	<bean id="reportService" class="com.school.xnew.sys.service.impl.ReportServiceImpl"></bean>
-	<bean id="cacheRepository" class="com.school.xnew.redis.impl.RCacheRepository"></bean>
+	<bean id="downloadService" class="com.school.xnew.sys.service.impl.DownloadServiceImpl"></bean>
+	<bean id="solrRedisData" class="com.school.xnew.biz.service.impl.SolrRedisDataImpl"></bean>
 	<bean name="buildTask" class="org.springframework.scheduling.quartz.JobDetailBean">
 		<property name="jobClass" value="com.school.xnew.redis.build.AllBuild" />
 		<property name="jobDataAsMap">
@@ -23,8 +24,8 @@
 				<entry key="timeout" value="5" />
 				<entry key="newsService" value-ref="newsService" />
 				<entry key="reportService" value-ref="reportService" />
-				<entry key="cacheRepository" value-ref="cacheRepository" />
-				<entry key="server_url" value="${new.admin.solr.url}" />
+				<entry key="downloadService" value-ref="downloadService" />
+				<entry key="solrRedisData" value-ref="solrRedisData" />
 			</map>
 		</property>
 	</bean>

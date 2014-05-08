@@ -223,4 +223,9 @@ public class DownloadController {
 		}
 	}
 
+	@RequestMapping(value = "/build")
+	public String build(Model model) throws BusinessException {
+		downloadService.build();
+		return "news/build";
+	}
 }

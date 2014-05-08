@@ -30,7 +30,6 @@ public class MenuServiceImpl implements MenuService {
 			menuDtoList = new ArrayList<MenuDto>();
 		}
 		for (MenuModel model : menuModelList) {
-			Integer id = model.getId();
 			Integer parentId = model.getParentId();
 			if (parentId == null || parentId == 0) {
 				MenuDto menuDto = menuModel2MenuDto(model);

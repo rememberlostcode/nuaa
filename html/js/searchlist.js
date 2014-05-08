@@ -19,19 +19,33 @@ function setList2Page(dataObj) {
 			$("#neirong").empty();
 			for ( var key in searchs) {
 				var each = searchs[key];
-				var one = $("<span id='"+each.id+"' style='cursor: pointer;' module='" + each.module + "' />");
+				var one = $("<span id='"+each.id+"' module='" + each.module + "' />");
 				one.attr("class","one");
-				one.html(each.title);
-				one.bind( {
-					"click" : function() {
-					    var module = $(this).attr("module");
-					    if(module == "通知"){
-					    	window.location.href = "notice.html?id="+$(this).attr("id");
-					    }else if(module == "新闻"){
-					    	window.location.href = "news.html?id="+$(this).attr("id");
-					    }					    
-					}
-				});
+				one.append(each.title);
+				if(each.module == "下载区"){
+					one.append("&nbsp;&nbsp;&nbsp;");
+					var downloadimg = $("<img src='/image/rdetail_btn.gif' path='"+each.path+"' width='60px'>");
+					one.append(downloadimg);
+					downloadimg.bind( {
+						"click" : function() {
+							window.location.href = $(this).attr("path");
+						}
+					});
+				} else {
+					one.css("cursor","pointer");
+					one.bind( {
+						"click" : function() {
+							var module = $(this).attr("module");
+							if(module == "通知"){
+								window.location.href = "notice.html?id="+$(this).attr("id");
+							}else if(module == "新闻"){
+								window.location.href = "news.html?id="+$(this).attr("id");
+							}else if(module == "报告"){
+								window.location.href = "report.html?id="+$(this).attr("id");
+							}					    
+						}
+					});
+				}
 
 				var two = $("<span />");
 				two.attr("class","two");

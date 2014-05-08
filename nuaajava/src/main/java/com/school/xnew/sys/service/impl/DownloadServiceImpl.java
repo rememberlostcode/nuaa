@@ -46,6 +46,7 @@ public class DownloadServiceImpl implements DownloadService {
 		}
 		if (num == 1 && download.getId() != null) {
 			download = downloadDao.getModelById(download.getId());
+			solrRedisData.submitDownload(download);
 			res = true;
 		}
 		return res;
@@ -64,6 +65,7 @@ public class DownloadServiceImpl implements DownloadService {
 				download.setDelete_time(ctime);
 				download.setId(Integer.parseInt(ids[i]));
 				if (downloadDao.delete(download) == 1) {
+					solrRedisData.removeDownload(download);
 					res = true;
 				}
 			}

@@ -126,7 +126,7 @@ public class SolrRedisDataImpl implements SolrRedisData {
 		cal.add(Calendar.HOUR_OF_DAY, 8);
 		doc.addField("time", cal.getTime());
 		doc.addField("address", reportModel.getAddress());
-		doc.addField("userName", reportModel.getCreate_time());
+		doc.addField("userName", reportModel.getAuthor());
 		doc.addField("nuaaTitle", reportModel.getTitle());
 		doc.addField("type", TYPE_REPORT);
 
@@ -161,7 +161,7 @@ public class SolrRedisDataImpl implements SolrRedisData {
 			cal.add(Calendar.HOUR_OF_DAY, 8);
 			doc.addField("time", cal.getTime());
 			doc.addField("address", reportModel.getAddress());
-			doc.addField("userName", reportModel.getCreater_name());
+			doc.addField("userName", reportModel.getAuthor());
 			doc.addField("nuaaTitle", reportModel.getTitle());
 			doc.addField("type", TYPE_REPORT);
 			docs.add(doc);

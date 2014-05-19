@@ -1,3 +1,7 @@
+if (typeof (JSON) == 'undefined') {
+     //如果浏览器不支持JSON，则载入json2.js
+     $.getScript('http://math.science.nuaa.edu.cn/js/git-json.js');
+}
 jQuery.navlevel2 = function(level1, dytime) {
 	$(level1).mouseenter(function() {
 		varthis = $(this);

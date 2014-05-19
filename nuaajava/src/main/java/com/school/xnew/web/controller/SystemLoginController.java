@@ -91,7 +91,7 @@ public class SystemLoginController {
 		}
 		// model.addAttribute("result", JsonUtil.getEntity2Json(rtnValueDto));
 		Cookie cookie = new Cookie("JSESSIONID", request.getSession().getId());
-		cookie.setPath("/nuaa");
+		cookie.setPath("/");
 		response.addCookie(cookie);
 		return UrlBasedViewResolver.REDIRECT_URL_PREFIX + tempUrl;
 	}

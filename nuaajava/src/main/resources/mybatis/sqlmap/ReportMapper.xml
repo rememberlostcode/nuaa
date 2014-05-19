@@ -34,8 +34,7 @@
     </select>
     
     <select id="getModelById" parameterType="Integer" resultType="ReportModel">
-      select t.id,t.title,t.author,t.institution,address,introduction,date_format(t.time, '%Y-%m-%d %H:%i:%s') time,serial_number from core_report t
-      where t.id = #{id}
+      select t.id,t.title,t.author,t.institution,address,introduction,date_format(t.time, '%Y-%m-%d %H:%i:%s') time,serial_number from core_report t,core_user u where t.modify_user_id=u.id and t.id = #{id}
     </select>
     
     <!-- 修改信息 -->

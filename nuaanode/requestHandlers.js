@@ -1,8 +1,9 @@
 var redis = require("redis");
-var solr_server_host = "127.0.0.1";
-//var client = redis.createClient(6379,'211.149.175.138');
-//var solr_server_host = "math.science.nuaa.edu.cn";
-var client = redis.createClient(6379,'10.22.23.63');
+
+var client = redis.createClient(6379,'211.149.175.138');
+var solr_server_host = "math.science.nuaa.edu.cn";
+//var client = redis.createClient(6379,'10.22.23.63');
+//var solr_server_host = "127.0.0.1";
 
 var solr_server_port = 80;
 var applicationJson = "application/json; charset=utf-8";

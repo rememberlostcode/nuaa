@@ -12,6 +12,7 @@ public class NewsModel {
 	private String content;
 	private Integer type;
 	private String time;
+	private Integer click_num;
 	
 	private Integer creater_id;//创建人
 	private String creater_name;//创建时间；查询时的开始时间
@@ -136,6 +137,14 @@ public class NewsModel {
 
 	public void setDelete_time(String delete_time) {
 		this.delete_time = delete_time;
+	}
+
+	public Integer getClick_num() {
+		return click_num;
+	}
+
+	public void setClick_num(Integer click_num) {
+		this.click_num = click_num;
 	}
 
 }

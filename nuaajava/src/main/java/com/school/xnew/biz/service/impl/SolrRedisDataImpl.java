@@ -64,6 +64,7 @@ public class SolrRedisDataImpl implements SolrRedisData {
 		doc.addField("userName", newsModel.getCreater_name());
 		doc.addField("type", newsModel.getType());
 		doc.addField("nuaaTitle", newsModel.getTitle());
+		doc.addField("click_num", newsModel.getClick_num());
 
 		// 提交到solr
 		HttpSolrServer solrServer = getServer();
@@ -78,7 +79,7 @@ public class SolrRedisDataImpl implements SolrRedisData {
 			// solrServer.shutdown();
 		}
 	}
-
+	
 	public void submitNewsList(List<NewsModel> list) {
 		Collection<SolrInputDocument> docs = new ArrayList<SolrInputDocument>();
 
@@ -97,6 +98,7 @@ public class SolrRedisDataImpl implements SolrRedisData {
 			doc.addField("userName", news.getCreater_name());
 			doc.addField("type", news.getType());
 			doc.addField("nuaaTitle", news.getTitle());
+			doc.addField("click_num", news.getClick_num());
 			docs.add(doc);
 		}
 
@@ -129,6 +131,7 @@ public class SolrRedisDataImpl implements SolrRedisData {
 		doc.addField("userName", reportModel.getAuthor());
 		doc.addField("nuaaTitle", reportModel.getTitle());
 		doc.addField("type", TYPE_REPORT);
+		doc.addField("click_num", reportModel.getClick_num());
 
 		// 提交到solr
 		HttpSolrServer solrServer = getServer();
@@ -164,6 +167,7 @@ public class SolrRedisDataImpl implements SolrRedisData {
 			doc.addField("userName", reportModel.getAuthor());
 			doc.addField("nuaaTitle", reportModel.getTitle());
 			doc.addField("type", TYPE_REPORT);
+			doc.addField("click_num", reportModel.getClick_num());
 			docs.add(doc);
 		}
 

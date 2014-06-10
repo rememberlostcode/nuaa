@@ -19,6 +19,7 @@ public class ReportModel {
 	private String	address;		// 报告地点
 	private String	introduction;	// 报告摘要
 	private Integer	serial_number;	// 本年度学院报告总序号
+	private Integer click_num;
 
 	@JsonIgnore
 	private String	create_time;	// 创建时间
@@ -193,5 +194,13 @@ public class ReportModel {
 
 	public void setSerial_number(Integer serial_number) {
 		this.serial_number = serial_number;
+	}
+
+	public Integer getClick_num() {
+		return click_num;
+	}
+
+	public void setClick_num(Integer click_num) {
+		this.click_num = click_num;
 	}
 }

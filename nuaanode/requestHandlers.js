@@ -34,6 +34,8 @@ function detail(query,response) {
                 result += JSON.stringify(newsdetail.modify_time) ;
                 result += '},{\"name\":\"发布人\",\"value\":';
                 result += JSON.stringify(newsdetail.creater_name);
+                result += '},{\"name\":\"阅读次数\",\"value\":';
+                result += JSON.stringify(newsdetail.click_num);
                 result += '}],\"detail\":';
                 result += JSON.stringify(newsdetail.content);
                 result += ',\"last\":';
@@ -522,6 +524,8 @@ function reportdetail(query,response) {
                 result += JSON.stringify(newsdetail.institution);
 				result += '},{\"name\":\"报告日期\",\"value\":';
                 result += JSON.stringify(newsdetail.time.substring(0,10));
+                result += '},{\"name\":\"阅读次数\",\"value\":';
+                result += JSON.stringify(newsdetail.click_num);
 				result += '},{\"name\":\"报告时间\",\"value\":';
                 result += JSON.stringify(newsdetail.time.substring(12,16));
 				result += '},{\"name\":\"报告地点\",\"value\":';

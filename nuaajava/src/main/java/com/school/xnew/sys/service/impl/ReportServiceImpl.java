@@ -89,4 +89,10 @@ public class ReportServiceImpl implements ReportService {
 	public void build() {
 		new ReportBuilder(this, solrRedisData).build();
 	}
+	
+	public void updateClickNum(int id){
+		reportDao.updateClickNum(id);
+		ReportModel report = reportDao.getModelById(id);
+		solrRedisData.submitReport(report);
+	}
 }

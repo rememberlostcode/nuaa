@@ -14,6 +14,7 @@ public class DownloadModel {
 	private Integer	id;
 	private String	name;			// 文件名称
 	private String	path;			// 文件路径
+	private Integer download_num;	// 下载次数
 
 	private String	user_name;		// 用户名称
 	private String	create_time;	// 创建时间
@@ -147,5 +148,13 @@ public class DownloadModel {
 
 	public void setPath(String path) {
 		this.path = path;
+	}
+
+	public Integer getDownload_num() {
+		return download_num;
+	}
+
+	public void setDownload_num(Integer download_num) {
+		this.download_num = download_num;
 	}
 }

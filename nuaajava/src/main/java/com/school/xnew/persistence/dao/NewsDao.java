@@ -20,4 +20,6 @@ public interface NewsDao extends GenericDao<NewsModel> {
 	public int getCountOfAll();
 	
 	public List<NewsModel> findAll(PageModel page);
+	
+	public void updateClickNum(int id);
 }

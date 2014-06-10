@@ -527,7 +527,7 @@ function reportdetail(query,response) {
                 result += '},{\"name\":\"阅读次数\",\"value\":';
                 result += JSON.stringify(newsdetail.click_num);
 				result += '},{\"name\":\"报告时间\",\"value\":';
-                result += JSON.stringify(newsdetail.time.substring(12,16));
+                result += JSON.stringify(newsdetail.time.substring(11,16));
 				result += '},{\"name\":\"报告地点\",\"value\":';
                 result += JSON.stringify(newsdetail.address);
 				result += '},{\"name\":\"报告摘要\",\"value\":';

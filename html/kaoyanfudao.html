@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="stylesheet" type="text/css" href="css/base.css" />
+		<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+		<script type="text/javascript" src="js/jquery.json-2.3.min.js"></script>
+		<script type="text/javascript" src="js/base.js"></script>
+		<style>
+		#kaoyanfudaobiaoti{
+			text-align:center;
+			width:100%;
+			font-weight:bold;
+			font-size:24px;
+		}	
+		</style>
+		<script>
+		  function blinklink() {
+		  	var red = "rgb(255, 0, 0)";
+		  	var black = "rgb(18, 94, 114)";
+		  	var obj = $("#kaoyanfudaobiaoti");
+		  	var color = obj.css("color");
+				if (color.length <= 0 || (color != red && color != black)) {
+					obj.css("color",red);
+				}
+				if (color == red) {
+					obj.css("color",black);
+				} else {
+					obj.css("color",red);
+				}
+				setTimeout("blinklink()", 200);
+			}	
+			jQuery(document).ready(function() {
+				blinklink();
+			});	
+		</script>
+	</head>
+	<body>
+		<div id="main">
+			<div id="content">
+				<div id="location">
+					您所在的位置: <a href='/'>考研辅导</a>
+				</div>
+				<div id="kaoyanfudaobiaoti">
+					考研辅导
+				</div>
+			</div>
+		</div>
+
+	</body>
+
+</html>

@@ -8,6 +8,15 @@
 		<script type="text/javascript" src="js/jquery.kxbdmarquee.js"></script>
 		<script type="text/javascript" src="js/base.js"></script>
 		<script type="text/javascript" src="js/home.js" charset="UTF-8"></script>
+		<script type="text/javascript" src="js/imglunbo.js" charset="UTF-8"></script>
+		<script>
+			jQuery(document).ready(function() {
+				PImgPlayer.addItem("", "/", "css/image/nhjj_1.jpg");
+    		PImgPlayer.addItem("", "/", "css/image/nhjj_2.jpg");
+    
+    		PImgPlayer.init("logo", 416, 312);
+			});	
+		</script>
 	</head>
 	<body>
 		<div id="home">
@@ -17,7 +26,6 @@
   			  	<div>
     					<div id="center">
     						<div id="logo">
-    							<img src="css/image/nhjj.jpg">
     						</div>
     						<p>
     							&nbsp;&nbsp;&nbsp;&nbsp;
@@ -46,7 +54,7 @@
   						<div id="xueyuanjigou">
   							<ul class="list">
   								<li class="layer1" layer="1">
-  									<span>>&nbsp;数学系机构</span>
+  									<span>&nbsp;&nbsp;>&nbsp;数学系机构</span>
   									<ul class="childs" style="display: none;">
   										<li class="layer2" action="#">
   											<a href="leader.html">现任领导</a>
@@ -60,7 +68,7 @@
   									</ul>
   								</li>
   								<li class="layer1" layer="1">
-  									<span>>&nbsp;专业介绍</span>
+  									<span>&nbsp;&nbsp;>&nbsp;专业介绍</span>
   									<ul class="childs" style="display: none;">
   										<li class="layer2" action="#">
   											<a href="#">本科生设置</a>

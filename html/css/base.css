@@ -481,7 +481,7 @@ body {
 }
 #home .right #report .list .two{
     float:left;
-	width: 84%;
+	width: 80%;
 }
 #home .right #report .list .two span.bold{
     display: block;
@@ -773,14 +773,15 @@ a:active {color: blue;}
 #xueyuanjigou ul li.layer1 span{
 	display:block;
 	background-color:#FFFFFF;
-	padding:8px;
+	padding: 8px 0;
 	border:1px solid #DEDEDE;
-	width:94%;
+	width:100%;
 }
 
 #home .right #xueyuanjigou .list li.layer2 {
     margin: 12px 0 0px 20px;
     width: 80%;
+    float: none;
 }
 #home .right #xueyuanjigou .list li.layer2 a:hover {
 	color:#0d3470;

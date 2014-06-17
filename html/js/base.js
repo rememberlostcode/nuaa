@@ -94,6 +94,7 @@ function setBaseData2Page(dataStr) {
 		}); 
 			
 		$("#head").append(search);
+		search.before(geneXiaoli());
 		/*搜索框 end*/
 		setNavigationNow();
 	} catch (e) {
@@ -103,7 +104,7 @@ function setBaseData2Page(dataStr) {
 
 function geneLi(menu,layer){
 	var li = $("<li />");
-	li.html("<span>" + menu.name + "</span>");
+	li.html("<span style='display:block;'>" + menu.name + "</span>");
 	if (menu.now == "true") {
 		li.addClass("now");
 		li.attr("now", "true");
@@ -304,6 +305,40 @@ function geneBaseHtml(){
 	content.after(foot);
 }
 
+
+function initArray() {
+	this.length = initArray.arguments.length
+	for (var i = 0; i < this.length; i++) {
+		this[i + 1] = initArray.arguments[i];
+	}
+}
+function getTermWeeks(beginDate, currDate) {
+	var diff = currDate.getTime() - beginDate.getTime();
+	var dDays = diff / 1000 / 60 / 60 / 24;
+	var dWeeks = Math.floor(dDays / 7) + 1;
+	return dWeeks;
+}
+function geneXiaoli(){
+	var content = "";
+	
+  today = new Date();
+  content += (today.getMonth() + 1) + "月" + today.getDate() + "日" + " ";
+  
+  var d = new initArray("星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六");
+  content += d[today.getDay() + 1] + " ";
+  
+  var beginDate = new Date("2014-02-17"); //本学期的开学日期
+  content += "第" + getTermWeeks(beginDate, today) + "周";
+  
+  var a = $("<a />");
+  a.attr("href","http://ded.nuaa.edu.cn/JwSys/Manager/Module/Calendar/Display/Default.aspx");
+  a.attr("id","xiaoli");
+  a.attr("target","_blank");
+  a.attr("title","点击查看校历");
+  a.css({"color":"#ffffff"});
+  a.html(content);
+  return a;
+}
 jQuery(document).ready(function() {
 	geneBaseHtml();
 	getBaseDataFromServer();

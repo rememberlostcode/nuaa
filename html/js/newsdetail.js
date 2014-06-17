@@ -9,6 +9,13 @@ function getDetailDataFromServer() {
 }
 function setDetailData2Page(dataObj) {
 	try {
+		jQuery.ajax({
+			url: "http://math.science.nuaa.edu.cn/nanhang/updateClickOrDownloadNum.json?type=news&id="+getQueryString('id'),
+			type: "GET",
+			success: function(data) {
+			}
+		});
+
 		var headline = dataObj.headline;
 		if (headline != null) {
 			$("#headline").html(headline);

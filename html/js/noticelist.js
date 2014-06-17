@@ -17,10 +17,20 @@ function setList2Page(dataObj) {
 		var notices = dataObj.notices;
 		if (notices != null) {
 			$("#list").empty();
+			var page  = dataObj.currentPage;
+			var i=0;
+			var nd = new Date();
+			nd.setMonth(nd.getMonth()-1);
 			for ( var key in notices) {
 				var notice = notices[key];
 				var li = $("<li id='"+notice.id+"'/>");
 				li.html(notice.content);
+
+				var dt = string2Date(notice.time);
+				if(page <=1 && i==0 && dt > nd){
+					li.append("<img src=\"http://math.science.nuaa.edu.cn/image/new.gif\"/>");
+				}
+
 				li.bind( {
 					"click" : function() {
 					    window.location.href = "notice.html?id="+$(this).attr("id");
@@ -30,6 +40,7 @@ function setList2Page(dataObj) {
 				fonttime.html(notice.time);
 				li.append(fonttime);
 				$("#list").append(li);
+				i++;
 			}
 			//设置当前页数和总页数
 			$('#currentPage').val(dataObj.currentPage);

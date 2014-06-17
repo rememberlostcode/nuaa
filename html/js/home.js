@@ -43,10 +43,17 @@ function setHomeData2PageNotice(dataObj) {
 	try {
 		var notices = dataObj.notices;
 		if (notices != null) {
+			var nd = new Date();
+			nd.setMonth(nd.getMonth()-1);
+			var i =0;
 			for ( var key in notices) {
 				var each = notices[key];
 				var li = $("<li id='"+each.id+"'/>");
-				li.html(each.content + "<span class='time'>" + formatDate(string2Date(each.time),"YYYY-MM-DD") + "</span>");
+				var dt = string2Date(each.time);
+				li.html(each.content + "<span class='time'>" + formatDate(dt,"YYYY-MM-DD") + "</span>");
+				if(i==0 && dt > nd){
+					li.append("<img src=\"http://math.science.nuaa.edu.cn/image/new.gif\"/>");
+				}
 				li.attr("action", each.action);
 				li.bind( {
 					"click" : function() {
@@ -54,6 +61,7 @@ function setHomeData2PageNotice(dataObj) {
 					}
 				});
 				$("#notice .list").append(li);
+				i++;
 			}
 		} else {
 
@@ -67,10 +75,19 @@ function setHomeData2PageNews(dataObj) {
 	try {
 		var hotnews = dataObj.notices;
 		if (hotnews != null) {
+			var i = 0;
+			var nd = new Date();
+			nd.setMonth(nd.getMonth()-1);
 			for ( var key in hotnews) {
 				var each = hotnews[key];
 				var li = $("<li id='"+each.id+"'/>");
-				li.html(each.content + "<span class='time'>" + formatDate(string2Date(each.time),"YYYY-MM-DD") + "</span>");
+				var dt = string2Date(each.time);
+				li.html(each.content + "<span class='time'>" + formatDate(dt,"YYYY-MM-DD") + "</span>");
+				
+				if(i==0 && dt > nd){
+					li.append("<img src=\"http://math.science.nuaa.edu.cn/image/new.gif\"/>");
+				}
+				
 				li.attr("action", each.action);
 				li.bind( {
 					"click" : function() {
@@ -78,6 +95,7 @@ function setHomeData2PageNews(dataObj) {
 					}
 				});
 				$("#hotnews .list").append(li);
+				i++ ;
 			}
 		} else {
 
@@ -113,7 +131,10 @@ function setHomeData2PageMeeting(dataObj) {
 
 function setHomeData2PageReport(dataObj) {
 	try {
+		var nd = new Date();
+		nd.setMonth(nd.getMonth()-1);
 		var hotnews = dataObj.notices;
+		var i=0;
 		if (hotnews != null) {
 			for ( var key in hotnews) {
 				var each = hotnews[key];
@@ -147,6 +168,10 @@ function setHomeData2PageReport(dataObj) {
 					}
 				});
 				liTitle.append(aName);
+				
+				if(i==0 && timeObj > nd){
+					liTitle.append("<img src=\"http://math.science.nuaa.edu.cn/image/new.gif\"/>");
+				}
 				var liUser = $("<li />");
 				liUser.html("<span class='bold'>报告人：</span>"+each.user);
 				var liLoca = $("<li />");
@@ -162,6 +187,7 @@ function setHomeData2PageReport(dataObj) {
 				li.append(divLeft);
 				li.append(ulRight);
 				$("#report .list").append(li);
+				i++;
 			}
 		} else {
 

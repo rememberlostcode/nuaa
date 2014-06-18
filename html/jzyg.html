@@ -18,13 +18,16 @@
 		#main #content #list li {
     	    clear: none;
 		}
-		li.teacher_each{
+		.teacher_each{
 			float: left;
-    		height: 140px;
+    		height: auto;
     	    width: 246px;
     	    color:#000000;
+    	    margin: 0 0 10px 0;
+    	    font-size: 12px;
+    	    cursor:pointer;
 		}
-		li.teacher_each img{
+		.teacher_each img{
 			border: 1px solid #DEE8F0;
     		float: left;
     		margin-right: 4px;
@@ -32,7 +35,7 @@
     		width:110px;
     		height:130px;
 		}
-		#list li.teacher_each li{
+		#list .teacher_each li{
 			float: none;
     		height: 20px;
     		line-height: 20px;
@@ -41,7 +44,7 @@
     		margin-bottom:0;
     		font-size:12px;
 		}	
-		#list li.teacher_each li span{
+		#list .teacher_each li span{
 			font-weight:bold;
 		}
 		.searchNav{

@@ -23,28 +23,28 @@ function setData2Page(){
 		var xsjl = person.academicExperience;//学术经历
 		var qt = person.other;//其它
 		
-		var liEach = $("<li />");
-		liEach.attr({"class":"teacher_each"});
-		liEach.attr({"zm":zm,"zc":zc,"zy":zy,"xm":escape(xm)});
+		var each = $("<table><tr><td rowspan='5' style='width:110px;'></td><td valign='top'></td></tr><tr><td valign='top'></td></tr><tr><td valign='top'></td></tr><tr><td valign='top'></td></tr><tr><td valign='top'></td></tr></table>");
+		each.attr({"class":"teacher_each"});
+		each.attr({"zm":zm,"zc":zc,"zy":zy,"xm":escape(xm)});
 		
 		var zplj = "teacher/empty.png";
 		if(zp != null){
 			zplj = zp;
 		}
-		liEach.append("<img src='" + zplj + "' />");
-		var ul = $("<ul />");
-		ul.append("<li><span>姓名：</span>" + xm +  "</li>");
-		ul.append("<li><span>职称：</span>" + zc +  "</li>");
-		ul.append("<li><span>学位：</span>" + xw +  "</li>");
-		ul.append("<li><span>职务：</span>" + zw +  "</li>");
-		ul.append("<li><span>专业：</span>" + zy +  "</li>");
-		liEach.append(ul);
-		liEach.bind({"click":function(){
+		each.find("tr:eq(0) td:eq(0)").append("<img src='" + zplj + "' />");
+
+		each.find("tr:eq(0) td:eq(1)").append("<span>姓名：</span>" + xm );
+		each.find("tr:eq(1) td:eq(0)").append("<span>职称：</span>" + zc );
+		each.find("tr:eq(2) td:eq(0)").append("<span>学位：</span>" + xw );
+		each.find("tr:eq(3) td:eq(0)").append("<span>职务：</span>" + zw );
+		each.find("tr:eq(4) td:eq(0)").append("<span>专业：</span>" + zy );
+
+		each.bind({"click":function(){
 			var xm = $(this).attr("xm");
 		  window.location.href="jzyg_detail.html?name=" + xm;	
 		}});
 		
-		list.append(liEach);
+		list.append(each);
 	}
 }
 
@@ -142,7 +142,7 @@ function searchNavClickBindEach(searchStr,num){
 
 function dealBind(){
 	var displaySum = 0;
-	var teacher_eachs = $("li[class=teacher_each]");
+	var teacher_eachs = $(".teacher_each");
 	teacher_eachs.each(function() {
 		var displayFlag = true;
 		var zc_now = $(this).attr("zc");

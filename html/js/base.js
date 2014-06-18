@@ -327,7 +327,8 @@ function geneXiaoli(){
   var d = new initArray("星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六");
   content += d[today.getDay() + 1] + " ";
   
-  var beginDate = new Date("2014-02-17"); //本学期的开学日期
+  var strTime="2014-02-17";//本学期的开学日期
+  var beginDate = new Date(Date.parse(strTime.replace(/-/g,"/"))); 
   content += "第" + getTermWeeks(beginDate, today) + "周";
   
   var a = $("<a />");

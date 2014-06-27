@@ -123,6 +123,20 @@ body {
 	background-color: #004A6E;
 }
 
+#xiaoli {
+	float: right;
+	width: auto;
+	height: auto;
+	position: absolute;
+  right: 48px;
+  top: 82px;
+  text-decoration:none;
+  font-size:14px;
+}
+#xiaoli:hover{
+	text-decoration:underline;
+}
+
 #search {
 	float: right;
 	width: 160px;
@@ -357,16 +371,17 @@ body {
 }
 
 #home .right {
-	float: right;
+	float: left;
 	color: #125e72;
-	width: 29%;
+	/*width: 29%;*/
 }
 
 #home .right #notice,#home .right #hotnews{
     
 }
 #home .right .time{
-    color:#bbbbbb;
+    padding-left: 6px;
+    color: #b74858;
 }
 #home .right .title {
 	background-repeat: no-repeat;
@@ -417,6 +432,7 @@ body {
 #home .right #rellinks .list {
 	padding: 8px 0 8px 24px;
 	height: auto;
+	margin: 0px;
 }
 #home .right #rellinks .imglist {
     /*width: 212px;*/
@@ -438,6 +454,9 @@ body {
 }
 #home .right #report .list li{
     list-style:none;
+}
+#home .right #report .list li a{
+    text-decoration:underline;
 }
 #home .right #report .list .one{
     float:left;
@@ -462,7 +481,7 @@ body {
 }
 #home .right #report .list .two{
     float:left;
-	width: 84%;
+	width: 80%;
 }
 #home .right #report .list .two span.bold{
     display: block;
@@ -500,6 +519,11 @@ body {
 	background-image: url(image/dot_h.png);
 	background-repeat: repeat-x;
 	background-position: left center;
+}
+
+#home .right #xueyuanjigou .list li.layer1 {
+	width: 100%;
+	float:none;
 }
 
 #home .right .list li {
@@ -622,6 +646,7 @@ body {
 }
 
 #earth {
+	z-index: 888;
 	width: 43px;
 	height: 106px;
 	position: absolute;
@@ -633,7 +658,7 @@ body {
 
 #foot {
 	height: 20px;
-    color:#ffffff;
+  color:#ffffff;
 	padding: 10px 20px;
 	text-align: center;
 	background-color: #004a6e;
@@ -748,13 +773,15 @@ a:active {color: blue;}
 #xueyuanjigou ul li.layer1 span{
 	display:block;
 	background-color:#FFFFFF;
-	padding:8px;
+	padding: 8px 0;
 	border:1px solid #DEDEDE;
+	width:100%;
 }
 
 #home .right #xueyuanjigou .list li.layer2 {
     margin: 12px 0 0px 20px;
     width: 80%;
+    float: none;
 }
 #home .right #xueyuanjigou .list li.layer2 a:hover {
 	color:#0d3470;

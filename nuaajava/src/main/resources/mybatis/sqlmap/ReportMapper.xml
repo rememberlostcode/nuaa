@@ -17,7 +17,7 @@
         </selectKey>
 	</insert>
     <select id="findAllReports" resultType="ReportModel" parameterType="ReportModel">
-        select t.id,t.title,serial_number,date_format(t.time, '%Y-%m-%d %H:%i:%s') time,t.author,t.institution,date_format(t.modify_time, '%Y-%m-%d %H:%i:%s') modify_time,t.modify_user_id,u.fullname creater_name,t.click_num from core_report t,core_user u where t.modify_user_id=u.id and t.is_delete=0 
+        select t.id,t.title,serial_number,date_format(t.time, '%Y-%m-%d %H:%i:%s') time,t.author,t.institution,date_format(t.modify_time, '%Y-%m-%d %H:%i:%s') modify_time,t.modify_user_id,u.fullname creater_name from core_report t,core_user u where t.modify_user_id=u.id and t.is_delete=0 
         	<if test="title != null and title != ''">
     			and t.title like CONCAT('%',#{title},'%') 
     		</if>
@@ -34,7 +34,7 @@
     </select>
     
     <select id="getModelById" parameterType="Integer" resultType="ReportModel">
-      select t.id,t.title,t.author,t.institution,address,introduction,date_format(t.time, '%Y-%m-%d %H:%i:%s') time,serial_number,t.click_num from core_report t,core_user u where t.modify_user_id=u.id and t.id = #{id}
+      select t.id,t.title,t.author,t.institution,address,introduction,date_format(t.time, '%Y-%m-%d %H:%i:%s') time,serial_number from core_report t,core_user u where t.modify_user_id=u.id and t.id = #{id}
     </select>
     
     <!-- 修改信息 -->
@@ -64,10 +64,6 @@
     		where id=#{id}
     </update>
     
-    <update id="updateClickNum" parameterType="Integer">
-    	update core_report set click_num = click_num + 1 where id=#{id}
-    </update>
-    
     <delete id="delete" parameterType="ReportModel">
 		update core_report set is_delete=1,delete_user_id=#{creater_id},delete_time=#{delete_time} where id = #{id}
     </delete>
@@ -77,7 +73,7 @@
     </select>
     
     <select id="findAll" parameterType="PageModel" resultType="ReportModel">
-		select t.id,t.title,t.author,t.institution,address,serial_number,introduction,date_format(t.time, '%Y-%m-%d %H:%i:%s') time,t.modify_user_id,u.fullname creater_name,t.click_num from core_report t,core_user u where t.modify_user_id=u.id and t.is_delete=0 limit #{start},#{num}
+		select t.id,t.title,t.author,t.institution,address,serial_number,introduction,date_format(t.time, '%Y-%m-%d %H:%i:%s') time,t.modify_user_id,u.fullname creater_name from core_report t,core_user u where t.modify_user_id=u.id and t.is_delete=0 limit #{start},#{num}
     </select>
     
 </mapper>

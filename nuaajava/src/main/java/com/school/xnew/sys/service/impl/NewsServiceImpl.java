@@ -91,10 +91,4 @@ public class NewsServiceImpl implements NewsService {
 	public void build() {
 		new NewsBuilder(this, solrRedisData).build();
 	}
-	
-	public void updateClickNum(int id){
-		newsDao.updateClickNum(id);
-		NewsModel news = newsDao.getModelById(id);
-		solrRedisData.submitNews(news);
-	}
 }

@@ -20,5 +20,4 @@ public interface ReportDao extends GenericDao<ReportModel> {
 
 	public List<ReportModel> findAll(PageModel page);
 
-	public void updateClickNum(int id);
 }

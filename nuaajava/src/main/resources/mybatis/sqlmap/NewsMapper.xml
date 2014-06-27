@@ -45,7 +45,7 @@
         </selectKey>
 	</insert>
     <select id="findAllNews" resultType="NewsModel">
-        select t.id,t.title,t.content,t.type,date_format(t.modify_time, '%Y-%m-%d %H:%i:%s') modify_time,t.modify_user_id,u.fullname creater_name,t.click_num from core_news t,core_user u where t.modify_user_id=u.id and t.type=0 and t.is_delete=0 
+        select t.id,t.title,t.content,t.type,date_format(t.modify_time, '%Y-%m-%d %H:%i:%s') modify_time,t.modify_user_id,u.fullname creater_name from core_news t,core_user u where t.modify_user_id=u.id and t.type=0 and t.is_delete=0 
         	<if test="title != null and title != ''">
     			and t.title like CONCAT('%',#{title},'%') 
     		</if>
@@ -62,7 +62,7 @@
     </select>
     
     <select id="findAllNotice" resultType="NewsModel">
-        select t.id,t.title,t.content,t.type,date_format(t.modify_time, '%Y-%m-%d %H:%i:%s') modify_time,t.modify_user_id,u.fullname creater_name,t.click_num from core_news t,core_user u where t.modify_user_id=u.id and t.type=1 and t.is_delete=0 
+        select t.id,t.title,t.content,t.type,date_format(t.modify_time, '%Y-%m-%d %H:%i:%s') modify_time,t.modify_user_id,u.fullname creater_name from core_news t,core_user u where t.modify_user_id=u.id and t.type=1 and t.is_delete=0 
        		<if test="title != null and title != ''">
     			and t.title like CONCAT('%',#{title},'%') 
     		</if>
@@ -79,7 +79,7 @@
     </select>
     
     <select id="getModelById" parameterType="Integer" resultType="NewsModel">
-      select t.id,t.title,t.content,t.type,date_format(t.modify_time, '%Y-%m-%d %H:%i:%s') modify_time,t.modify_user_id,u.fullname creater_name,t.click_num from core_news t,core_user u
+      select t.id,t.title,t.content,t.type,date_format(t.modify_time, '%Y-%m-%d %H:%i:%s') modify_time,t.modify_user_id,u.fullname creater_name from core_news t,core_user u
       where t.id = #{id} and t.modify_user_id=u.id
     </select>
     
@@ -98,10 +98,6 @@
     		where id=#{id}
     </update>
     
-    <update id="updateClickNum" parameterType="Integer">
-    	update core_news set click_num = click_num + 1 where id=#{id}
-    </update>
-    
     <delete id="delete" parameterType="NewsModel">
 		update core_news set is_delete=1,delete_user_id=#{creater_id},delete_time=#{delete_time} where id = #{id}
     </delete>
@@ -111,7 +107,7 @@
     </select>
     
     <select id="findAll" parameterType="PageModel" resultType="NewsModel">
-		select t.id,t.title,t.content,t.type,date_format(t.modify_time, '%Y-%m-%d %H:%i:%s') modify_time,t.modify_user_id,u.fullname creater_name,t.click_num from core_news t,core_user u where t.modify_user_id=u.id and t.is_delete=0 limit #{start},#{num}
+		select t.id,t.title,t.content,t.type,date_format(t.modify_time, '%Y-%m-%d %H:%i:%s') modify_time,t.modify_user_id,u.fullname creater_name from core_news t,core_user u where t.modify_user_id=u.id and t.is_delete=0 limit #{start},#{num}
     </select>
     
 </mapper>

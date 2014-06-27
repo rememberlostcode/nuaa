@@ -59,11 +59,12 @@ public class SolrRedisDataImpl implements SolrRedisData {
 		doc.addField("nuaaId", newsModel.getId());
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(DateUtil.strToDateLong(newsModel.getModify_time()));
-		cal.add(Calendar.HOUR_OF_DAY, 8);
+		cal.add(11, 8);
 		doc.addField("time", cal.getTime());
 		doc.addField("userName", newsModel.getCreater_name());
 		doc.addField("type", newsModel.getType());
 		doc.addField("nuaaTitle", newsModel.getTitle());
+		doc.addField("click_num", newsModel.getClick_num());
 
 		// 提交到solr
 		HttpSolrServer solrServer = getServer();
@@ -89,14 +90,15 @@ public class SolrRedisDataImpl implements SolrRedisData {
 			news = list.get(i);
 			cacheRepository.set(news.getId().toString(), news);
 			doc = new SolrInputDocument();
-			doc.addField("id", SOLR_ID_PRE[0] + news.getId());
+			doc.addField("id", this.SOLR_ID_PRE[0] + news.getId());
 			doc.addField("nuaaId", news.getId());
 			cal.setTime(DateUtil.strToDateLong(news.getModify_time()));
-			cal.add(Calendar.HOUR_OF_DAY, 8);
+			cal.add(11, 8);
 			doc.addField("time", cal.getTime());
 			doc.addField("userName", news.getCreater_name());
 			doc.addField("type", news.getType());
 			doc.addField("nuaaTitle", news.getTitle());
+			doc.addField("click_num", news.getClick_num());
 			docs.add(doc);
 		}
 
@@ -119,16 +121,18 @@ public class SolrRedisDataImpl implements SolrRedisData {
 		cacheRepository.set(reportModel.getId().toString(), reportModel);
 
 		SolrInputDocument doc = new SolrInputDocument();
-		doc.addField("id", SOLR_ID_PRE[1] + reportModel.getId());
+		doc.addField("id", this.SOLR_ID_PRE[1] + reportModel.getId());
 		doc.addField("nuaaId", reportModel.getId());
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(DateUtil.strToDateLong(reportModel.getTime()));
-		cal.add(Calendar.HOUR_OF_DAY, 8);
+		cal.add(11, 8);
 		doc.addField("time", cal.getTime());
 		doc.addField("address", reportModel.getAddress());
 		doc.addField("userName", reportModel.getAuthor());
 		doc.addField("nuaaTitle", reportModel.getTitle());
 		doc.addField("type", TYPE_REPORT);
+		doc.addField("click_num", reportModel.getClick_num());
+		doc.addField("author_introduction", reportModel.getAuthor_introduction());
 
 		// 提交到solr
 		HttpSolrServer solrServer = getServer();
@@ -155,15 +159,17 @@ public class SolrRedisDataImpl implements SolrRedisData {
 			reportModel = list.get(i);
 			cacheRepository.set(reportModel.getId().toString(), reportModel);
 			doc = new SolrInputDocument();
-			doc.addField("id", SOLR_ID_PRE[1] + reportModel.getId());
+			doc.addField("id", this.SOLR_ID_PRE[1] + reportModel.getId());
 			doc.addField("nuaaId", reportModel.getId());
 			cal.setTime(DateUtil.strToDateLong(reportModel.getTime()));
-			cal.add(Calendar.HOUR_OF_DAY, 8);
+			cal.add(11, 8);
 			doc.addField("time", cal.getTime());
 			doc.addField("address", reportModel.getAddress());
 			doc.addField("userName", reportModel.getAuthor());
 			doc.addField("nuaaTitle", reportModel.getTitle());
 			doc.addField("type", TYPE_REPORT);
+			doc.addField("click_num", reportModel.getClick_num());
+			doc.addField("author_introduction", reportModel.getAuthor_introduction());
 			docs.add(doc);
 		}
 

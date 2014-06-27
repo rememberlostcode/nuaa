@@ -65,4 +65,6 @@ public interface ReportService {
 	 * build报告（solr和redits）
 	 */
 	public void build();
+	
+	public void updateClickNum(int paramInt);
 }

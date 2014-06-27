@@ -64,4 +64,6 @@ public interface NewsService {
 	 * build新闻（solr和redits）
 	 */
 	public void build();
+	
+	public void updateClickNum(int paramInt);
 }

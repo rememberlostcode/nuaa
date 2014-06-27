@@ -1,11 +1,19 @@
 
 package com.school.xnew.web.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
+import com.school.xnew.sys.service.NewsService;
+import com.school.xnew.sys.service.ReportService;
 import com.school.xnew.web.BaseController;
 
 /**
@@ -18,6 +26,10 @@ import com.school.xnew.web.BaseController;
 @Controller
 @RequestMapping(value = "/")
 public class HomeController extends BaseController {
+	@Resource
+	private NewsService		newsService;
+	@Resource
+	private ReportService	reportService;
 
 	@RequestMapping(value = "home")
 	public String home(Model model) {
@@ -30,4 +42,36 @@ public class HomeController extends BaseController {
 		return UrlBasedViewResolver.REDIRECT_URL_PREFIX + getRootUrl() + "login.html";
 	}
 
+	/**
+	 * 更新点击量
+	 * @param type
+	 * @param id
+	 * @param model
+	 * @param response
+	 */
+	@RequestMapping({ "updateClickOrDownloadNum" })
+	public void updateClickOrDownloadNum(String type, Integer id, Model model,
+			HttpServletResponse response) {
+		int res = 0;
+		if ((id != null) && ("news".equals(type))) {
+			this.newsService.updateClickNum(id.intValue());
+			res = 1;
+		} else if ((id != null) && ("notice".equals(type))) {
+			this.newsService.updateClickNum(id.intValue());
+			res = 1;
+		} else if ((id != null) && ("report".equals(type))) {
+			this.reportService.updateClickNum(id.intValue());
+			res = 1;
+		}
+		try {
+			PrintWriter writer = response.getWriter();
+			response.reset();
+			response.setCharacterEncoding("UTF-8");
+			response.setContentType("text/html");
+			writer.println(res);
+			return;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

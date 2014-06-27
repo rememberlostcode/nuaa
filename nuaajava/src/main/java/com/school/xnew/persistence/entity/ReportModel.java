@@ -12,22 +12,25 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 public class ReportModel {
 
 	private Integer	id;
-	private String	title;			// 报告题目
-	private String	author;		// 报告人
-	private String	institution;	// 报告人所在单位
-	private String	time;			// 报告日期
-	private String	address;		// 报告地点
-	private String	introduction;	// 报告摘要
-	private Integer	serial_number;	// 本年度学院报告总序号
+	private String	title;					// 报告题目
+	private String	author;				// 报告人
+	private String	author_introduction;	// 报告人简介
+	private String	institution;			// 报告人所在单位
+	private String	time;					// 报告日期
+	private String	address;				// 报告地点
+	private String	introduction;			// 报告摘要
+	private Integer	serial_number;			// 本年度学院报告总序号
+	
+	private Integer click_num;
 
 	@JsonIgnore
-	private String	create_time;	// 创建时间
+	private String	create_time;			// 创建时间
 	@JsonIgnore
-	private Integer	creater_id;	// 创建人
-	private String	creater_name;	// 创建人名字
+	private Integer	creater_id;			// 创建人
+	private String	creater_name;			// 创建人名字
 
-	private String	modify_time;	// 最后修改时间
-	private Integer	modify_user_id; // 最后修改人
+	private String	modify_time;			// 最后修改时间
+	private Integer	modify_user_id;		// 最后修改人
 
 	@JsonIgnore
 	private String	delete_time;
@@ -41,7 +44,7 @@ public class ReportModel {
 	@JsonIgnore
 	private String	endDate;
 	@JsonIgnore
-	private String	ids;			// id字符串
+	private String	ids;					// id字符串
 
 	public Integer getId() {
 		return id;
@@ -65,6 +68,14 @@ public class ReportModel {
 
 	public void setAuthor(String author) {
 		this.author = author;
+	}
+
+	public String getAuthor_introduction() {
+		return author_introduction;
+	}
+
+	public void setAuthor_introduction(String author_introduction) {
+		this.author_introduction = author_introduction;
 	}
 
 	public String getInstitution() {
@@ -185,6 +196,14 @@ public class ReportModel {
 
 	public void setIds(String ids) {
 		this.ids = ids;
+	}
+
+	public Integer getClick_num() {
+		return click_num;
+	}
+
+	public void setClick_num(Integer click_num) {
+		this.click_num = click_num;
 	}
 
 	public Integer getSerial_number() {

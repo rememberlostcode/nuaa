@@ -38,18 +38,22 @@ public class ReportServiceImpl implements ReportService {
 		int num = 0;
 		String ctime = DateUtil.dateToStr(new Date());
 		report.setModify_time(ctime);
-		if (report.getId() == null) {
-			report.setCreate_time(ctime);
-			report.setBeginDate(ctime.substring(0, 4) + "-01-01");
-			report.setEndDate(ctime.substring(0, 4) + "-12-31");
-			num = reportDao.insert(report);
-		} else {
-			num = reportDao.update(report);
-		}
-		if (num == 1 && report.getId() != null) {
-			report = reportDao.getModelById(report.getId());
-			solrRedisData.submitReport(report);
-			res = true;
+		try {
+			if (report.getId() == null) {
+				report.setCreate_time(ctime);
+				report.setBeginDate(ctime.substring(0, 4) + "-01-01");
+				report.setEndDate(ctime.substring(0, 4) + "-12-31");
+				num = reportDao.insert(report);
+			} else {
+				num = reportDao.update(report);
+			}
+			if (num == 1 && report.getId() != null) {
+				report = reportDao.getModelById(report.getId());
+				solrRedisData.submitReport(report);
+				res = true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return res;
 	}
@@ -88,5 +92,11 @@ public class ReportServiceImpl implements ReportService {
 
 	public void build() {
 		new ReportBuilder(this, solrRedisData).build();
+	}
+
+	public void updateClickNum(int id) {
+		this.reportDao.updateClickNum(id);
+		ReportModel report = (ReportModel) this.reportDao.getModelById(Integer.valueOf(id));
+		this.solrRedisData.submitReport(report);
 	}
 }

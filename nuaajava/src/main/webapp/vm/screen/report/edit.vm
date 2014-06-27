@@ -1,33 +1,42 @@
+<script type="text/javascript"
+	src="$static_server_name/js/kindeditor/kindeditor-min.js"></script>
+<script type="text/javascript"
+	src="$static_server_name/js/kindeditor/lang/zh_CN.js"></script>
 <script src="$!static_server_name/js/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
 <link href="$static_server_name/css/admin-style.css" rel="stylesheet" type="text/css" />
 <table style="margin: auto;">
 	<input type="hidden" id="id" value="$!reportModel.id" />
 	<tr>
-		<td>报告标题：</td>
+        <td><font color="red">*</font>报告标题：</td>
 		<td><input type="text" id="title" name="title"
-			style="width: 700px;" value="$!reportModel.title" maxlength="50" /></td>
+			style="width: 700px;" value="$!reportModel.title" maxlength="200" /></td>
 	</tr>
 	<tr>
-		<td>报 告 人：</td>
+		<td><font color="red">*</font>报 告 人：</td>
 		<td><input type="text" id="author" name="author"
 			style="width: 700px;" value="$!reportModel.author" maxlength="20" />
 		</td>
 	</tr>
 	<tr>
-		<td>报告人所在单位：</td>
+		<td>报告人简介：</td>
+		<td><textarea id="kindeditor_id" name="kindeditortText"
+				style="width: 700px; height: 400px;">$!reportModel.author_introduction</textarea></td>
+	</tr>
+	<tr>
+		<td><font color="red">*</font>报告人所在单位：</td>
 		<td><input type="text" id="institution" name="institution"
 			style="width: 700px;" value="$!reportModel.institution"
 			maxlength="50" /></td>
 	</tr>
 	<tr>
-		<td>报告时间：</td>
+		<td><font color="red">*</font>报告时间：</td>
 		<td><input type="text" name="time" id="time"
 			value="$!reportModel.time" class="Wdate"
 			onclick="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm'})"
 			readonly="true" /></td>
 	</tr>
 	<tr>
-		<td>报告地点：</td>
+		<td><font color="red">*</font>报告地点：</td>
 		<td><input type="text" id="address" name="address"
 			style="width: 700px;" value="$!reportModel.address" maxlength="50" />
 		</td>
@@ -49,12 +58,23 @@
 	</tr>
 </table>
 <script type="text/javascript">
+	var editor = null;
+	$(function() {
+		editor = KindEditor.create('textarea[name="kindeditortText"]',{
+    		items : [
+    		'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+    		'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+    		'insertunorderedlist', '|', 'image','insertfile', 'link'],
+    		uploadJson : '$server_name/kindeditor/file_upload',
+    		afterBlur : function(){this.sync();}
+        });
+	});
 	function tjsave() {
 		if (!jQuery('#title').val()) {
 			alert('标题不能为空');
 			return false;
 		}
-		if (jQuery('#title').val().length > 50) {
+		if (jQuery('#title').val().length > 200) {
 			alert('标题长度最多为50个字符');
 			return false;
 		}
@@ -86,15 +106,17 @@
 			alert('报告时间不能为空');
 			return false;
 		}
-		if (jQuery('#introduction').val().length > 500) {
+		if (jQuery('#introduction').val().length > 1000) {
 			alert('报告摘要长度最多为500个字符');
 			return false;
 		}
 		if (confirm('确定要发布吗？') == true) {
+			var html = editor.html();
 			jQuery.post("$server_name/sys/report/save", {
 				id : jQuery('#id').val(),
 				title : jQuery('#title').val(),
 				author : jQuery('#author').val(),
+				author_introduction: html,
 				institution : jQuery('#institution').val(),
 				time : jQuery('#time').val(),
 				address : jQuery('#address').val(),

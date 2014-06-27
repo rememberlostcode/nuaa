@@ -41,7 +41,7 @@
     		<if test="modify_time != null and modify_time != ''">
     			,modify_time = #{modify_time}
     		</if>
-    		<if test="modify_user_id != null and modify_user_id != ''">
+    		<if test="modify_user_id != null">
     			,modify_user_id = #{modify_user_id}
     		</if>
     		where id=#{id}

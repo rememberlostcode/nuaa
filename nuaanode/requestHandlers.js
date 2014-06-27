@@ -34,6 +34,8 @@ function detail(query,response) {
                 result += JSON.stringify(newsdetail.modify_time) ;
                 result += '},{\"name\":\"发布人\",\"value\":';
                 result += JSON.stringify(newsdetail.creater_name);
+                result += '},{\"name\":\"阅读次数\",\"value\":';
+                result += JSON.stringify(newsdetail.click_num);
                 result += '}],\"detail\":';
                 result += JSON.stringify(newsdetail.content);
                 result += ',\"last\":';
@@ -431,11 +433,13 @@ function reportlist(query,response) {
     if(rowsnum!=null && rowsnum!=''){
         param += '&rows='+rowsnum;
     }
-
+	
+	var url = "/solr/nuaa/select?q=type%3A10&fl=id%2CnuaaId%2Ctime%2Caddress%2CuserName%2CnuaaTitle%2Ctype%2Cclick&wt=json&sort=time+desc" + param;
+	console.log("url: ", url);
 	var options = {
         host: solr_server_host,
         port: solr_server_port,
-        path: "/solr/nuaa/select?q=type%3A10&wt=json&sort=time+desc" + param,
+        path: url,
         headers:{
             "Content-Type": applicationJson,
             "User-Agent": UserAgent
@@ -510,7 +514,7 @@ function reportdetail(query,response) {
     if(id!=null && id!=''){
         var key = 'report@' + id;
         client.get(key, function(err, res) {
-            //console.log(res);
+            console.log(res);
             var newsdetail = JSON.parse(res);
             if(newsdetail){
                 var id = newsdetail.id;
@@ -520,16 +524,33 @@ function reportdetail(query,response) {
                 result += JSON.stringify(newsdetail.author) ;
                 result += '},{\"name\":\"报告人所在单位\",\"value\":';
                 result += JSON.stringify(newsdetail.institution);
-				result += '},{\"name\":\"报告日期\",\"value\":';
-                result += JSON.stringify(newsdetail.time.substring(0,10));
-				result += '},{\"name\":\"报告时间\",\"value\":';
-                result += JSON.stringify(newsdetail.time.substring(12,16));
+
+				if(newsdetail.report_date && newsdetail.report_time_end){
+					result += '},{\"name\":\"报告日期\",\"value\":';
+					result += JSON.stringify(newsdetail.report_date);
+					result += '},{\"name\":\"报告时间\",\"value\":';
+					if(newsdetail.report_time_end){
+						result += ('"'+newsdetail.report_time_start + "-" + newsdetail.report_time_end + '"');
+					} else {
+						result += JSON.stringify(newsdetail.report_time_start);
+					}
+				} else{
+					result += '},{\"name\":\"报告日期\",\"value\":';
+					result += JSON.stringify(newsdetail.time.substring(0,10));
+					result += '},{\"name\":\"报告时间\",\"value\":';
+					result += JSON.stringify(newsdetail.time.substring(11,16));
+				}
+				
 				result += '},{\"name\":\"报告地点\",\"value\":';
                 result += JSON.stringify(newsdetail.address);
 				result += '},{\"name\":\"报告摘要\",\"value\":';
                 result += JSON.stringify(newsdetail.introduction);
+				result += '},{\"name\":\"报告人简介\",\"value\":';
+                result += newsdetail.author_introduction?JSON.stringify(newsdetail.author_introduction):null;
 				result += '},{\"name\":\"本年度学院报告总序号\",\"value\":';
                 result += JSON.stringify(newsdetail.serial_number);
+				result += '},{\"name\":\"阅读次数\",\"value\":';
+                result += JSON.stringify(newsdetail.click_num);
                 result += '}],\"last\":';
 
                 var time_s = newsdetail.time.toString();

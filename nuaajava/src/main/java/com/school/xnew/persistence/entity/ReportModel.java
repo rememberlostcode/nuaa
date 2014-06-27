@@ -17,11 +17,14 @@ public class ReportModel {
 	private String	author_introduction;	// 报告人简介
 	private String	institution;			// 报告人所在单位
 	private String	time;					// 报告日期
+	private String	report_date;			// 报告日期
+	private String	report_time_start;		// 报告开始时间
+	private String	report_time_end;		// 报告结束时间
 	private String	address;				// 报告地点
 	private String	introduction;			// 报告摘要
 	private Integer	serial_number;			// 本年度学院报告总序号
-	
-	private Integer click_num;
+
+	private Integer	click_num;
 
 	@JsonIgnore
 	private String	create_time;			// 创建时间
@@ -212,5 +215,29 @@ public class ReportModel {
 
 	public void setSerial_number(Integer serial_number) {
 		this.serial_number = serial_number;
+	}
+
+	public String getReport_date() {
+		return report_date;
+	}
+
+	public void setReport_date(String report_date) {
+		this.report_date = report_date;
+	}
+
+	public String getReport_time_start() {
+		return report_time_start;
+	}
+
+	public void setReport_time_start(String report_time_start) {
+		this.report_time_start = report_time_start;
+	}
+
+	public String getReport_time_end() {
+		return report_time_end;
+	}
+
+	public void setReport_time_end(String report_time_end) {
+		this.report_time_end = report_time_end;
 	}
 }

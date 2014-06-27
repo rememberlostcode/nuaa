@@ -39,6 +39,7 @@ public class ReportServiceImpl implements ReportService {
 		String ctime = DateUtil.dateToStr(new Date());
 		report.setModify_time(ctime);
 		try {
+			report.setTime(report.getReport_date() + " " + report.getReport_time_start());
 			if (report.getId() == null) {
 				report.setCreate_time(ctime);
 				report.setBeginDate(ctime.substring(0, 4) + "-01-01");

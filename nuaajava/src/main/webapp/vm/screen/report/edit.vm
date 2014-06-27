@@ -30,10 +30,19 @@
 	</tr>
 	<tr>
 		<td><font color="red">*</font>报告时间：</td>
-		<td><input type="text" name="time" id="time"
-			value="$!reportModel.time" class="Wdate"
-			onclick="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm'})"
-			readonly="true" /></td>
+		<td><input type="text" id="report_date"
+			value="$!reportModel.report_date" class="Wdate"  style="width:100px;"
+			onclick="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"
+			readonly="true" />
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="report_time_start" style="width:60px;"
+			value="$!reportModel.report_time_start" class="Wdate"
+			onclick="WdatePicker({skin:'whyGreen',dateFmt:'HH:mm'})"
+			readonly="true" /> - 
+			<input type="text" id="report_time_end" style="width:60px;"
+			value="$!reportModel.report_time_end" class="Wdate"
+			onclick="WdatePicker({skin:'whyGreen',dateFmt:'HH:mm'})"
+			readonly="true" />
+		</td>
 	</tr>
 	<tr>
 		<td><font color="red">*</font>报告地点：</td>
@@ -102,8 +111,12 @@
 			alert('报告地点长度最多为50个字符');
 			return false;
 		}
-		if (!jQuery('#time').val()) {
-			alert('报告时间不能为空');
+		if (!jQuery('#report_date').val()) {
+			alert('报告日期不能为空');
+			return false;
+		}
+		if (!jQuery('#report_time_start').val()) {
+			alert('报告开始时间不能为空');
 			return false;
 		}
 		if (jQuery('#introduction').val().length > 1000) {
@@ -118,7 +131,9 @@
 				author : jQuery('#author').val(),
 				author_introduction: html,
 				institution : jQuery('#institution').val(),
-				time : jQuery('#time').val(),
+				report_date : jQuery('#report_date').val(),
+				report_time_start : jQuery('#report_time_start').val(),
+				report_time_end : jQuery('#report_time_end').val(),
 				address : jQuery('#address').val(),
 				introduction : jQuery('#introduction').val()
 			}, function(data) {

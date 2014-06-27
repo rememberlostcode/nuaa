@@ -132,7 +132,6 @@ public class SolrRedisDataImpl implements SolrRedisData {
 		doc.addField("nuaaTitle", reportModel.getTitle());
 		doc.addField("type", TYPE_REPORT);
 		doc.addField("click_num", reportModel.getClick_num());
-		doc.addField("author_introduction", reportModel.getAuthor_introduction());
 
 		// 提交到solr
 		HttpSolrServer solrServer = getServer();
@@ -169,7 +168,6 @@ public class SolrRedisDataImpl implements SolrRedisData {
 			doc.addField("nuaaTitle", reportModel.getTitle());
 			doc.addField("type", TYPE_REPORT);
 			doc.addField("click_num", reportModel.getClick_num());
-			doc.addField("author_introduction", reportModel.getAuthor_introduction());
 			docs.add(doc);
 		}
 

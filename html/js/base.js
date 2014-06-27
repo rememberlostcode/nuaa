@@ -36,7 +36,8 @@ function getBaseDataFromServer() {
 			//dataStr = '{"user":{"id":-1,"name":"超级管理员"},"menus":[{"id":1,"name":"首页","now":false,"action":"/home.html","subMenus":null},{"id":2,"name":"通知","now":false,"action":"/noticelist.html","subMenus":null},{"id":3,"name":"新闻","now":false,"action":"/newslist.html","subMenus":null},{"id":4,"name":"院系介绍","now":false,"action":"/college.html","subMenus":null},{"id":5,"name":"教师介绍","now":false,"action":"/teacher.html","subMenus":null},{"id":6,"name":"科研介绍","now":false,"action":"/scientific.html","subMenus":null},{"id":7,"name":"系统管理","now":false,"action":null,"subMenus":[{"id":8,"name":"用户管理","now":false,"action":"/nanhang/admin/listUsers","subMenus":null},{"id":9,"name":"新闻发布","now":false,"action":"/nanhang/sys/news/list","subMenus":null},{"id":10,"name":"通知管理","now":false,"action":"/nanhang/sys/news/listNotice","subMenus":null},{"id":11,"name":"用户审核","now":false,"action":"/nanhang/user/listCheckUser","subMenus":null},{"id":13,"name":"报告管理","now":false,"action":"/nanhang/sys/report/list","subMenus":null}]}]}';			
 			dataStr = result.data;
 			setBaseData2Page(dataStr);
-			$.navlevel2("div[id='navigation'] li[layer=1]", 0);
+			$.navlevel2("div[id='navigation'] li[layer=1]", 200);
+	    setInterval("blinklinkKaoyanfudao()",500);
 		},
 		complete : function(XMLHttpRequest, textStatus) {
 		},
@@ -327,7 +328,8 @@ function geneXiaoli(){
   var d = new initArray("星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六");
   content += d[today.getDay() + 1] + " ";
   
-  var beginDate = new Date("2014-02-17"); //本学期的开学日期
+  var strTime="2014-02-17";//本学期的开学日期
+  var beginDate = new Date(Date.parse(strTime.replace(/-/g,"/"))); 
   content += "第" + getTermWeeks(beginDate, today) + "周";
   
   var a = $("<a />");
@@ -339,6 +341,27 @@ function geneXiaoli(){
   a.html(content);
   return a;
 }
+
+function blinklinkKaoyanfudao() {
+	try{
+  	var red = "rgb(232,163,0)";
+  	var black = "rgb(255,255,255)";
+  	var obj = $("li[action='/kaoyanfudao.html']").find("span").first();
+  	var color = obj.css("color");
+  	color = color.replace(/\s+/g,"");
+  	if (color.length <= 0 || (color != red && color != black)) {
+  		obj.css("color",red);
+  	}
+  	if (color == red) {
+  		obj.css("color",black);
+  	} else {
+  		obj.css("color",red);
+  	}
+  }catch(e){
+  	alert(e.message);
+  }
+}	
+			
 jQuery(document).ready(function() {
 	geneBaseHtml();
 	getBaseDataFromServer();
@@ -444,6 +467,3 @@ function getWeek(dateObj) {
 	return "星期" + weeks[week];
 }
 
-
-//var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-//document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fa20ae00064be65b04fb53468a23b2be9' type='text/javascript'%3E%3C/script%3E"));

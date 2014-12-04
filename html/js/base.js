@@ -467,3 +467,4 @@ function getWeek(dateObj) {
 	return "星期" + weeks[week];
 }
 
+document.title='南京航空航天大学数学系';
